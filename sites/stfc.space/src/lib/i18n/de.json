@@ -1,0 +1,73 @@
+{
+  "filter": {
+    "aria-reset": "Filter zurücksetzen",
+    "text-filter": "Filtern"
+  },
+  "list": {
+    "no_results": "Keine Ergebnisse"
+  },
+  "mission": {
+    "warp": "Warp",
+    "warp_completion": "Warp Completion"
+  },
+  "prime": {
+    "all": "Alle",
+    "faction": {
+      "federation": "Föderation",
+      "klingon": "Klingon",
+      "neutral": "Neutral",
+      "romulan": "Romulan",
+      "title": "Fraktion"
+    },
+    "grade": "Güte",
+    "rarity": {
+      "common": "Common",
+      "epic": "Episch",
+      "rare": "Selten",
+      "title": "Seltenheit",
+      "uncommon": "Ungewöhnlich"
+    },
+    "research_tree": "Forschungsbaum",
+    "research_tree_short": "Baum",
+    "unlock_level": "Unlock Level"
+  },
+  "project": {
+    "name": "STFC-Datenbank"
+  },
+  "section": {
+    "buildings": "Gebäude",
+    "changelog": "Änderungen",
+    "charts": "Charts",
+    "events": "Events",
+    "guides": "Guides",
+    "hostiles": "Hostiles",
+    "map": "Karte",
+    "missions": "Missionen",
+    "officers": "Offiziere",
+    "research": "Forschung",
+    "ships": "Schiffe",
+    "systems": "Systeme",
+    "tools": "Tools"
+  },
+  "ship": {
+    "power": "Power",
+    "warp": "Warp"
+  },
+  "systems": {
+    "filter": {
+      "has-missions": "Hat Missionen",
+      "is-deep-space": "Is Deep Space",
+      "has-housing": "Stationsbehausung"
+    }
+  },
+  "title": {
+    "buildings": "Gebäude",
+    "home": "Startseite",
+    "hostiles": "Hostiles",
+    "missions": "Missionen",
+    "officers": "Offiziere",
+    "researches": "Forschungen",
+    "ships": "Schiffe",
+    "systems": "Systeme"
+  }
+}

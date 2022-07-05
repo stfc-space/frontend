@@ -1,0 +1,5 @@
+/// <reference types="@sveltejs/kit" />
+/// <reference types="svelte" />
+/// <reference types="vite/client" />
+/// <reference types="vite-plugin-pwa/client" />
+/// <reference types="@cloudflare/workers-types" />

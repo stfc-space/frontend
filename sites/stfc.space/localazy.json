@@ -1,0 +1,15 @@
+{
+  "upload": {
+    "type": "json",
+    "importAsNew": false,
+    "deprecate": "file",
+    "folder": "src/lib/i18n/",
+    "files": {
+      "file": "en.json",
+      "pattern": "en.json"
+    }
+  },
+  "download": {
+    "files": "src/lib/i18n/${lang}.json"
+  }
+}

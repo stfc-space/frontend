@@ -1,0 +1,6 @@
+.DS_Store
+.env
+/.svelte-kit/
+/build/
+/functions/
+.cloudflare/

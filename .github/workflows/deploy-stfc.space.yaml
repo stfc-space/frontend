@@ -1,0 +1,59 @@
+on:
+  push:
+    tags:
+      - "stfc.space@**"
+    branches:
+      - "next"
+
+name: stfc.space - Deploy
+
+jobs:
+  consecutiveness:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+    steps:
+      - uses: mktcode/consecutive-workflow-action@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  deploy:
+    name: Deploy stfc.space
+    runs-on: ubuntu-latest
+    env:
+      JWT_SECRET: ${{ secrets.DEV_JWT_SECRET }}
+      SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+      SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+      SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+      CF_WORKERS: "1"
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 18.x
+          cache: pnpm
+
+      - uses: pnpm/action-setup@v2.1.0
+        with:
+          version: 7.1.5
+
+      - name: Set env
+        run: echo "TARGET_ENV=$(./.github/workflows/detect_target_env.sh)" >> $GITHUB_ENV
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build
+        run: pnpm --filter "stfc.space" build -- ${{ env.TARGET_ENV }}
+
+      - name: Deploy
+        uses: cloudflare/wrangler-action@2.0.0
+        with:
+          apiToken: ${{ secrets.CF_API_TOKEN_STFC_SPACE }}
+          workingDirectory: "sites/stfc.space"
+          environment: ${{ env.TARGET_ENV }}

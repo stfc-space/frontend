@@ -1,0 +1,36 @@
+compatibility_date = "2022-04-17"
+
+name = "shiny-cake-f1b4"
+account_id = "777913144c3009e58c4d42a410d217e1"
+
+main = ".cloudflare/worker/worker.mjs"
+
+[env.prod]
+name = "shiny-cake-f1b4-prod"
+vars = { ENVIRONMENT = "prod" }
+route = "stfc.space/*"
+services = [
+    { binding = "USER_STORAGE", service = "stfc-space-user-storage-prod", environment = "production" },
+]
+
+[env.dev]
+name = "shiny-cake-f1b4-dev"
+vars = { ENVIRONMENT = "dev" }
+route = "dev.stfc.space/*"
+services = [
+    { binding = "USER_STORAGE", service = "stfc-space-user-storage-dev", environment = "production" },
+]
+
+[env.next]
+name = "shiny-cake-f1b4-next"
+vars = { ENVIRONMENT = "next" }
+route = "next.stfc.space/*"
+services = [
+    { binding = "USER_STORAGE", service = "stfc-space-user-storage-next", environment = "production" },
+]
+
+[build]
+command = ""
+
+[site]
+bucket = "./.cloudflare/assets"

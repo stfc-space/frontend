@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" translate="no">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="196x196" href="/favicon-196.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="icon" href="/favicon.png" />
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+
+    <link rel="manifest" href="/manifest.webmanifest" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script>
+      // On page load or when changing themes, best to add inline in `head` to avoid FOUC
+      if (
+        localStorage.theme === 'dark' ||
+        (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
+      ) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    </script>
+    %sveltekit.head%
+  </head>
+
+  <body class="font-sans antialiased">
+    <div
+      class="flex flex-col bg-light-50 dark:bg-dark-800 dark:text-light-100 text-dark-700 min-h-screen"
+      class:dark="{darkTheme}"
+      class:light="{!darkTheme}"
+    >
+      %sveltekit.body%
+    </div>
+  </body>
+</html>

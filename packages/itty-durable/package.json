@@ -1,0 +1,53 @@
+{
+  "name": "itty-durable",
+  "version": "0.4.0",
+  "private": true,
+  "description": "Cloudflare Durable Objects + Itty Router = Shorter Code",
+  "main": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "keywords": [
+    "router",
+    "cloudflare",
+    "workers",
+    "serverless",
+    "durable",
+    "objects",
+    "durableobjects",
+    "api",
+    "handler",
+    "middleware",
+    "durable",
+    "objects"
+  ],
+  "scripts": {
+    "build": "rimraf dist && rollup -c",
+    "prepublishOnly": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kwhitley/itty-durable.git"
+  },
+  "author": "Kevin R. Whitley <krwhitley@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kwhitley/itty-durable/issues"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^3.14.0",
+    "@rollup/plugin-typescript": "^8.3.3",
+    "@types/itty-router-extras": "^0.4.0",
+    "eslint": "^8.19.0",
+    "eslint-plugin-jest": "^26.5.3",
+    "itty-router": "^2.6.1",
+    "rimraf": "^3.0.2",
+    "rollup": "^2.75.7",
+    "rollup-plugin-typescript2": "^0.32.1",
+    "tslib": "^2.4.0",
+    "typescript": "^4.7.4"
+  },
+  "peerDependencies": {
+    "itty-router": "^2.3.6",
+    "itty-router-extras": "^0.4.1"
+  }
+}

@@ -1,0 +1,58 @@
+dsn: memory
+
+serve:
+  public:
+    cors:
+      enabled: true
+
+selfservice:
+  whitelisted_return_urls:
+    - http://localhost:3000
+
+  methods:
+    password:
+      enabled: true
+
+  flows:
+    settings:
+      privileged_session_max_age: 15m
+
+    recovery:
+      enabled: true
+
+    verification:
+      enabled: true
+
+    login:
+      lifespan: 10m
+
+    registration:
+      lifespan: 10m
+      after:
+        oidc:
+          hooks:
+            - hook: session
+        password:
+          hooks:
+            - hook: session
+
+secrets:
+  cookie:
+    - PLEASE-CHANGE-ME-I-AM-VERY-INSECURE
+  cipher:
+    - 32-LONG-SECRET-NOT-SECURE-AT-ALL
+
+ciphers:
+  algorithm: xchacha20-poly1305
+
+hashers:
+  algorithm: bcrypt
+  bcrypt:
+    cost: 8
+
+identity:
+  default_schema_url: file:///etc/config/kratos/identity.schema.json
+
+courier:
+  smtp:
+    connection_uri: smtps://test:test@mailslurper:1025/?skip_ssl_verify=true
