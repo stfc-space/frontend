@@ -1,0 +1,33 @@
+name = "stfc-space-user-storage"
+compatibility_date = "2022-05-26"
+
+account_id = "777913144c3009e58c4d42a410d217e1"
+workers_dev = false
+
+main = "src/index.ts"
+
+migrations = [{ tag = "v1", new_classes = ["UserStorage"] }]
+
+[env.prod]
+name = "stfc-space-user-storage-prod"
+vars = { ENVIRONMENT = "prod" }
+durable_objects = { bindings = [
+    { name = "USER_STORAGE", class_name = "UserStorage" },
+] }
+migrations = [{ tag = "v1", new_classes = ["UserStorage"] }]
+
+[env.dev]
+name = "stfc-space-user-storage-dev"
+vars = { ENVIRONMENT = "dev" }
+durable_objects = { bindings = [
+    { name = "USER_STORAGE", class_name = "UserStorage" },
+] }
+migrations = [{ tag = "v1", new_classes = ["UserStorage"] }]
+
+[env.next]
+name = "stfc-space-user-storage-next"
+vars = { ENVIRONMENT = "next" }
+durable_objects = { bindings = [
+    { name = "USER_STORAGE", class_name = "UserStorage" },
+] }
+migrations = [{ tag = "v1", new_classes = ["UserStorage"] }]

@@ -1,0 +1,12 @@
+{
+  "$schema": "https://unpkg.com/@changesets/config@1.7.0/schema.json",
+  "changelog": ["@svitejs/changesets-changelog-github-compact", { "repo": "stfc-space/frontend" }],
+  "commit": false,
+  "fixed": [],
+  "linked": [],
+  "access": "restricted",
+  "baseBranch": "next",
+  "updateInternalDependencies": "patch",
+  "ignore": [],
+  "privatePackages": "version-and-tag"
+}

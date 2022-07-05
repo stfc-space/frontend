@@ -1,0 +1,40 @@
+{
+  "compilerOptions": {
+    "composite": true,
+    /* Projects */
+    "baseUrl": "src",
+    "outDir": "dist",
+    /* Language and Environment */
+    "target": "es2021",
+    "lib": [
+      "es2021"
+    ],
+    /* Modules */
+    "module": "esnext",
+    "moduleResolution": "node",
+    "types": [
+      "@cloudflare/workers-types"
+    ],
+    "resolveJsonModule": true,
+    /* JavaScript Support */
+    "allowJs": true,
+    "checkJs": true,
+    /* Emit */
+    "noEmit": true,
+    "declaration": true,
+    /* Interop Constraints */
+    "isolatedModules": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    /* Type Checking */
+    "strict": true,
+    "skipLibCheck": true,
+  },
+  "exclude": [
+    "node_modules",
+    "dist"
+  ],
+  "include": [
+    "src/**/*"
+  ],
+}

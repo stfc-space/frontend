@@ -1,0 +1,40 @@
+version: '3.7'
+
+services:
+  kratos-migrate:
+    image: oryd/kratos:v0.8
+    volumes:
+      - type: bind
+        source: ./config/
+        target: /etc/config/kratos
+    command: -c /etc/config/kratos/kratos.yml migrate sql -e --yes
+    restart: on-failure
+
+  kratos-local:
+    depends_on:
+      - kratos-migrate
+    ports:
+      - '4436:4433' # public
+    restart: unless-stopped
+    image: oryd/kratos:v0.8
+    command: serve -c /etc/config/kratos/kratos.yml --dev --watch-courier
+    environment:
+      - SERVE_PUBLIC_BASE_URL=http://localhost:3000/api/auth
+      - SELFSERVICE_DEFAULT_BROWSER_RETURN_URL=http://localhost:3000
+      - SELFSERVICE_FLOWS_REGISTRATION_UI_URL=http://localhost:3000/auth/register
+      - SELFSERVICE_FLOWS_LOGIN_UI_URL=http://localhost:3000/auth/login
+      - SELFSERVICE_FLOWS_VERIFICATION_UI_URL=http://localhost:3000/auth/verify
+      - SELFSERVICE_FLOWS_RECOVERY_UI_URL=http://localhost:3000/auth/recovery
+      - SELFSERVICE_FLOWS_ERROR_UI_URL=http://localhost:3000/auth/error
+      - SELFSERVICE_FLOWS_SETTINGS_UI_URL=http://localhost:3000/user/settings
+      - SELFSERVICE_FLOWS_LOGOUT_AFTER_DEFAULT_BROWSER_RETURN_URL=http://localhost:3000
+    volumes:
+      - type: bind
+        source: ./config/
+        target: /etc/config/kratos
+
+  mailslurper:
+    image: oryd/mailslurper:latest-smtps
+    ports:
+      - '4436:4436'
+      - '4437:4437'

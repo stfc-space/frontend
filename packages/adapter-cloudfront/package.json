@@ -1,0 +1,39 @@
+{
+  "name": "adapter-cloudfront",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Plug this adapter to your SvelteKit project build for AWS Cloudfront",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stfc-space/frontend.git",
+    "directory": "packages/adapter-cloudfront"
+  },
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "build": "rm -fr dist/* && tsc && cp -r handler/files dist",
+    "prepublishOnly": "rm -fr dist/* && tsc && cp -r handler/files dist"
+  },
+  "keywords": [
+    "sveltekit",
+    "aws"
+  ],
+  "devDependencies": {
+    "@sveltejs/kit": "1.0.0-next.357",
+    "@types/aws-lambda": "^8.10.101",
+    "@types/node": "18.0.1",
+    "svelte": "^3.48.0",
+    "typescript": "^4.7.4"
+  },
+  "peerDependencies": {
+    "@sveltejs/kit": "1.0.0-next.234"
+  },
+  "dependencies": {
+    "esbuild": "^0.14.48"
+  }
+}

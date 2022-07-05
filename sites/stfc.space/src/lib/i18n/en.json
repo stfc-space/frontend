@@ -1,0 +1,166 @@
+{
+  "title": {
+    "home": "Home",
+    "ships": "Ships",
+    "systems": "Systems",
+    "buildings": "Buildings",
+    "researches": "Researches",
+    "officers": "Officers",
+    "hostiles": "Hostiles",
+    "missions": "Missions"
+  },
+  "project": {
+    "name": "STFC Database"
+  },
+  "section": {
+    "ships": "Ships",
+    "systems": "Systems",
+    "buildings": "Buildings",
+    "research": "Research",
+    "hostiles": "Hostiles",
+    "events": "Events",
+    "missions": "Missions",
+    "tools": "Tools",
+    "guides": "Guides",
+    "charts": "Charts",
+    "changelog": "Changelog",
+    "officers": "Officers",
+    "map": "Map"
+  },
+  "list": {
+    "no_results": "No results"
+  },
+  "tool": {
+    "upgrade_planner": "Upgrade Planner"
+  },
+  "prime": {
+    "all": "All",
+    "faction": {
+      "title": "Faction",
+      "federation": "Federation",
+      "romulan": "Romulan",
+      "klingon": "Klingon",
+      "neutral": "Neutral"
+    },
+    "grade": "Grade",
+    "unlock_level": "Unlock Level",
+    "research_tree": "Research Tree",
+    "research_tree_short": "Tree",
+    "power": "Power",
+    "rarity": {
+      "title": "Rarity",
+      "common": "Common",
+      "uncommon": "Uncommon",
+      "rare": "Rare",
+      "epic": "Epic"
+    },
+    "copy_cost": "Click to copy exact amount",
+    "level": "Level",
+    "required_by_item": "Item",
+    "row": "Row",
+    "column": "Column"
+  },
+  "systems": {
+    "filter": {
+      "has-housing": "Has Housing",
+      "has-missions": "Has Missions",
+      "is-deep-space": "Is Deep Space"
+    }
+  },
+  "filter": {
+    "aria-reset": "reset filters",
+    "text-filter": "Filter",
+    "name": "Name",
+    "reward": "Reward",
+    "any": "Any"
+  },
+  "ship": {
+    "warp": "Warp",
+    "power": "Power",
+    "ability": "Ship Ability",
+    "ability-bonus": "Ship Ability Bonus",
+    "build-cost": "Build Cost",
+    "description": "Description",
+    "tier-range": "Tier Range",
+    "level": "Level"
+  },
+  "officer": {
+    "group": "Group",
+    "class": "Class",
+    "rank": "Rank",
+    "bonus": "Bonus",
+    "rank-bonus": "Rank Bonus",
+    "synergy-bonus": "Synergy Bonus",
+    "group-filter-all": "All",
+    "captain-maneuver": "Captain Maneuver",
+    "officer-ability": "Officer Ability",
+    "below-decks-ability": "Below Decks Ability",
+    "max-level": "Max Level",
+    "shards-required": "Shards",
+    "rank-upgrades": "Rank Upgrades",
+    "level-upgrades": "Level Upgrades",
+    "description": "Description"
+  },
+  "mission": {
+    "warp": "Start Warp",
+    "warp_completion": "Warp Completion"
+  },
+  "system": {
+    "spawn-points": "Spawn Points:",
+    "mining-nodes": "Mining Nodes:",
+    "warp": "Warp:",
+    "hostiles": "Hostiles",
+    "missions": "Missions",
+    "map": "Map"
+  },
+  "building": {
+    "create_upgrade_plan": "Get more in-depth cost analysis using the",
+    "requirements": "Requirements",
+    "required_by": "Required By",
+    "costs": "Costs",
+    "buffs": "Buffs",
+    "description": "Description"
+  },
+  "research": {
+    "buffs": "Buffs",
+    "bonus": "Bonus"
+  },
+  "aria_hostile_type": {
+    "armada": "armada",
+    "battleship": "battleship",
+    "explorer": "explorer",
+    "interceptor": "interceptor",
+    "survey": "survey"
+  },
+  "theme": {
+    "to_light": "Switch to light theme",
+    "to_dark": "Switch to dark theme"
+  },
+  "global_search": "Search database",
+  "account": {
+    "create": "Create account",
+    "log_in": "Log In",
+    "log_out": "Log Out",
+    "settings": "Settings"
+  },
+  "system-map-legend": {
+    "title": "Legend",
+    "housing-planet": "Housing Planet",
+    "mine": "Mine",
+    "planet": "Planet",
+    "spawn-point": "Spawn Point"
+  },
+  "auth": {
+    "reset-password": "Forgot your password?",
+    "continue-with": "Or continue with"
+  },
+  "error": {
+    "not-found": {
+      "title": "Page not found",
+      "desc": "Please check the URL in the address bar and try again."
+    },
+    "fatal": {
+      "title": " We're sorry, but something went wrong."
+    }
+  }
+}

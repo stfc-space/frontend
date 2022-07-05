@@ -1,0 +1,8 @@
+dist/
+node_modules/
+*.env.*.local
+stats.html
+.svelte-kit
+.vscode/
+localazy.keys.json
+.cloudflare
