@@ -18,6 +18,8 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
   deploy:
+    # prevents this action from running on forks
+    if: github.repository == 'stfc-space/frontend'
     name: Deploy stfc.space
     runs-on: ubuntu-latest
     env:

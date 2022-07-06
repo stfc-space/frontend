@@ -10,7 +10,7 @@
     "lint": "pnpm -r lint",
     "format": "pnpm -r format",
     "release": "changeset publish",
-    "prepare": "pnpm --filter='./packages/**' build",
+    "prepare": "pnpm --filter \"./packages/**\" build",
     "update-references": "pnpm dlx @bessonovs/set-project-references --save"
   },
   "author": "",

@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "svelte-kit dev",
-    "build": "rimraf .svelte-kit && cross-env SW=true ./scripts/build.sh && node ./pwa.js --SW=true",
+    "build": "rimraf .svelte-kit && node ./scripts/build.js && node ./pwa.js --SW=true",
     "build-kit": "svelte-kit build",
     "preview": "svelte-kit preview",
     "prepare": "svelte-kit sync",
