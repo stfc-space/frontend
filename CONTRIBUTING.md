@@ -36,6 +36,12 @@ Right now this project doesn't have any tests, but a longer-term goal is to have
 
 ## Sending PRs
 
+There are a few guidelines we follow: 
+
+- Ensure all PR's have proper commit messages/descriptions. Example `git commit -m "feat(Game Profiles):" -m "Added support for multiple game profiles."`
+
+- Remove all debug code. 
+
 ### Coding style
 
 There are a few guidelines we follow:
