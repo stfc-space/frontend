@@ -38,8 +38,8 @@
       </span>
     </div>
     <div class="flex flex-wrap gap-x-4 justify-center">
-      <div class="flex">Magical Magical Magical Magical</div>
-      <div class="flex">Magical Magical Magical Magical</div>
+      <div class="flex">🧙‍♂️🍪🎄🍰😯</div>
+      <div class="flex">🧙‍♂️🍪🎄🍰😯</div>
     </div>
   </div>
 </footer>

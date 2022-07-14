@@ -1,19 +1,39 @@
 <script lang="ts">
   import type { SystemDetail } from '$lib/shared/yuki/models';
+  import { resourceThumb } from '$lib/shared/yuki/thumbs';
   import { uniqBy } from 'lodash-es';
+
 
   import { _ } from 'svelte-i18n';
 
+
+
+
   export let system: SystemDetail;
+  // export let hostile: HostileDetail;
+ 
 
   $: uniqueMines = uniqBy(system.mines, 'id');
   $: spawnPoints = uniqBy(system.spawn_points ?? [], 'id');
+  $: systemResources = uniqBy(system.mines, 'resource').map(x => x.resource);
+  // $: hostileSpawn = uniqBy(hostile.hull_type,'id')
+
+
+
+
 
   import { session } from '$app/stores';
 
   $: darkTheme = $session.theme === 'dark';
 
   import backdrop from '$lib/assets/sys_bg.png';
+  import housing from '$lib/assets/icons/misc/housing.png';
+  import planets from '$lib/assets/icons/misc/planet.png';
+  import sun from '$lib/assets/icons/misc/sun.png'
+  import interceptorIcon from '$lib/assets/icons/ship_types/interceptor.png';
+
+
+  
 
   // let w: number;
   // let h: number;
@@ -82,56 +102,26 @@
   <rect x="10" y="0" width="512" height="272" rx="15" fill="black" fill-opacity="0.8" />
   <g transform="translate(50, 40)">
     <g>
-      <circle
-        cx={0}
-        cy={0}
-        color="white"
-        r="20"
-        stroke="currentcolor"
-        fill="blue"
-        stroke-width="5"
+     <image href = {housing}  x="-35" y="-25" 
       /><text class="text-6xl" color={darkTheme ? 'white' : 'black'} fill="currentColor">
         <tspan dx="2rem" dy="0.375em">{$_('system-map-legend.housing-planet')}</tspan></text
       >
     </g>
     <g transform="translate(0, 64)">
-      <circle
-        cx={0}
-        cy={0}
-        color="white"
-        r="20"
-        stroke="currentcolor"
-        fill="white"
-        stroke-width="5"
+      <image href = {planets}  x="-40" y="-35" height = "80" width = "80"
       /><text class="text-6xl" color={darkTheme ? 'white' : 'black'} fill="currentColor">
         <tspan dx="2rem" dy="0.375em">{$_('system-map-legend.planet')}</tspan></text
       >
     </g>
     <g transform="translate(0, 128)">
-      <circle
-        cx={0}
-        cy={0}
-        color="white"
-        r="20"
-        stroke="currentcolor"
-        fill="green"
-        stroke-width="5"
+      <image href = {trit}  x="-30" y="-30" height = "60" width = "60"
       /><text class="text-6xl" color={darkTheme ? 'white' : 'black'} fill="currentColor">
         <tspan dx="2rem" dy="0.375em">{$_('system-map-legend.mine')}</tspan></text
       >
     </g>
     <g transform="translate(0, 192)">
-      <circle
-        cx={0}
-        cy={0}
-        color="
-        rgb(239 68 68)"
-        r="20"
-        stroke="currentcolor"
-        fill="
-        rgb(239 68 68)"
-        stroke-width="5"
-      /><text class="text-6xl" color={darkTheme ? 'white' : 'black'} fill="currentColor">
+      <image href = {interceptorIcon}  x="-30" y="-30" height = "60" width = "60"
+      /><text class="text-6xl" color={darkTheme ? 'white' : 'black'} fill="currentColor" font-size= "8">
         <tspan dx="2rem" dy="0.375em">{$_('system-map-legend.spawn-point')}</tspan></text
       >
     </g>
@@ -140,57 +130,38 @@
   <!-- In the game, higher Y is up, thus we flip y here -->
   <g transform="translate(1150, 1150) scale(1, -1)">
     <circle cx="0" cy="0" r="1100" fill="url(#img1)" />
-    <circle
+    <image href = {sun} width = "150" height = "150" x="-75" y="-75"></image>
+    <!-- <circle
       cx="0"
       cy="0"
       r="40"
       color="#ffffff77"
       stroke="currentcolor"
       fill="currentColor"
-      stroke-width="5"
-    />
+      stroke-width="5" -->
+    <!-- /> -->
     <!-- <g>
       <image href={backdrop} x="-1150" y="-1150" width="2300" height="2300" />
     </g> -->
 
     {#each uniqueMines as mine (mine.id)}
-      <g transform="translate({mine.coords_x}, {mine.coords_y}), scale(1, -1)">
-        <circle
-          cx={0}
-          cy={0}
-          color="white"
-          r="20"
-          stroke="currentcolor"
-          fill="green"
-          stroke-width="5"
-        />
-      </g>
+      {#each systemResources as resource, i}
+        <g transform="translate({mine.coords_x + i * 25}, {mine.coords_y}), scale(.4, -.4)">
+          <image href={resourceThumb(resource)} />
+        </g>
+      {/each}
     {/each}
 
     {#each spawnPoints as spawnPoint (spawnPoint.id)}
-      <g transform="translate({spawnPoint.coords_x}, {spawnPoint.coords_y}), scale(1, -1)">
-        <circle
-          cx={0}
-          cy={0}
-          color="rgb(239 68 68)"
-          r="20"
-          stroke="currentcolor"
-          fill="rgb(239 68 68)"
-          stroke-width="5"
+      <g transform="translate({spawnPoint.coords_x}, {spawnPoint.coords_y}), scale(.7, -.7)">
+        <image href = {interceptorIcon} 
         />
       </g>
     {/each}
 
     {#each system.planets as planet (planet.id)}
-      <g transform="translate({planet.coords_x}, {planet.coords_y}), scale(1, -1)">
-        <circle
-          cx={0}
-          cy={0}
-          color="white"
-          r="20"
-          stroke="currentcolor"
-          fill="white"
-          stroke-width="5"
+      <g transform="translate({planet.coords_x}, {planet.coords_y}), scale(.5, -.5)">
+        <image href = {planets}
         />
         <text x={20} y={-35} class="text-8xl sm:text-6xl text-white" fill="currentColor">
           <tspan dx="0" dy="0">{$_(`systems_${planet.id}_name`)}</tspan>
@@ -200,16 +171,8 @@
 
     {#each system.player_container as ct (ct.id)}
       <g transform="translate({ct.coords_x}, {ct.coords_y}), scale(1, -1)">
-        <circle
-          cx={0}
-          cy={0}
-          color="white"
-          r="20"
-          stroke="currentcolor"
-          fill="blue"
-          stroke-width="5"
-        />
-        <text x={20} y={-35} class="text-8xl sm:text-6xl text-white" fill="currentColor">
+        <image href = {housing} 
+        /><text x={20} y={-35} class="text-8xl sm:text-6xl text-white" fill="currentColor">
           <tspan dx="0" dy="0">{$_(`systems_${ct.id}_name`)}</tspan>
         </text>
       </g>
