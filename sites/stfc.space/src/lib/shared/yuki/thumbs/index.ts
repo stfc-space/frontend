@@ -13,6 +13,33 @@ import KlingonIcon from '$lib/assets/icons/factions/klingon.png';
 import AndorianIcon from '$lib/assets/icons/factions/andorian.png';
 import RogueIcon from '$lib/assets/icons/factions/rogue.png';
 import AugmentIcon from '$lib/assets/icons/factions/augment.png';
+import interceptorIcon from '$lib/assets/icons/ship_types/interceptor.png';
+import battleshipIcon from '$lib/assets/icons/ship_types/battleship.png';
+import explorerIcon from '$lib/assets/icons/ship_types/explorer.png';
+import armadaIcon from '$lib/assets/icons/ship_types/armada.png';
+import surveyIcon from '$lib/assets/icons/ship_types/survey.png';
+import scoutIcon from '$lib/assets/icons/ship_types/scout.png';
+import anyIcon from '$lib/shared/yuki/thumbs/ship/i/0.png';
+
+export function hostileThumb(id: number): string {
+  if (id == -1) {
+    return ;
+  } else if (id == 0) {
+    return interceptorIcon;
+  } else if (id == 1) {
+    return surveyIcon;
+  } else if (id == 2) {
+    return explorerIcon;
+  } else if (id == 3) {
+    return battleshipIcon;
+  } else if (id == 5) {
+    return armadaIcon;
+  } else if (id == 77) {
+    return scoutIcon;
+  }
+  console.warn('Unknown hostile thumb', id);
+  return anyIcon;
+}
 
 export function factionThumb(id: number): string {
   if (id == -1) {
