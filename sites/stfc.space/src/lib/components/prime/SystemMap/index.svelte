@@ -31,6 +31,7 @@
   import planets from '$lib/assets/icons/misc/planet.png';
   import sun from '$lib/assets/icons/misc/sun.png'
   import interceptorIcon from '$lib/assets/icons/ship_types/interceptor.png';
+  import minerIcon from '$lib/assets/icons/tasks/survey.png';
 
 
   
@@ -114,7 +115,7 @@
       >
     </g>
     <g transform="translate(0, 128)">
-      <image href = {trit}  x="-30" y="-30" height = "60" width = "60"
+      <image href = {minerIcon}  x="-30" y="-30" height = "60" width = "60"
       /><text class="text-6xl" color={darkTheme ? 'white' : 'black'} fill="currentColor">
         <tspan dx="2rem" dy="0.375em">{$_('system-map-legend.mine')}</tspan></text
       >
@@ -147,22 +148,20 @@
     {#each uniqueMines as mine (mine.id)}
       {#each systemResources as resource, i}
         <g transform="translate({mine.coords_x + i * 25}, {mine.coords_y}), scale(.4, -.4)">
-          <image href={resourceThumb(resource)} />
+          <image href={resourceThumb(resource)}/>
         </g>
       {/each}
     {/each}
 
     {#each spawnPoints as spawnPoint (spawnPoint.id)}
       <g transform="translate({spawnPoint.coords_x}, {spawnPoint.coords_y}), scale(.7, -.7)">
-        <image href = {interceptorIcon} 
-        />
+        <image href = {interceptorIcon}/>
       </g>
     {/each}
 
     {#each system.planets as planet (planet.id)}
       <g transform="translate({planet.coords_x}, {planet.coords_y}), scale(.5, -.5)">
-        <image href = {planets}
-        />
+        <image href = {planets}/>
         <text x={20} y={-35} class="text-8xl sm:text-6xl text-white" fill="currentColor">
           <tspan dx="0" dy="0">{$_(`systems_${planet.id}_name`)}</tspan>
         </text>
@@ -171,8 +170,8 @@
 
     {#each system.player_container as ct (ct.id)}
       <g transform="translate({ct.coords_x}, {ct.coords_y}), scale(1, -1)">
-        <image href = {housing} 
-        /><text x={20} y={-35} class="text-8xl sm:text-6xl text-white" fill="currentColor">
+        <image href = {housing}/>
+        <text x={20} y={-35} class="text-8xl sm:text-6xl text-white" fill="currentColor">
           <tspan dx="0" dy="0">{$_(`systems_${ct.id}_name`)}</tspan>
         </text>
       </g>
