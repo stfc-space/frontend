@@ -23,7 +23,7 @@ import anyIcon from '$lib/shared/yuki/thumbs/ship/i/0.png';
 
 export function hostileThumb(id: number): string {
   if (id == -1) {
-    return ;
+    return;
   } else if (id == 0) {
     return interceptorIcon;
   } else if (id == 1) {
