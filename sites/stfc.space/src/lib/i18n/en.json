@@ -145,10 +145,10 @@
   },
   "system-map-legend": {
     "title": "Legend",
-    "housing-planet": "Housing Planet",
-    "mine": "Mine",
-    "planet": "Planet",
-    "spawn-point": "Spawn Point"
+    "housing-planet": "Housing Planet:",
+    "mine": "Mines:",
+    "planet": "Planet:",
+    "spawn-point": "Spawn Point:"
   },
   "auth": {
     "reset-password": "Forgot your password?",
