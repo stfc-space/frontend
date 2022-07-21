@@ -44,7 +44,7 @@ export function AwsServerlessAdapter({
       builder.rimraf(tmp);
       builder.mkdirp(tmp);
 
-      builder.writeStatic(dest);
+      builder.writeServer(dest);
       builder.writeClient(dest);
       builder.writePrerendered(dest);
 
