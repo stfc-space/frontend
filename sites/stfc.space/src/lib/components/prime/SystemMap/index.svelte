@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { HostileDetail, SystemDetail } from '$lib/shared/yuki/models';
+  import type { SystemDetail } from '$lib/shared/yuki/models';
   import { resourceThumb, hostileThumb } from '$lib/shared/yuki/thumbs';
   import { uniqBy } from 'lodash-es';
 
@@ -10,7 +10,7 @@
   $: uniqueMines = uniqBy(system.mines, 'id');
   $: spawnPoints = uniqBy(system.spawn_points ?? [], 'id');
   $: systemResources = uniqBy(system.mines, 'resource').map((x) => x.resource);
-  $: spawnedHostileTypes = uniqBy(system.hostiles, 'hull_type').map((x) => x.hull_type);
+  $: spawnedHostileTypes = uniqBy(system.hostiles, 'hull_type');
 
   import { session } from '$app/stores';
 
@@ -105,7 +105,13 @@
     </g>
     {#each spawnedHostileTypes as hostileType, i (hostileType)}
       <g transform="translate({360 + i * 45}, {128})">
-        <image href={hostileThumb(hostileType)} x="-40" y="-15" height="40" width="40" />
+        <image
+          href={hostileThumb(hostileType.is_scout ? 77 : hostileType.hull_type)}
+          x="-40"
+          y="-15"
+          height="40"
+          width="40"
+        />
       </g>
       <g transform="translate(-60, 128)">
         <text
@@ -157,9 +163,10 @@
     {#each spawnPoints as spawnPoint (spawnPoint.id)}
       {#each spawnedHostileTypes as hostileType, i (hostileType)}
         <g
-          transform="translate({spawnPoint.coords_x + i * 45}, {spawnPoint.coords_y}), scale(1, -1)"
+          transform="translate({spawnPoint.coords_x +
+            i * 45}, {spawnPoint.coords_y}), scale(.7, -.7)"
         >
-          <image href={hostileThumb(hostileType)} />
+          <image href={hostileThumb(hostileType.is_scout ? 77 : hostileType.hull_type)} />
         </g>
       {/each}
     {/each}
