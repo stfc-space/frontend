@@ -137,7 +137,8 @@ export function flush(locale: string) {
 
 $searchIndexCache.subscribe((newDictionary) => (searchIndexCache = newDictionary));
 
-import MiniSearch, { AsPlainObject } from 'minisearch';
+import MiniSearch from 'minisearch';
+import type { AsPlainObject } from 'minisearch';
 
 export interface ItemSearchItem {
   id: unknown;
