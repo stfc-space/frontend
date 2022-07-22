@@ -16,7 +16,7 @@
   "author": "",
   "type": "module",
   "devDependencies": {
-    "@changesets/cli": "https://pkg.csb.dev/changesets/changesets/commit/a42e71da/@changesets/cli",
+    "@changesets/cli": "https://pkg.stfc.space/@changesets/cli",
     "@svitejs/changesets-changelog-github-compact": "^0.1.1",
     "@typescript-eslint/eslint-plugin": "^5.30.7",
     "@typescript-eslint/parser": "^5.30.7",
@@ -27,6 +27,7 @@
     "prettier": "^2.7.1",
     "rollup": "^2.77.0",
     "svelte": "^3.49.0",
+    "turbo": "^1.3.4",
     "typescript": "^4.7.4"
   }
 }
