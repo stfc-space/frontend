@@ -163,7 +163,8 @@
     {#each spawnPoints as spawnPoint (spawnPoint.id)}
       {#each spawnedHostileTypes as hostileType, i (hostileType)}
         <g
-          transform="translate({spawnPoint.coords_x + i * 45}, {spawnPoint.coords_y}), scale(.7, -.7)"
+          transform="translate({spawnPoint.coords_x +
+            i * 45}, {spawnPoint.coords_y}), scale(.7, -.7)"
         >
           <image href={hostileThumb(hostileType.is_scout ? 77 : hostileType.hull_type)} />
         </g>
