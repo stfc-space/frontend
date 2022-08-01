@@ -1,7 +1,7 @@
 import type { RequestHandler } from '@sveltejs/kit';
 import { Buffer } from 'buffer';
 import setCookieParse from 'set-cookie-parser';
-import { serialize as serializeCookie } from "cookie";
+import { serialize as serializeCookie } from 'cookie';
 
 const KRATOS_BACKEND_URL = import.meta.env.VITE_KRATOS_BACKEND_URL as string;
 
@@ -104,10 +104,9 @@ async function forwardRequest(event: RequestEvent, method: string) {
   } else {
     const headers = responseHeaders as Headers;
     if (headers.get('set-cookie') !== undefined) {
-      cookies =
-        setCookieParse(headers.get('set-cookie')).map(function (cookie) {
-          return serializeCookie(cookie.name, cookie.value, cookie as unknown);
-        });
+      cookies = setCookieParse(headers.get('set-cookie')).map(function (cookie) {
+        return serializeCookie(cookie.name, cookie.value, cookie as unknown);
+      });
     }
   }
 
