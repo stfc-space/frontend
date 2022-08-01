@@ -43,7 +43,6 @@ async function forwardRequest(event: RequestEvent, method: string) {
   const response = await fetch(url, {
     method,
     redirect: 'manual',
-    credentials: 'include',
     headers: headerCopy,
     body: method === 'get' ? null : event.request.body
   });
