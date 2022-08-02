@@ -24,9 +24,9 @@
     "aws"
   ],
   "devDependencies": {
-    "@sveltejs/kit": "1.0.0-next.398",
+    "@sveltejs/kit": "1.0.0-next.401",
     "@types/aws-lambda": "^8.10.101",
-    "@types/node": "18.6.2",
+    "@types/node": "18.6.3",
     "rimraf": "^3.0.2",
     "shx": "^0.3.4",
     "svelte": "^3.49.0",

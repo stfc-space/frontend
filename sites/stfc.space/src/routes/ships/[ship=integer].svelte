@@ -9,7 +9,6 @@
     Rarity,
     Requirement,
     RequirementType,
-    Research,
     ShipDetail,
     ShipDetailComponent
   } from '$lib/shared/yuki/models';
