@@ -3,13 +3,30 @@ import type { EdgeData, NodeData } from './types';
 
 export { elkLayout } from './elkLayout';
 
+export interface ElkRootChild {
+  id: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  labels: { x: number; y: number; text: string; originalText?: string }[];
+}
+
+export interface ElkRootEdge {
+  sections: {
+    bendPoints?: { x: number; y: number }[];
+    startPoint: { x: number; y: number };
+    endPoint: { x: number; y: number };
+  }[];
+}
+
 export interface ElkRoot {
   x?: number;
   y?: number;
   width?: number;
   height?: number;
-  children?: object[];
-  edges?: object[];
+  children?: ElkRootChild[];
+  edges?: ElkRootEdge[];
   direction?: CanvasDirection;
 }
 

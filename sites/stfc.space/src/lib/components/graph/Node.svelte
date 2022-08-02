@@ -13,7 +13,6 @@
   })();
 
   const textColor = 'rgb(249, 250, 251)';
-
   const bgColor = 'rgb(17, 24, 39)';
 </script>
 
