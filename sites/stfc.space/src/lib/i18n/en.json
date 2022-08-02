@@ -103,7 +103,7 @@
   },
   "mission": {
     "warp": "Start Warp",
-    "warp_completion": "Warp Completion"
+    "warp_completion": "Completion Warp"
   },
   "system": {
     "spawn-points": "Spawn Points:",

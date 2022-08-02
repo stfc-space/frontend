@@ -138,7 +138,7 @@
 						class="even:bg-light-100 odd:bg-light-400 dark:even:bg-dark-600 dark:odd:bg-dark-800 border-transparent hover:border-indigo-200
 							{horizontal
 							? 'flex flex-col divide-y divide-light-200 dark:divide-dark-100 border-y-5'
-							: 'border-l-5 '}"
+							: 'border-l-5'}"
 					>
 						{#if item.__collapseRow}
 							<td class="text-center font-bold" colspan={headers.length}>{item.text}</td>
