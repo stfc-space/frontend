@@ -2,7 +2,7 @@ import { browser } from '$app/env';
 import { mande } from './mande';
 import type { MandeInstance, Options } from './mande';
 import { get, writable } from 'svelte/store';
-import type { Building, Research, Resource } from './yuki/models';
+import type { Building, Research, Resource, System } from './yuki/models';
 
 function getAPIUrl() {
   let api_url = import.meta.env.VITE_API_URL as string;
@@ -88,6 +88,7 @@ const stores = {
   resources: writable(new Map<number, Resource>()),
   researches: writable(new Map<number, Research>()),
   buildings: writable(new Map<number, Building>()),
+  systems: writable(new Map<number, System>()),
   buff_map: writable(new Map<number, { source: number; id: number }[]>())
 };
 
@@ -101,6 +102,13 @@ export async function waitStaticData(fetchOverride?: Window['fetch']) {
           m.set(resource.id, resource);
         }
         stores.resources.set(m);
+      }),
+      api.get('/system', undefined, fetchOverride).then((e: System[]) => {
+        const m = new Map();
+        for (const system of e) {
+          m.set(system.id, system);
+        }
+        stores.systems.set(m);
       }),
       api.get('/research', undefined, fetchOverride).then((e: Research[]) => {
         const m = new Map();

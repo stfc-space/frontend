@@ -1,6 +1,6 @@
 import type { RequestHandler } from '@sveltejs/kit';
 
-export const get: RequestHandler = async (req) => {
+export const GET: RequestHandler = async (req) => {
   const headers = {
     'location': '/',
     'set-cookie': [

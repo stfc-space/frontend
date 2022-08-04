@@ -9,7 +9,6 @@
     Rarity,
     Requirement,
     RequirementType,
-    Research,
     ShipDetail,
     ShipDetailComponent
   } from '$lib/shared/yuki/models';
@@ -27,7 +26,7 @@
       await YukiApi.get('/ship/' + params.ship, undefined, fetch).then(
         (s: ShipDetail) => (ship = s)
       ),
-      extendTranslations(session.lang, [{ path: 'ships', ids: [params.rid] }], fetch)
+      extendTranslations(session.lang, [{ path: 'ships', ids: [params.ship] }], fetch)
     ]);
 
     const queryStore = new QueryStore<QueryParams>(`ship`);
