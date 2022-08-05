@@ -3,7 +3,7 @@ import type { RequestHandler } from '@sveltejs/kit';
 
 import game_profiles, { forwardRequest } from './_storage';
 
-export const get: RequestHandler = async (event) => {
+export const GET: RequestHandler = async (event) => {
   const id = event.params.id;
   if (!dev) {
     return forwardRequest(event, id);
@@ -23,7 +23,7 @@ export const get: RequestHandler = async (event) => {
   }
 };
 
-export const put: RequestHandler = async (event) => {
+export const PUT: RequestHandler = async (event) => {
   const id = event.params.id;
   if (!dev) {
     return forwardRequest(event, id);
@@ -39,7 +39,7 @@ export const put: RequestHandler = async (event) => {
   }
 };
 
-export const del: RequestHandler = async (event) => {
+export const DEL: RequestHandler = async (event) => {
   const id = event.params.id;
   if (!dev) {
     return forwardRequest(event, id);

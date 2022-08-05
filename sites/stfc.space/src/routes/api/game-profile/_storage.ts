@@ -1,6 +1,14 @@
 import type { RequestEvent } from '@sveltejs/kit';
 
-export default {};
+export default {
+  'YdXIWDmPsA3eDCib8a9zg': {
+    name: 'Test Profile',
+    modified: 1659741681,
+    buildings: {
+      0: 42
+    }
+  }
+};
 
 export function forwardRequest(event: RequestEvent, id?: string) {
   if (event.platform && event.platform.env) {

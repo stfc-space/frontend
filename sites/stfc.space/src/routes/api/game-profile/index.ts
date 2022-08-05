@@ -5,7 +5,7 @@ import { nanoid } from 'nanoid';
 
 import game_profiles, { forwardRequest } from './_storage';
 
-export const get: RequestHandler = async (event) => {
+export const GET: RequestHandler = async (event) => {
   if (!dev) {
     return forwardRequest(event);
   } else {
@@ -13,12 +13,14 @@ export const get: RequestHandler = async (event) => {
       headers: {
         'X-NON-PROD': 'MISTAKE'
       },
-      body: game_profiles
+      body: Object.entries(game_profiles).map(([k, v]) => {
+        return { id: k, ...(v as object) };
+      })
     };
   }
 };
 
-export const post: RequestHandler = async (event) => {
+export const POST: RequestHandler = async (event) => {
   if (!dev) {
     return forwardRequest(event);
   } else {
