@@ -28,6 +28,6 @@ export function forwardRequest(event: RequestEvent, id?: string) {
       return { status: 403 };
     }
   } else {
-    return null;
+    return { status: 503 };
   }
 }
