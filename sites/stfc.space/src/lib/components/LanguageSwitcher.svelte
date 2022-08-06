@@ -84,36 +84,10 @@
 </script>
 
 <div class="relative inline-block align-middle">
-  <div class="flex text-light-200 items-center">
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      class="inline h-5 w-5"
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-    >
-      <path
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
-        d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"
-      />
-    </svg><span class="inline align-middle">
-      {options.find((e) => e.value == $locale).name}
-    </span>
-  </div>
+  <label for="language" class="sr-only">Language</label>
   <select
-    class="
-		  absolute
-          cursor-pointer
-          bg-transparent
-          text-xl
-          opacity-0
-          left-0
-		  right-0
-		  top-0
-		  bottom-0
-        "
+    id="language"
+    class="appearance-none block w-full bg-none bg-white dark:bg-dark-700 border border-gray-300 rounded-md py-2 pl-3 pr-10 text-base text-gray-900 dark:text-light-200 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
     bind:this={select}
     on:change={languageChange}
   >
@@ -123,4 +97,20 @@
       >
     {/each}
   </select>
+  <div class="pointer-events-none absolute inset-y-0 right-0 px-2 flex items-center">
+    <!-- Heroicon name: solid/chevron-down -->
+    <svg
+      class="h-4 w-4 text-white"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 20 20"
+      fill="currentColor"
+      aria-hidden="true"
+    >
+      <path
+        fill-rule="evenodd"
+        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+        clip-rule="evenodd"
+      />
+    </svg>
+  </div>
 </div>

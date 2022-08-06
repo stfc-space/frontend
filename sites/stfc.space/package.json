@@ -41,7 +41,7 @@
     "@sveltejs/adapter-cloudflare": "^1.0.0-next.31",
     "@sveltejs/adapter-cloudflare-workers": "^1.0.0-next.52",
     "@sveltejs/adapter-vercel": "^1.0.0-next.66",
-    "@sveltejs/kit": "1.0.0-next.401",
+    "@sveltejs/kit": "1.0.0-next.405",
     "@types/cookie": "^0.5.1",
     "@types/d3-shape": "^3.1.0",
     "@types/ellipsize": "^0.1.1",
