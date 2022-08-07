@@ -19,7 +19,7 @@ export const getSession: GetSession = async (event) => {
     lang,
     user: userId
       ? {
-          id: event?.locals?.user?.id,
+          id: userId,
           logoutUrl: null
         }
       : null
