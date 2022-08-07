@@ -19,9 +19,9 @@ export const getSession: GetSession = async (event) => {
     lang,
     user: userId
       ? {
-          id: event?.locals?.user?.id,
-          logoutUrl: null
-        }
+        id: event?.locals?.user?.id,
+        logoutUrl: null
+      }
       : null
   };
 };
@@ -48,6 +48,7 @@ export const handle: Handle = async ({ event, resolve }) => {
         throw 'Invalid token. Session Mismatch.';
       }
       event.locals.user = {
+        authenticated: true,
         id: result.payload.uid as string,
         session_id: result.payload.sid as string
       };
@@ -56,7 +57,7 @@ export const handle: Handle = async ({ event, resolve }) => {
       const fetchResult = await fetch(
         new Request(`${KRATOS_BACKEND_URL}/sessions/whoami`, {
           headers: {
-            'cookie': request.headers.get('cookie'),
+            'cookie': decodeURIComponent(request.headers.get('cookie')), // Fixup cookie for local development
             'x-svelte-int': '1'
           }
         })
