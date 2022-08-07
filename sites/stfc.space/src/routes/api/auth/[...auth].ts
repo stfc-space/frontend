@@ -105,7 +105,9 @@ async function forwardRequest(event: RequestEvent, method: string) {
   } else {
     const headers = responseHeaders as Headers;
     if (headers.get('set-cookie') !== undefined) {
-      cookies = setCookieParse(splitCookiesString(headers.get('set-cookie'))).map(function (cookie) {
+      cookies = setCookieParse(splitCookiesString(headers.get('set-cookie'))).map(function (
+        cookie
+      ) {
         return serializeCookie(cookie.name, cookie.value, cookie as unknown);
       });
     }

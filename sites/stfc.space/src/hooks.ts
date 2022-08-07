@@ -19,9 +19,9 @@ export const getSession: GetSession = async (event) => {
     lang,
     user: userId
       ? {
-        id: event?.locals?.user?.id,
-        logoutUrl: null
-      }
+          id: event?.locals?.user?.id,
+          logoutUrl: null
+        }
       : null
   };
 };
