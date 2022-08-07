@@ -1,6 +1,6 @@
 <script lang="ts" context="module">
   import { createLoad } from './_load';
-  export const load = createLoad('verify');
+  export const load = createLoad('verification');
 </script>
 
 <script lang="ts">

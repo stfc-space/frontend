@@ -31,7 +31,7 @@
   $: filteredNodes = filterNodes(authUi);
   $: fields = filteredNodes.reduce((acc, node) => {
     const { name, value } = node.attributes as UiNodeInputAttributes;
-    acc[name] = value || '';
+    acc[name] = fields?.[name] || value || '';
     return acc;
   }, {});
 
