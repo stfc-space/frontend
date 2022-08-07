@@ -5,9 +5,19 @@ serve:
     cors:
       enabled: true
 
+# Settings for both anti-CSRF and session cookies
+cookies:
+  path: /
+  same_site: Lax
+
+session:
+  cookie:
+    path: /
+    same_site: Lax
+
 selfservice:
-  whitelisted_return_urls:
-    - http://localhost:3000
+  allowed_return_urls:
+    - http://localhost:5173
 
   methods:
     password:
@@ -51,7 +61,10 @@ hashers:
     cost: 8
 
 identity:
-  default_schema_url: file:///etc/config/kratos/identity.schema.json
+  default_schema_id: user_v0
+  schemas:
+    - id: user_v0
+      url: file:///etc/config/kratos/identity.schema.json
 
 courier:
   smtp:
