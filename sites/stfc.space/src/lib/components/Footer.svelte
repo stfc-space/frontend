@@ -14,16 +14,40 @@
             <h3 class="text-sm font-semibold text-gray-400 tracking-wider uppercase">Sections</h3>
             <ul class="mt-4 space-y-4">
               <li>
-                <a href="#" class="text-base text-gray-300 hover:text-white"> Buildings </a>
+                <a
+                  href="/buildings"
+                  sveltekit:prefetch
+                  class="text-base text-gray-300 hover:text-white"
+                >
+                  Buildings
+                </a>
               </li>
               <li>
-                <a href="#" class="text-base text-gray-300 hover:text-white"> Research </a>
+                <a
+                  href="/researches"
+                  sveltekit:prefetch
+                  class="text-base text-gray-300 hover:text-white"
+                >
+                  Research
+                </a>
               </li>
               <li>
-                <a href="#" class="text-base text-gray-300 hover:text-white"> Missions </a>
+                <a
+                  href="/missions"
+                  sveltekit:prefetch
+                  class="text-base text-gray-300 hover:text-white"
+                >
+                  Missions
+                </a>
               </li>
               <li>
-                <a href="#" class="text-base text-gray-300 hover:text-white"> Ships </a>
+                <a
+                  href="/ships"
+                  sveltekit:prefetch
+                  class="text-base text-gray-300 hover:text-white"
+                >
+                  Ships
+                </a>
               </li>
             </ul>
           </div>
@@ -31,7 +55,9 @@
             <h3 class="text-sm font-semibold text-gray-400 tracking-wider uppercase">Game</h3>
             <ul class="mt-4 space-y-4">
               <li>
-                <a href="#" class="text-base text-gray-300 hover:text-white"> Instance Status </a>
+                <a href="/game/instance-status" class="text-base text-gray-300 hover:text-white">
+                  Instance Status
+                </a>
               </li>
 
               <li>
@@ -55,10 +81,22 @@
               </li>
 
               <li>
-                <a href="#" class="text-base text-gray-300 hover:text-white"> Game Profiles </a>
+                <a
+                  href="/tools/game-profiles"
+                  sveltekit:prefetch
+                  class="text-base text-gray-300 hover:text-white"
+                >
+                  Game Profiles
+                </a>
               </li>
               <li>
-                <a href="#" class="text-base text-gray-300 hover:text-white"> Galaxy Map </a>
+                <a
+                  href="/tools/map"
+                  sveltekit:prefetch
+                  class="text-base text-gray-300 hover:text-white"
+                >
+                  Galaxy Map
+                </a>
               </li>
             </ul>
           </div>
@@ -66,10 +104,18 @@
             <h3 class="text-sm font-semibold text-gray-400 tracking-wider uppercase">Legal</h3>
             <ul class="mt-4 space-y-4">
               <li>
-                <a href="#" class="text-base text-gray-300 hover:text-white">Cookies</a>
+                <a
+                  href="/legal/cookie-policy"
+                  sveltekit:prefetch
+                  class="text-base text-gray-300 hover:text-white">Cookies</a
+                >
               </li>
               <li>
-                <a href="#" class="text-base text-gray-300 hover:text-white">Privacy</a>
+                <a
+                  href="/legal/privacy-policy"
+                  sveltekit:prefetch
+                  class="text-base text-gray-300 hover:text-white">Privacy</a
+                >
               </li>
             </ul>
           </div>

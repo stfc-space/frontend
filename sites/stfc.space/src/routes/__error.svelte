@@ -11,6 +11,7 @@
 </script>
 
 <script lang="ts">
+  import MetaHeader from '$lib/components/MetaHeader.svelte';
   import { _ } from 'svelte-i18n';
 
   export let status: number;
@@ -18,7 +19,11 @@
 </script>
 
 <svelte:head>
-  <title>Error: {status}</title>
+  {#if status == 404}
+    <MetaHeader title={`${$_('project.name')} - ${$_('not_found')}`} />
+  {:else}
+    <title>Error: {status}</title>
+  {/if}
 </svelte:head>
 
 <div class="min-h-full px-4 py-16 sm:px-6 sm:py-24 md:grid md:place-items-center lg:px-8">
