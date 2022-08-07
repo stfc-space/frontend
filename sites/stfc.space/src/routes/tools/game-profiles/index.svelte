@@ -25,7 +25,9 @@
 
   export let game_profiles: any;
 
-  const deleteProfile = async (id: string) => {
+  const deleteProfile = async (e: MouseEvent, id: string) => {
+    e.preventDefault();
+    e.stopPropagation();
     console.log('Deleting profile', id);
   };
 
@@ -225,7 +227,7 @@
             </div>
           </div>
           <div class="mt-4 sm:mt-0 sm:ml-6 sm:flex-shrink-0">
-            <Button on:click={() => deleteProfile(profile.id)}>DELETE</Button>
+            <Button on:click={(e) => deleteProfile(e, profile.id)}>DELETE</Button>
           </div>
         </div>
       </a>

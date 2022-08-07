@@ -18,7 +18,7 @@
 	class={`inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-1 focus:ring-offset-1 focus:ring-offset-indigo-200 dark:focus:ring-offset-indigo-800 focus:ring-indigo-600 dark:focus:ring-indigo-500 ${
 		clazz || ''
 	}`}
-	on:click|stopPropagation|preventDefault
+	on:click
 	{...$$restProps}
 >
 	{#if iconLeft}
