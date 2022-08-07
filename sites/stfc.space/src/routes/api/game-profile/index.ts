@@ -25,7 +25,10 @@ export const POST: RequestHandler = async (event) => {
     return forwardRequest(event);
   } else {
     const id = nanoid();
-    const content = await event.request.json();
+    const content: any = await event.request.json();
+    if (!content.modified) {
+      content.modified = Math.floor(new Date().getTime() / 1000);
+    }
     game_profiles[id] = content;
     return {
       headers: {
