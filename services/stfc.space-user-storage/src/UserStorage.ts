@@ -2,7 +2,7 @@ import { createIttyDurable } from 'itty-durable';
 import { nanoid } from 'nanoid'
 
 const DurableObjectBase = createIttyDurable({
-    persistOnChange: true
+    autoPersist: true
 });
 
 export class UserStorage extends DurableObjectBase {
