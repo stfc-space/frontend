@@ -21,7 +21,6 @@
     /* Emit */
     "noEmit": false,
     "declaration": true,
-    "emitDeclarationOnly": true,
     /* Interop Constraints */
     "isolatedModules": true,
     "allowSyntheticDefaultImports": true,
