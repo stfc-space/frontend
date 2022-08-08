@@ -28,7 +28,9 @@ export class UserStorage extends DurableObjectBase {
     }
 
     public getGameProfiles() {
-        return this.game_profiles;
+        return Object.entries(this.game_profiles).map(([k, v]) => {
+            return { id: k, ...(v as object) };
+        });
     }
     public getGameProfile(id: string) {
         return this.game_profiles[id];
