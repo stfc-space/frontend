@@ -15,14 +15,17 @@ export function forwardRequest(event: RequestEvent, id?: string) {
     if (event.locals.user?.authenticated) {
       if (id) {
         return event.platform.env.USER_STORAGE.fetch(
-          `/${event.locals.user.id}/game_profile/${id}`,
+          `https://user-storage/${event.locals.user.id}/game_profile/${id}`,
           { method: event.request.method, body: event.request.body }
         );
       } else {
-        return event.platform.env.USER_STORAGE.fetch(`/${event.locals.user.id}/game_profile`, {
-          method: event.request.method,
-          body: event.request.body
-        });
+        return event.platform.env.USER_STORAGE.fetch(
+          `https://user-storage/${event.locals.user.id}/game_profile`,
+          {
+            method: event.request.method,
+            body: event.request.body
+          }
+        );
       }
     } else {
       return { status: 403 };
