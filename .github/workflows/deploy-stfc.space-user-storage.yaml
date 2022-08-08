@@ -2,6 +2,8 @@ on:
   push:
     tags:
       - "stfc-space-user-storage@**"
+    branches:
+      - "next"
 
 name: stfc.space-user-storage - Deploy
 
