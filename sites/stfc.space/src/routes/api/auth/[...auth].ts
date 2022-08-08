@@ -113,8 +113,6 @@ async function forwardRequest(event: RequestEvent, method: string) {
     }
   }
 
-  const resBody = Buffer.from(await response.arrayBuffer());
-
   const headers = {};
   responseHeaders.forEach((value, key: string) => {
     if (key == 'set-cookie') {
@@ -144,7 +142,7 @@ async function forwardRequest(event: RequestEvent, method: string) {
   headers['cache-control'] = 'no-cache, stale-if-error=0';
 
   const r = {
-    body: resBody,
+    body: response.body,
     status: response.status,
     statusText: response.statusText,
     headers: headers
