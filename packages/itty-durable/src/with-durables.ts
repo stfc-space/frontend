@@ -12,8 +12,8 @@ export interface WithDurablesOptions {
 type RequestExt = { durables?: { [key: string]: unknown } } & { [key: string]: unknown };
 
 export function withDurables<TRequest = Request>(options: WithDurablesOptions = {}): (request: TRequest & RequestExt, env: any) => void {
-
     const {
+        parse = false,
         classes = {},
     } = options;
 
@@ -25,6 +25,7 @@ export function withDurables<TRequest = Request>(options: WithDurablesOptions = 
                 const proxied = proxyDurable(binding, {
                     name: key,
                     class: classes[key], // pass in class key by default
+                    parse
                 })
 
                 try {
