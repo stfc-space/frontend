@@ -30,7 +30,6 @@
         <SectionLink href="/map">{$_('section.map')}</SectionLink>
         <SectionLink href="/charts">{$_('section.charts')}</SectionLink>
       </div>
-      <div>{$_('section.changelog')}</div>
     </div>
   </div>
 </section>
