@@ -73,9 +73,12 @@
           />
         {/each}
       </span>
-      <span class="text-sm whitespace-nowrap col-start-3 row-start-2"
-        >Warp: <span class="font-bold">{system.est_warp}</span></span
-      >
+      <span class="text-sm whitespace-nowrap col-start-3 row-start-2">
+        Warp: <span class="font-bold">{system.est_warp}</span>
+        {#if system.num_station_slots > 1}
+          | Slots: <span class="font-bold">{system.num_station_slots}</span>
+        {/if}
+      </span>
       <div
         class="col-start-2 sm:row-start-2 sm:row-span-1 grid grid-cols-5 grid-rows-2 h-4 w-24 gap-1 min-w-max"
       >

@@ -162,6 +162,11 @@
     </div>
     <div class="text-right mt-8">
       <span class="mt-4">Version: {version} - {refHash}</span>
+      <a
+        href="https://discord.com/channels/862688515396468757/865518691806347325"
+        sveltekit:prefetch
+        class="text-base text-blue-600 hover:text-white">Changelogs</a
+      >
     </div>
   </div>
 </footer>
