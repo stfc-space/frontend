@@ -19,7 +19,7 @@ function addGameProfiles(router: ThrowableRouter<IRequest, IHTTPMethods>): Throw
     return USER_STORAGE.get(params!.id).createGameProfile(content);
   });
   router.get('/:id/game_profile', async ({ USER_STORAGE, params }: IRequest) => {
-    return USER_STORAGE.get(params!.id).getGameProfiles();
+    return USER_STORAGE.get(params!.id).getGameProfiles;
   });
   router.get('/:id/game_profile/:gid', async ({ USER_STORAGE, params }: IRequest) => {
     return USER_STORAGE.get(params!.id).getGameProfile(params!.gid);
@@ -44,7 +44,7 @@ router.all('*', withDurables())
 
 // Setup settings stuff
 router.get('/:id/settings', async ({ USER_STORAGE, params }: IRequest) => {
-  return USER_STORAGE.get(params!.id).getSettings();
+  return USER_STORAGE.get(params!.id).getSettings;
 });
 router.post('/:id/settings', async (request: IRequest) => {
   const { USER_STORAGE, params } = request;
