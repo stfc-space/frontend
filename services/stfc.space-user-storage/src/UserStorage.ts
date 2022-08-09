@@ -14,7 +14,7 @@ export class UserStorage extends DurableObjectBase {
     }
 
     // TODO(alexander): We _should_ do some sort of schema validation here :)
-    public get getSettings() {
+    public getSettings() {
         return this.settings
     }
 
@@ -30,7 +30,7 @@ export class UserStorage extends DurableObjectBase {
         return id;
     }
 
-    public get getGameProfiles() {
+    public getGameProfiles() {
         return Object.entries(this.game_profiles).map(([k, v]) => {
             return { id: k, ...(v as object) };
         });
