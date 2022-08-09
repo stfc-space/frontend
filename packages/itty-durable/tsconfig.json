@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "composite": true,
     /* Projects */
     "baseUrl": "src",
     "outDir": "dist",
@@ -17,10 +16,10 @@
     ],
     "resolveJsonModule": true,
     /* JavaScript Support */
-    "allowJs": true,
-    "checkJs": true,
+    "allowJs": false,
+    "checkJs": false,
     /* Emit */
-    "noEmit": true,
+    "noEmit": false,
     "declaration": true,
     /* Interop Constraints */
     "isolatedModules": true,
@@ -28,13 +27,13 @@
     "forceConsistentCasingInFileNames": true,
     /* Type Checking */
     "strict": true,
-    "skipLibCheck": true,
+    "skipLibCheck": false,
   },
   "exclude": [
     "node_modules",
     "dist"
   ],
   "include": [
-    "src/**/*"
+    "src"
   ],
 }

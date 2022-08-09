@@ -1,12 +1,14 @@
 @layer components {
   button,
-  input {
+  input,
+  textarea {
     border-radius: 0;
   }
   button {
     @apply outline-none border-0;
   }
-  input {
+  input,
+  textarea {
     min-width: 0;
     margin: 1px;
 

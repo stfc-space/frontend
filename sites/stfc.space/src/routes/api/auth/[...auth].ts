@@ -1,6 +1,6 @@
 import type { RequestHandler } from '@sveltejs/kit';
 import { Buffer } from 'buffer';
-import setCookieParse from 'set-cookie-parser';
+import setCookieParse, { splitCookiesString } from 'set-cookie-parser';
 import { serialize as serializeCookie } from 'cookie';
 
 const KRATOS_BACKEND_URL = import.meta.env.VITE_KRATOS_BACKEND_URL as string;
@@ -39,6 +39,8 @@ async function forwardRequest(event: RequestEvent, method: string) {
   headerCopy.delete('host');
   headerCopy.delete('via');
   headerCopy.delete('connection');
+  // This is required for local development mostly
+  headerCopy.set('cookie', decodeURIComponent(headerCopy.get('cookie')));
 
   const response = await fetch(url, {
     method,
@@ -103,13 +105,13 @@ async function forwardRequest(event: RequestEvent, method: string) {
   } else {
     const headers = responseHeaders as Headers;
     if (headers.get('set-cookie') !== undefined) {
-      cookies = setCookieParse(headers.get('set-cookie')).map(function (cookie) {
+      cookies = setCookieParse(splitCookiesString(headers.get('set-cookie'))).map(function (
+        cookie
+      ) {
         return serializeCookie(cookie.name, cookie.value, cookie as unknown);
       });
     }
   }
-
-  const resBody = Buffer.from(await response.arrayBuffer());
 
   const headers = {};
   responseHeaders.forEach((value, key: string) => {
@@ -140,7 +142,7 @@ async function forwardRequest(event: RequestEvent, method: string) {
   headers['cache-control'] = 'no-cache, stale-if-error=0';
 
   const r = {
-    body: resBody,
+    body: response.body,
     status: response.status,
     statusText: response.statusText,
     headers: headers

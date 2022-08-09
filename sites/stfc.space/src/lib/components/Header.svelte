@@ -3,6 +3,7 @@
   import { _ } from 'svelte-i18n';
   import { clickOutside } from '$lib/clickOutside';
   import { Icon } from '@steeze-ui/svelte-icon';
+  import { User } from '@steeze-ui/heroicons';
   import { MenuAlt1, Search, X } from '@steeze-ui/heroicons';
   import DarkModeToggle from './DarkModeToggle.svelte';
 
@@ -106,18 +107,14 @@
                 <div>
                   <button
                     type="button"
-                    class="bg-indigo-700 flex text-sm rounded-full text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-indigo-700 focus:ring-white"
+                    class="flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-indigo-700 focus:ring-white"
                     id="user-menu-button"
                     aria-expanded={userMenuOpen}
                     aria-haspopup="true"
                     on:click={() => (userMenuOpen = !userMenuOpen)}
                   >
                     <span class="sr-only">Open user menu</span>
-                    <img
-                      class="h-8 w-8 rounded-full"
-                      src="https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=256&h=256&q=80"
-                      alt=""
-                    />
+                    <Icon src={User} class="h-8 w-8 rounded-full" />
                   </button>
                 </div>
 
