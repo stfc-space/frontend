@@ -11,8 +11,8 @@ export interface System {
   has_mines: boolean;
   has_plantes: boolean;
   has_player_containers: boolean;
-  has_missions: boolean;
   num_station_slots: number;
+  has_missions: boolean;
   mine_resources: number[];
   hostiles: Hostile[];
   node_sizes: number[];
