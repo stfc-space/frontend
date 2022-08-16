@@ -4,7 +4,7 @@
 
   import { _ } from 'svelte-i18n';
 
-  import { filterRarity, Officer } from '$lib/shared/yuki/models';
+  import { filterRarity } from '$lib/shared/yuki/models';
 
   import { FilteredList, TextInput, Dropdown } from '@radion/ui';
 

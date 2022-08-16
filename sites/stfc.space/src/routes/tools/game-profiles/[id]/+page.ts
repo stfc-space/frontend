@@ -2,7 +2,7 @@ import { YukiApi } from '$lib/shared/api';
 
 import type { PageLoad } from './$types';
 
-export const load: PageLoad = async ({ session, params, fetch }) => {
+export const load: PageLoad = async ({ params, fetch }) => {
   const n: any = await (await fetch('/api/game-profile/' + params.id)).json();
 
   // TODO(alexander): Backend currently returns the entire deps map here

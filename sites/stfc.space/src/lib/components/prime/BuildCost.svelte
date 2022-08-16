@@ -23,8 +23,7 @@
 
   import type { RequirementUiItem } from './RequiredByTable.svelte';
   import CostItems from './CostItems.svelte';
-  import { getStaticData, YukiApi } from '$lib/shared/api';
-  import { Checkbox, Slider } from '@radion/ui';
+  import { YukiApi } from '$lib/shared/api';
   import { throttle } from 'lodash-es';
   import CostProfileQuickEditPopover, {
     GameProfileBuffConfig

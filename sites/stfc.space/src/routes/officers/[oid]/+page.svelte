@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { abilityValue, Officer, OfficerDetail } from '$lib/shared/yuki/models';
+  import { abilityValue, Officer } from '$lib/shared/yuki/models';
   import DetailPageContainer from '$lib/components/DetailPageContainer.svelte';
   import { officerAbilityThumb, officerThumb, resourceThumb } from '$lib/shared/yuki/thumbs';
 

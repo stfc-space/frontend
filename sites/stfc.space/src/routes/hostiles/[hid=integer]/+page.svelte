@@ -2,7 +2,6 @@
   import { _ } from 'svelte-i18n';
 
   import MetaHeader from '$lib/components/MetaHeader.svelte';
-  import type { HostileDetail } from '$lib/shared/yuki/models';
   import DetailPageContainer from '$lib/components/DetailPageContainer.svelte';
 
   import type { PageData } from './$types';

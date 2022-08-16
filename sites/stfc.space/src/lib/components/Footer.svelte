@@ -61,13 +61,13 @@
               </li>
 
               <li>
-                <a href="#" class="text-base text-gray-300 hover:text-white">
+                <a href="/" class="text-base text-gray-300 hover:text-white">
                   Incursion Leaderboard
                 </a>
               </li>
 
               <li>
-                <a href="#" class="text-base text-gray-300 hover:text-white"> Guides </a>
+                <a href="/" class="text-base text-gray-300 hover:text-white"> Guides </a>
               </li>
             </ul>
           </div>
@@ -77,7 +77,7 @@
             <h3 class="text-sm font-semibold text-gray-400 tracking-wider uppercase">Tools</h3>
             <ul class="mt-4 space-y-4">
               <li>
-                <a href="#" class="text-base text-gray-300 hover:text-white"> Upgrade Planner </a>
+                <a href="/" class="text-base text-gray-300 hover:text-white"> Upgrade Planner </a>
               </li>
 
               <li>

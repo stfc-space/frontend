@@ -7,7 +7,6 @@
 
   import { debounce } from 'lodash-es';
 
-  import type { InventoryReward, Mission } from '$lib/shared/yuki/models';
   import { ItemType } from '$lib/shared/yuki/models';
 
   import { search } from '$lib/shared/search';

@@ -5,12 +5,10 @@
   import DetailPageContainer from '$lib/components/DetailPageContainer.svelte';
   import {
     BuildCost,
-    BuildingDetail,
     BuildingDetailLevel,
     Rarity,
     Requirement,
-    RequirementType,
-    Research
+    RequirementType
   } from '$lib/shared/yuki/models';
 
   import { _ } from 'svelte-i18n';

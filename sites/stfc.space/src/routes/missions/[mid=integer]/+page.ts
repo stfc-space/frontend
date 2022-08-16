@@ -4,7 +4,7 @@ import { YukiApi } from '$lib/shared/api';
 import type { MissionDetail } from '$lib/shared/yuki/models';
 import type { PageLoad } from './$types';
 
-export const load: PageLoad = async function ({ session, fetch, params, url }) {
+export const load: PageLoad = async function ({ session, fetch, params }) {
   let mission: MissionDetail;
   await Promise.all([
     await YukiApi.get('/mission/' + params.mid, undefined, fetch).then(

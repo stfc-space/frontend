@@ -75,7 +75,7 @@
   let showTooltip = false;
 
   $: buffs =
-    $buff_map.get(buffModifier)?.filter((buff) => {
+    $buff_map.get(buffModifier)?.filter((_buff) => {
       // TODO(alexander): Filter out things that don't apply to this
       // specific cost set
       return true;

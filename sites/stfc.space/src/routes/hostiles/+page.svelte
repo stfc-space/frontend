@@ -4,7 +4,7 @@
 
   import { _ } from 'svelte-i18n';
 
-  import { filterRarity, Hostile } from '$lib/shared/yuki/models';
+  import { filterRarity } from '$lib/shared/yuki/models';
 
   import HostileList from '$lib/components/prime/HostileList.svelte';
 

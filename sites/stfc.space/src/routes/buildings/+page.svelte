@@ -5,8 +5,6 @@
 
   import { _ } from 'svelte-i18n';
 
-  import type { Building } from '$lib/shared/yuki/models';
-
   import { TextInput, FilteredList } from '@radion/ui';
 
   import ResetFilterButton from '$lib/components/ResetFilterButton.svelte';
