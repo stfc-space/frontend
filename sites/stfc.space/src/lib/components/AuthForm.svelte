@@ -6,13 +6,25 @@
   import { Button, PasswordInput, TextInput } from '@radion/ui';
   import { getMessage } from '$lib/shared/auth/message';
   import type { FlowTypeId } from '$lib/shared/auth';
+  import { browser } from '$app/env';
+  import { page } from '$app/stores';
+  import { goto } from '$app/navigation';
 
   const socialAuthBtnCls =
     'w-full inline-flex justify-center py-2 px-4 border border-light-800 dark:shadow dark:border-transparent rounded-md shadow-sm bg-white dark:bg-dark-400 text-sm font-medium text-dark-500 hover:bg-light-500 dark:text-light-200 dark:hover:bg-dark-800';
 
   export let authUi: UiContainer;
+  export let flowId: string | null;
   export let type: FlowTypeId = null;
   export let only: string | null = null;
+
+  if (browser && flowId) {
+    if ($page.url.searchParams.get('flow') != flowId) {
+      const newUrl = new URL($page.url);
+      newUrl.searchParams.set('flow', flowId);
+      goto(newUrl, { replaceState: true, noscroll: true });
+    }
+  }
 
   const filterNodes = (authUi: UiContainer): Array<UiNode> => {
     return authUi.nodes.filter(({ group }) => {

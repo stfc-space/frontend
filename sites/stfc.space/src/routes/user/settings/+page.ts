@@ -1,3 +1,6 @@
-import { createLoad } from '../../auth/_load';
+import { runLoad } from 'src/routes/auth/_load';
+import type { PageLoad } from './$types';
 
-export const load = createLoad('settings');
+export const load: PageLoad = async (loadEvent) => {
+  return await runLoad('settings', loadEvent);
+};

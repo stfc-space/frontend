@@ -6,4 +6,4 @@
   export let data: PageData;
 </script>
 
-<AuthForm type="recovery" authUi={data.authUi} />
+<AuthForm type="recovery" authUi={data.ui} flowId={data.id} />

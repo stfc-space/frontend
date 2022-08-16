@@ -6,4 +6,4 @@
   // export let flowID: string;
 </script>
 
-<AuthForm type="login" authUi={data.authUi} />
+<AuthForm type="login" authUi={data.ui} flowId={data.id} />

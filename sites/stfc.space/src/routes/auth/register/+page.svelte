@@ -6,4 +6,4 @@
   export let data: PageData;
 </script>
 
-<AuthForm type="registration" authUi={data.authUi} />
+<AuthForm type="registration" authUi={data.ui} flowId={data.id} />

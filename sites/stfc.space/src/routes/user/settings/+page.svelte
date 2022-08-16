@@ -5,5 +5,5 @@
   export let data: PageData;
 </script>
 
-<AuthForm type="settings" only="profile" authUi={data.authUi} />
-<AuthForm type="settings" only="password" authUi={data.authUi} />
+<AuthForm type="settings" only="profile" authUi={data.ui} flowId={data.id} />
+<AuthForm type="settings" only="password" authUi={data.ui} flowId={data.id} />

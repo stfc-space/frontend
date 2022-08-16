@@ -1,3 +1,7 @@
-import { createLoad } from '../_load';
+import { runLoad } from '../_load';
 
-export const load = createLoad('registration');
+import type { PageLoad } from './$types';
+
+export const load: PageLoad = async (loadEvent) => {
+  return await runLoad('registration', loadEvent);
+};

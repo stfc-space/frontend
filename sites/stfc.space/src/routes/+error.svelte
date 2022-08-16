@@ -2,6 +2,7 @@
   import MetaHeader from '$lib/components/MetaHeader.svelte';
   import { _ } from 'svelte-i18n';
   import { page } from '$app/stores';
+  import { error } from '@sveltejs/kit';
 </script>
 
 <svelte:head>
@@ -35,6 +36,7 @@
             >
               {$_('error.fatal.title')}
             </h1>
+            <p class="mt-4">{$page.error.message}</p>
           </div>
         {:else}
           <div />{/if}
