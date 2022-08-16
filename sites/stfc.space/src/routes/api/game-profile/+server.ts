@@ -1,3 +1,4 @@
+import { json } from '@sveltejs/kit';
 import { dev } from '$app/env';
 import type { RequestHandler } from '@sveltejs/kit';
 
@@ -7,22 +8,24 @@ import game_profiles, { forwardRequest } from './_storage';
 
 export const GET: RequestHandler = async (event) => {
   if (!dev) {
-    return forwardRequest(event);
+    return await forwardRequest(event);
   } else {
-    return {
-      headers: {
-        'X-NON-PROD': 'MISTAKE'
-      },
-      body: Object.entries(game_profiles).map(([k, v]) => {
+    return json(
+      Object.entries(game_profiles).map(([k, v]) => {
         return { id: k, ...(v as object) };
-      })
-    };
+      }),
+      {
+        headers: {
+          'X-NON-PROD': 'MISTAKE'
+        }
+      }
+    );
   }
 };
 
 export const POST: RequestHandler = async (event) => {
   if (!dev) {
-    return forwardRequest(event);
+    return await forwardRequest(event);
   } else {
     const id = nanoid();
     const content: any = await event.request.json();
@@ -30,11 +33,10 @@ export const POST: RequestHandler = async (event) => {
       content.modified = Math.floor(new Date().getTime() / 1000);
     }
     game_profiles[id] = content;
-    return {
+    return json(id, {
       headers: {
         'X-NON-PROD': 'MISTAKE'
-      },
-      body: id
-    };
+      }
+    });
   }
 };

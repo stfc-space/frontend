@@ -1,21 +1,3 @@
-<script context="module" lang="ts">
-  import type { LoadEvent } from '@sveltejs/kit';
-
-  export interface GameProfileBuffConfig {
-    level: number;
-    research: { [key: string | number]: number };
-    buildings: { [key: string | number]: number };
-    officers: { [key: string | number]: [number, number] };
-    syndicate_level: number;
-    exocomps: number[];
-  }
-
-  export async function load({ session, params, fetch }: LoadEvent) {
-    const n = await (await fetch('/api/game-profile')).json();
-    return { props: { game_profiles: n } };
-  }
-</script>
-
 <script lang="ts">
   import { Button } from '@radion/ui';
   import DetailPageContainer from '$lib/components/DetailPageContainer.svelte';
@@ -23,7 +5,8 @@
   import { DateTime } from 'luxon';
   import { _, locale } from 'svelte-i18n';
 
-  export let game_profiles: any;
+  import type { PageData } from './$types';
+  export let data: PageData;
 
   const deleteProfile = async (e: MouseEvent, id: string) => {
     e.preventDefault();
@@ -33,7 +16,7 @@
 
   onMount(async () => {
     const n = await (await fetch('/api/game-profile')).json();
-    game_profiles = n;
+    data.game_profiles = n;
   });
 
   const modifiedAt = (timestamp: number): string => {
@@ -80,7 +63,7 @@
     newProfileName = '';
     newProfileDescription = '';
     createProfileOpen = false;
-    game_profiles = await (await fetch('/api/game-profile')).json();
+    data.game_profiles = await (await fetch('/api/game-profile')).json();
   };
 
   import { fly } from 'svelte/transition';
@@ -211,7 +194,7 @@
     automatically create a new profile and keep it up-to-date when using the PC Client of the Game.</span
   >
   <div class="w-full p-2 px-2 sm:px-4 flex flex-col gap-y-2">
-    {#each game_profiles as profile}
+    {#each data.game_profiles as profile}
       <a sveltekit:prefetch href="/tools/game-profiles/{profile.id}" class="w-full">
         <div
           class="rounded-md shadow dark:bg-dark-300 bg-light-100 px-6 py-4 sm:flex sm:items-start sm:justify-between"

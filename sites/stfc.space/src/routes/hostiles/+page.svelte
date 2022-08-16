@@ -1,52 +1,3 @@
-<script lang="ts" context="module">
-  import { YukiApi } from '$lib/shared/api';
-  import { waitLocale } from 'svelte-i18n';
-
-  interface QueryParams {
-    name: string;
-    r: number;
-    f: number;
-  }
-
-  export async function load({ fetch, url }) {
-    const queryStore = new QueryStore<QueryParams>('hostiles');
-    queryStore.addField('name', '');
-    queryStore.addField('r', -1);
-    queryStore.addField('f', -1);
-    queryStore.setQuery(url.searchParams, true);
-
-    const query = queryStore.toQuery();
-    if (url.searchParams.toString() != query.toString() && !queryStore.hasPendingSubmit()) {
-      return {
-        status: 302,
-        redirect: '?' + query.toString()
-      };
-    }
-
-    try {
-      let result: Hostile[];
-      await Promise.all([
-        YukiApi.get('/hostile', undefined, fetch).then((e: Hostile[]) => {
-          result = e;
-        }),
-        waitLocale()
-      ]);
-
-      return {
-        props: {
-          hostiles: result,
-          queryStore
-        }
-      };
-    } catch (e) {
-      return {
-        status: e.status,
-        error: new Error(`Could not load ${e}`)
-      };
-    }
-  }
-</script>
-
 <script lang="ts">
   import { page } from '$app/stores';
   import { browser } from '$app/env';
@@ -54,7 +5,6 @@
   import { _ } from 'svelte-i18n';
 
   import { filterRarity, Hostile } from '$lib/shared/yuki/models';
-  import { QueryStore } from '$lib/shared/queryStore';
 
   import HostileList from '$lib/components/prime/HostileList.svelte';
 
@@ -68,10 +18,10 @@
   import { onDestroy } from 'svelte';
   import { debounce } from 'lodash-es';
 
-  export let hostiles: Hostile[] = [];
-  export let queryStore: QueryStore<QueryParams>;
+  import type { PageData } from './$types';
+  export let data: PageData;
 
-  let hostilesWithRep = hostiles.map((x) => {
+  let hostilesWithRep = data.hostiles.map((x) => {
     return {
       ...x,
       link: '/hostiles/' + x.id,
@@ -87,32 +37,32 @@
     return Object.assign(
       {},
       {
-        name: queryStore.readField('name'),
-        rarity: queryStore.readField('r'),
-        faction: queryStore.readField('f')
+        name: data.queryStore.readField('name'),
+        rarity: data.queryStore.readField('r'),
+        faction: data.queryStore.readField('f')
       }
     );
   };
 
   let filters = readFiltersFromQuery();
   const resetFilters = () => {
-    queryStore.resetToDefault();
-    queryStore.submitQuery();
+    data.queryStore.resetToDefault();
+    data.queryStore.submitQuery();
     filters = readFiltersFromQuery();
   };
 
   onDestroy(
     page.subscribe((page) => {
-      queryStore.setQuery(page.url.searchParams, true);
+      data.queryStore.setQuery(page.url.searchParams, true);
       filters = readFiltersFromQuery();
     })
   );
 
   const updateQuery = debounce((..._args) => {
-    queryStore.updateField('name', filters.name);
-    queryStore.updateField('r', filters.rarity);
-    queryStore.updateField('f', filters.faction);
-    queryStore.submitQuery();
+    data.queryStore.updateField('name', filters.name);
+    data.queryStore.updateField('r', filters.rarity);
+    data.queryStore.updateField('f', filters.faction);
+    data.queryStore.submitQuery();
   });
 
   $: {

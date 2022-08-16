@@ -1,14 +1,3 @@
-<script context="module" lang="ts">
-  import { YukiApi } from '$lib/shared/api';
-
-  import type { LoadEvent } from '@sveltejs/kit/types';
-
-  export async function load({ session, params, fetch }: LoadEvent) {
-    const hostile = await YukiApi.get('/hostile/' + params.hid, undefined, fetch);
-    return { props: { hostile } };
-  }
-</script>
-
 <script lang="ts">
   import { _ } from 'svelte-i18n';
 
@@ -16,10 +5,11 @@
   import type { HostileDetail } from '$lib/shared/yuki/models';
   import DetailPageContainer from '$lib/components/DetailPageContainer.svelte';
 
-  export let hostile: HostileDetail;
+  import type { PageData } from './$types';
+  export let data: PageData;
 </script>
 
-<MetaHeader title={`${$_('project.name')} - ${$_(`hostiles_${hostile.id}_name`)}`} />
+<MetaHeader title={`${$_('project.name')} - ${$_(`hostiles_${data.hostile.id}_name`)}`} />
 
 <DetailPageContainer>
   <div class="detail-page-header header text-light-300">

@@ -1,38 +1,20 @@
-<script context="module" lang="ts">
-  import { extendTranslations } from '$lib/i18n';
-
-  import { YukiApi } from '$lib/shared/api';
-  import type { MissionDetail } from '$lib/shared/yuki/models';
-  import type { Load } from '@sveltejs/kit';
-
-  export const load: Load = async function ({ session, fetch, params, url }) {
-    let mission: MissionDetail;
-    await Promise.all([
-      await YukiApi.get('/mission/' + params.mid, undefined, fetch).then(
-        (s: MissionDetail) => (mission = s)
-      ),
-      extendTranslations(session.lang, [{ path: 'missions', ids: [params.mid] }], fetch)
-    ]);
-    return { props: { mission } };
-  };
-</script>
-
 <script lang="ts">
   import { locale, _ } from 'svelte-i18n';
 
   import MetaHeader from '$lib/components/MetaHeader.svelte';
   import DetailPageContainer from '$lib/components/DetailPageContainer.svelte';
   import { factionThumb } from '$lib/shared/yuki/thumbs';
-  import { getStaticData } from '$lib/shared/api';
+  import { getStaticData, YukiApi } from '$lib/shared/api';
   import Flow from '$lib/components/graph/Flow.svelte';
   import type { ElkRoot } from '$lib/graph';
   import { browser } from '$app/env';
 
-  export let mission: MissionDetail;
+  import type { PageData } from './$types';
+  export let data: PageData;
 
   const { systems } = getStaticData();
 
-  $: pickupSystems = mission.pickup_systems
+  $: pickupSystems = data.mission.pickup_systems
     .map((system) => $systems.get(system))
     .filter((system) => !!system);
 
@@ -41,10 +23,10 @@
     if (!browser) {
       return;
     }
-    if (mission.chain == -1) {
+    if (data.mission.chain == -1) {
       return;
     }
-    YukiApi.get('/mission/chain/' + mission.chain, {
+    YukiApi.get('/mission/chain/' + data.mission.chain, {
       query: {
         lang: state,
         format: 'elk'
@@ -56,19 +38,21 @@
   $: fetchChainGraph($locale);
 </script>
 
-<MetaHeader title={`${$_('project.name')} - ${$_(`missions_${mission.id}_title`)}`} />
+<MetaHeader title={`${$_('project.name')} - ${$_(`missions_${data.mission.id}_title`)}`} />
 <DetailPageContainer>
   <div
     class="detail-page-header flex justify-between items-center relative gap-x-8 p-2 px-2 sm:px-4 flex-wrap"
   >
     <div class="flex sm:flex-shrink-0">
-      <img class="h-16 mr-2" src={factionThumb(mission.faction)} alt="logo" />
+      <img class="h-16 mr-2" src={factionThumb(data.mission.faction)} alt="logo" />
       <div class="flex flex-col">
         <span class="text-xl font-bold whitespace-normal sm:whitespace-nowrap">
-          {$_(`missions_${mission.id}_title`)}
+          {$_(`missions_${data.mission.id}_title`)}
         </span>
-        <span class="text-sm">{$_('mission.warp')}: {mission.warp}</span>
-        <span class="text-sm">{$_('mission.warp_completion')}: {mission.warp_for_completion}</span>
+        <span class="text-sm">{$_('mission.warp')}: {data.mission.warp}</span>
+        <span class="text-sm"
+          >{$_('mission.warp_completion')}: {data.mission.warp_for_completion}</span
+        >
       </div>
     </div>
   </div>

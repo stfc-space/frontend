@@ -1,14 +1,9 @@
-<script lang="ts" context="module">
-  import { createLoad } from './_load';
-  export const load = createLoad('registration');
-</script>
-
 <script lang="ts">
-  import type { UiContainer } from '@ory/client';
+  import type { PageData } from './$types';
 
   import AuthForm from '$lib/components/AuthForm.svelte';
 
-  export let authUi: UiContainer;
+  export let data: PageData;
 </script>
 
-<AuthForm type="registration" {authUi} />
+<AuthForm type="registration" authUi={data.authUi} />

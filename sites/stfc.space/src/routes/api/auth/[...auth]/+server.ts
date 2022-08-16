@@ -1,4 +1,4 @@
-import type { RequestHandler } from '@sveltejs/kit';
+import type { RequestHandler } from './$types';
 import { Buffer } from 'buffer';
 import setCookieParse, { splitCookiesString } from 'set-cookie-parser';
 import { serialize as serializeCookie } from 'cookie';
@@ -21,7 +21,7 @@ export const GET: RequestHandler = async (event) => {
   return await forwardRequest(event, 'get');
 };
 
-async function forwardRequest(event: RequestEvent, method: string) {
+async function forwardRequest(event: RequestEvent, method: string): Promise<Response> {
   const { auth } = event.params;
   const search = event.url.searchParams.toString();
   const q = search.length > 0 ? '?' + search : '';
@@ -141,11 +141,9 @@ async function forwardRequest(event: RequestEvent, method: string) {
 
   headers['cache-control'] = 'no-cache, stale-if-error=0';
 
-  const r = {
-    body: response.body,
+  return new Response(response.body, {
     status: response.status,
     statusText: response.statusText,
-    headers: headers
-  };
-  return r;
+    headers
+  });
 }

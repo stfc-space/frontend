@@ -1,56 +1,3 @@
-<script lang="ts" context="module">
-  import { YukiApi } from '$lib/shared/api';
-  import { waitLocale } from 'svelte-i18n';
-
-  import type { LoadEvent } from '@sveltejs/kit/types';
-
-  interface QueryParams {
-    name: string;
-    r: number;
-    f: number;
-    g: number;
-  }
-
-  export async function load({ fetch, url }: LoadEvent) {
-    const queryStore = new QueryStore<QueryParams>('hostiles');
-    queryStore.addField('name', '');
-    queryStore.addField('r', -1);
-    queryStore.addField('f', -1);
-    queryStore.addField('g', -1);
-    queryStore.setQuery(url.searchParams, true);
-
-    const query = queryStore.toQuery();
-    if (url.searchParams.toString() != query.toString() && !queryStore.hasPendingSubmit()) {
-      return {
-        status: 302,
-        redirect: '?' + query.toString()
-      };
-    }
-
-    try {
-      let result: Ship[];
-      await Promise.all([
-        YukiApi.get('/ship', undefined, fetch).then((e: Ship[]) => {
-          result = e;
-        }),
-        waitLocale()
-      ]);
-
-      return {
-        props: {
-          ships: result,
-          queryStore
-        }
-      };
-    } catch (e) {
-      return {
-        status: e.status,
-        error: new Error(`Could not load ${e}`)
-      };
-    }
-  }
-</script>
-
 <script lang="ts">
   import { page } from '$app/stores';
   import { browser } from '$app/env';
@@ -58,7 +5,6 @@
   import { _ } from 'svelte-i18n';
 
   import { filterRarity, Ship } from '$lib/shared/yuki/models';
-  import { QueryStore } from '$lib/shared/queryStore';
 
   import ShipList from '$lib/components/prime/ShipList.svelte';
 
@@ -74,41 +20,41 @@
   import { onDestroy } from 'svelte';
   import { debounce } from 'lodash-es';
 
-  export let ships: Ship[] = [];
-  export let queryStore: QueryStore<QueryParams>;
+  import type { PageData } from './$types';
+  export let data: PageData;
 
   const readFiltersFromQuery = () => {
     return Object.assign(
       {},
       {
-        name: queryStore.readField('name'),
-        rarity: queryStore.readField('r'),
-        faction: queryStore.readField('f'),
-        grade: queryStore.readField('g')
+        name: data.queryStore.readField('name'),
+        rarity: data.queryStore.readField('r'),
+        faction: data.queryStore.readField('f'),
+        grade: data.queryStore.readField('g')
       }
     );
   };
 
   let filters = readFiltersFromQuery();
   const resetFilters = () => {
-    queryStore.resetToDefault();
-    queryStore.submitQuery();
+    data.queryStore.resetToDefault();
+    data.queryStore.submitQuery();
     filters = readFiltersFromQuery();
   };
 
   onDestroy(
     page.subscribe((page) => {
-      queryStore.setQuery(page.url.searchParams, true);
+      data.queryStore.setQuery(page.url.searchParams, true);
       filters = readFiltersFromQuery();
     })
   );
 
   const updateQuery = debounce((..._args) => {
-    queryStore.updateField('name', filters.name);
-    queryStore.updateField('r', filters.rarity);
-    queryStore.updateField('f', filters.faction);
-    queryStore.updateField('g', filters.grade);
-    queryStore.submitQuery();
+    data.queryStore.updateField('name', filters.name);
+    data.queryStore.updateField('r', filters.rarity);
+    data.queryStore.updateField('f', filters.faction);
+    data.queryStore.updateField('g', filters.grade);
+    data.queryStore.submitQuery();
   });
 
   $: {
@@ -117,7 +63,7 @@
     }
   }
 
-  $: filteredShips = $search(filters.name, 'ships', ships);
+  $: filteredShips = $search(filters.name, 'ships', data.ships);
   $: {
     filteredShips = filteredShips.filter((ship) => {
       const filterGrade = (grade: number) => {

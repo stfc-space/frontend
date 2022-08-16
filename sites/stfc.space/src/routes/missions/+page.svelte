@@ -1,53 +1,3 @@
-<script lang="ts" context="module">
-  import { YukiApi } from '$lib/shared/api';
-
-  interface QueryParams {
-    name: string;
-    r: number;
-    w: [number, number];
-    cw: [number, number];
-    f: number;
-  }
-
-  export async function load({ url, fetch }) {
-    const queryStore = new QueryStore<QueryParams>('missions');
-    queryStore.addField('name', '');
-    queryStore.addField('w', [0, 500]);
-    queryStore.addField('cw', [0, 500]);
-    queryStore.addField('r', -1);
-    queryStore.addField('f', -1);
-    queryStore.setQuery(url.searchParams, true);
-
-    const query = queryStore.toQuery();
-    if (url.searchParams.toString() != query.toString() && !queryStore.hasPendingSubmit()) {
-      return {
-        status: 302,
-        redirect: '?' + query.toString()
-      };
-    }
-
-    try {
-      const result = await YukiApi.get<{ missions: Mission[]; all_rewards: InventoryReward[] }>(
-        '/mission/rewards',
-        undefined,
-        fetch
-      );
-      return {
-        props: {
-          missions: result.missions,
-          allRewards: result.all_rewards,
-          queryStore
-        }
-      };
-    } catch (e) {
-      return {
-        status: e.status || 500,
-        error: new Error(`Could not load ${e}`)
-      };
-    }
-  }
-</script>
-
 <script lang="ts">
   import { page } from '$app/stores';
   import { browser } from '$app/env';
@@ -61,7 +11,6 @@
   import { ItemType } from '$lib/shared/yuki/models';
 
   import { search } from '$lib/shared/search';
-  import { QueryStore } from '$lib/shared/queryStore';
 
   import { NumberInput, FilteredList, TextInput, Slider, Listbox } from '@radion/ui';
   import FactionDropdown from '$lib/components/prime/FactionDropdown.svelte';
@@ -70,28 +19,28 @@
   import MissionList from '$lib/components/prime/MissionList.svelte';
   import MetaHeader from '$lib/components/MetaHeader.svelte';
 
-  export let missions: Mission[] = [];
-  export let allRewards: InventoryReward[] = [];
-  export let queryStore: QueryStore<QueryParams>;
+  import type { PageData } from './$types';
+
+  export let data: PageData;
 
   const readFiltersFromQuery = () => {
     return Object.assign(
       {},
       {
-        name: queryStore.readField('name'),
-        res: queryStore.readField('r'),
-        minw: queryStore.readField('w')?.[0],
-        maxw: queryStore.readField('w')?.[1],
-        mincw: queryStore.readField('cw')?.[0],
-        maxcw: queryStore.readField('cw')?.[1],
-        faction: queryStore.readField('f')
+        name: data.queryStore.readField('name'),
+        res: data.queryStore.readField('r'),
+        minw: data.queryStore.readField('w')?.[0],
+        maxw: data.queryStore.readField('w')?.[1],
+        mincw: data.queryStore.readField('cw')?.[0],
+        maxcw: data.queryStore.readField('cw')?.[1],
+        faction: data.queryStore.readField('f')
       }
     );
   };
   let filters = readFiltersFromQuery();
   const resetFilters = () => {
-    queryStore.resetToDefault();
-    queryStore.submitQuery();
+    data.queryStore.resetToDefault();
+    data.queryStore.submitQuery();
     filters = readFiltersFromQuery();
     warpRange = [filters.minw, filters.maxw];
     warpRangeCompletion = [filters.mincw, filters.maxcw];
@@ -99,18 +48,18 @@
 
   onDestroy(
     page.subscribe((page) => {
-      queryStore.setQuery(page.url.searchParams, true);
+      data.queryStore.setQuery(page.url.searchParams, true);
       filters = readFiltersFromQuery();
     })
   );
 
   const updateQuery = debounce((..._args) => {
-    queryStore.updateField('name', filters.name);
-    queryStore.updateField('r', filters.res);
-    queryStore.updateField('w', [filters.minw, filters.maxw]);
-    queryStore.updateField('cw', [filters.mincw, filters.maxcw]);
-    queryStore.updateField('f', filters.faction);
-    queryStore.submitQuery();
+    data.queryStore.updateField('name', filters.name);
+    data.queryStore.updateField('r', filters.res);
+    data.queryStore.updateField('w', [filters.minw, filters.maxw]);
+    data.queryStore.updateField('cw', [filters.mincw, filters.maxcw]);
+    data.queryStore.updateField('f', filters.faction);
+    data.queryStore.submitQuery();
   });
 
   $: {
@@ -119,7 +68,7 @@
     }
   }
 
-  $: filteredMissions = $search(filters.name, 'missions', missions).filter((mission) => {
+  $: filteredMissions = $search(filters.name, 'missions', data.missions).filter((mission) => {
     if (filters.faction !== -2 && filters.faction !== -1 && mission.faction != filters.faction) {
       return false;
     }
@@ -148,7 +97,7 @@
   });
 
   $: missionRewards = (() => {
-    const eventResources = allRewards.map((res) => {
+    const eventResources = data.allRewards.map((res) => {
       let name = res.type.toString();
       switch (res.type) {
         case ItemType.Blueprint: {

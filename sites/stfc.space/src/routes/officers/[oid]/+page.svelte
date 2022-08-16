@@ -1,34 +1,3 @@
-<script context="module" lang="ts">
-  import { YukiApi } from '$lib/shared/api';
-  import { QueryStore } from '$lib/shared/queryStore';
-  import type { Load } from '@sveltejs/kit';
-
-  export const load: Load = async function ({ session, fetch, params, url }) {
-    const queryStore = new QueryStore<Record<string, never>>(`officer`);
-    queryStore.setQuery(url.searchParams, true);
-
-    const query = queryStore.toQuery();
-    if (url.searchParams.toString() != query.toString() && !queryStore.hasPendingSubmit()) {
-      return {
-        status: 302,
-        redirect: '?' + query.toString()
-      };
-    }
-
-    let officer: OfficerDetail;
-    let officerList: Officer[];
-    await Promise.all([
-      YukiApi.get('/officer/' + params.oid, undefined, fetch).then(
-        (b: OfficerDetail) => (officer = b)
-      ),
-      YukiApi.get('/officer', undefined, fetch).then((b: Officer[]) => (officerList = b)),
-      extendTranslations(session.lang, [{ path: 'officers', ids: [params.oid] }], fetch)
-    ]);
-
-    return { props: { officer, queryStore, officerList } };
-  };
-</script>
-
 <script lang="ts">
   import { abilityValue, Officer, OfficerDetail } from '$lib/shared/yuki/models';
   import DetailPageContainer from '$lib/components/DetailPageContainer.svelte';
@@ -40,24 +9,23 @@
   import RarityLabel from '$lib/components/prime/RarityLabel.svelte';
   import { uniqBy } from 'lodash-es';
   import MetaHeader from '$lib/components/MetaHeader.svelte';
-  import { extendTranslations } from '$lib/i18n';
 
-  export let officer: OfficerDetail;
-  export let officerList: Officer[];
+  import type { PageData } from './$types';
+  export let data: PageData;
 
-  $: otherClasses = [1, 2, 3].filter((x) => x !== officer.class);
+  $: otherClasses = [1, 2, 3].filter((x) => x !== data.officer.class);
   $: synergyItems = [
     {
-      id: `${officer.class}_${officer.id}`,
-      class: $_(`officer_division_${officer.class}_name`),
-      bonus: abilityValue(officer.captain_ability, 1)
+      id: `${data.officer.class}_${data.officer.id}`,
+      class: $_(`officer_division_${data.officer.class}_name`),
+      bonus: abilityValue(data.officer.captain_ability, 1)
     }
   ].concat(
     otherClasses.map((x) => {
       return {
-        id: `${x}_${officer.id}`,
+        id: `${x}_${data.officer.id}`,
         class: $_(`officer_division_${x}_name`),
-        bonus: abilityValue(officer.captain_ability, 2)
+        bonus: abilityValue(data.officer.captain_ability, 2)
       };
     })
   );
@@ -66,7 +34,7 @@
     {
       text: $_('officer.bonus'),
       value: 'bonus',
-      percentage: officer.ability.value_is_percentage || officer.ability.show_percentage
+      percentage: data.officer.ability.value_is_percentage || data.officer.ability.show_percentage
     }
   ];
   $: officerRankHeaders = [
@@ -74,11 +42,11 @@
     {
       text: $_('officer.bonus'),
       value: 'bonus',
-      percentage: officer.ability.value_is_percentage || officer.ability.show_percentage
+      percentage: data.officer.ability.value_is_percentage || data.officer.ability.show_percentage
     }
   ];
 
-  $: costs = sortResourceList(officer.ranks.flatMap((x) => x.costs));
+  $: costs = sortResourceList(data.officer.ranks.flatMap((x) => x.costs));
   $: rankExtra = uniqBy(costs, 'resource_id');
   $: rankHeaders = [
     { text: '#', value: 'rank' },
@@ -95,7 +63,7 @@
       };
     })
   );
-  $: rankItems = officer.ranks.map((r, index, _this) => {
+  $: rankItems = data.officer.ranks.map((r, index, _this) => {
     const o = {
       id: r.rank,
       rank: $_(`officers_-1_officer_rank_${r.rank}`),
@@ -118,7 +86,7 @@
     { text: 'XP', value: 'xp' }
   ];
 
-  $: levelItems = officer.ranks.flatMap((rank, index, _this) => {
+  $: levelItems = data.officer.ranks.flatMap((rank, index, _this) => {
     const r = [];
     r.push({
       id: 1000 * rank.rank,
@@ -127,11 +95,11 @@
     });
     const ml = _this[index - 1]?.max_level;
     for (let i = ml ? ml + 1 : 0; i <= rank.max_level; ++i) {
-      const l = officer.levels.find((x) => x.level == i);
+      const l = data.officer.levels.find((x) => x.level == i);
       if (!l) {
         continue;
       }
-      const s = officer.stats[i - 1];
+      const s = data.officer.stats[i - 1];
       r.push({
         id: l.level,
         level: l.level,
@@ -144,12 +112,12 @@
     return r;
   });
 
-  $: hasTraits = !!officer.trait_config;
+  $: hasTraits = !!data.officer.trait_config;
   $: traits =
-    officer.trait_config?.progression.map((progression) => {
+    data.officer.trait_config?.progression.map((progression) => {
       return {
         id: progression.trait_id,
-        levels: officer.trait_config?.traits
+        levels: data.officer.trait_config?.traits
           .find((x) => x.trait_id === progression.trait_id)
           ?.cost.sort((a, b) => a.level - b.level)
           .map((x) => {
@@ -162,25 +130,26 @@
       };
     }) ?? [];
 
-  $: synergyOfficers = officerList.filter(
-    (sofficer) => sofficer.synergy_id == officer.synergy_id && sofficer.id != officer.id
+  $: synergyOfficers = data.officerList.filter(
+    (sofficer) => sofficer.synergy_id == data.officer.synergy_id && sofficer.id != data.officer.id
   );
 
   const officerSynergyBonus = (synergyOfficer: Officer) => {
     const value =
-      officer.class == synergyOfficer.class
-        ? abilityValue(officer.captain_ability, 1)
-        : abilityValue(officer.captain_ability, 2);
+      data.officer.class == synergyOfficer.class
+        ? abilityValue(data.officer.captain_ability, 1)
+        : abilityValue(data.officer.captain_ability, 2);
     return value;
   };
   $: synergyIsPercentage =
-    officer.captain_ability.value_is_percentage || officer.captain_ability.show_percentage;
+    data.officer.captain_ability.value_is_percentage ||
+    data.officer.captain_ability.show_percentage;
 </script>
 
 <MetaHeader
-  title={`${$_('project.name')} - ${$_(`officers_${officer.id}_name`)}`}
-  description={$_(`officers_${officer.id}_description`)}
-  image={officerThumb(officer.art_id)}
+  title={`${$_('project.name')} - ${$_(`officers_${data.officer.id}_name`)}`}
+  description={$_(`officers_${data.officer.id}_description`)}
+  image={officerThumb(data.officer.art_id)}
 />
 
 <DetailPageContainer>
@@ -188,17 +157,18 @@
     class="detail-page-header flex justify-between items-center relative gap-x-8 p-2 px-2 sm:px-4 flex-wrap"
   >
     <div class="flex sm:flex-shrink-0">
-      <img class="h-16 mr-2" src={officerThumb(officer.art_id)} alt="logo" />
+      <img class="h-16 mr-2" src={officerThumb(data.officer.art_id)} alt="logo" />
       <div class="flex flex-col">
         <span class="text-sm"
-          ><RarityLabel rarity={officer.rarity} /> - {$_(`factions_${officer.faction}_name`)} - {$_(
-            `officer_division_${officer.class}_name`
-          )}</span
+          ><RarityLabel rarity={data.officer.rarity} /> - {$_(
+            `factions_${data.officer.faction}_name`
+          )} -
+          {$_(`officer_division_${data.officer.class}_name`)}</span
         >
         <span class="text-xl font-bold whitespace-normal sm:whitespace-nowrap">
-          {$_(`officers_${officer.id}_name`)}
+          {$_(`officers_${data.officer.id}_name`)}
         </span>
-        <span class="text-sm">{$_(`officers_synergy_${officer.synergy_id}_name`)}</span>
+        <span class="text-sm">{$_(`officers_synergy_${data.officer.synergy_id}_name`)}</span>
       </div>
     </div>
   </div>
@@ -206,14 +176,18 @@
     <div class="flex mb-4 flex-wrap">
       <span class="text-base max-w-sm lg:max-w-xl">
         <span class="flex items-center mb-2">
-          <img src={officerAbilityThumb(officer.captain_ability.art_id)} class="h-8 mr-2" alt="" />
+          <img
+            src={officerAbilityThumb(data.officer.captain_ability.art_id)}
+            class="h-8 mr-2"
+            alt=""
+          />
           <h3 class="font-bold text-xl">
-            {$_(`officers_${officer.id}_captain_ability_name`)}
+            {$_(`officers_${data.officer.id}_captain_ability_name`)}
             <span class="text-sm font-normal">[{$_('officer.captain-maneuver')}]</span>
           </h3>
         </span>
-        {@html formatPrimeText($_(`officers_${officer.id}_captain_ability_description`), {
-          vars: [abilityValue(officer.captain_ability, 0)],
+        {@html formatPrimeText($_(`officers_${data.officer.id}_captain_ability_description`), {
+          vars: [abilityValue(data.officer.captain_ability, 0)],
           stripLines: 1
         })}</span
       >
@@ -226,14 +200,14 @@
     <div class="flex mb-4 flex-wrap">
       <span class="text-base max-w-sm lg:max-w-xl">
         <span class="flex items-center mb-2">
-          <img src={officerAbilityThumb(officer.ability.art_id)} class="h-8 mr-2" alt="" />
+          <img src={officerAbilityThumb(data.officer.ability.art_id)} class="h-8 mr-2" alt="" />
           <h3 class="font-bold text-xl">
-            {$_(`officers_${officer.id}_officer_ability_name`)}
+            {$_(`officers_${data.officer.id}_officer_ability_name`)}
             <span class="text-sm font-normal">[{$_('officer.officer-ability')}]</span>
           </h3>
         </span>
-        {@html formatPrimeText($_(`officers_${officer.id}_officer_ability_description`), {
-          vars: [abilityValue(officer.ability, 0)],
+        {@html formatPrimeText($_(`officers_${data.officer.id}_officer_ability_description`), {
+          vars: [abilityValue(data.officer.ability, 0)],
           stripLines: 1
         })}</span
       >
@@ -242,45 +216,48 @@
         <Table
           class="shadow"
           headers={officerRankHeaders}
-          items={officer.ranks.map((rank) => {
+          items={data.officer.ranks.map((rank) => {
             return {
               id: rank.rank,
               class: $_(`officers_-1_officer_rank_${rank.rank}`),
-              bonus: abilityValue(officer.ability, rank.rank - 1)
+              bonus: abilityValue(data.officer.ability, rank.rank - 1)
             };
           })}
         />
       </div>
     </div>
-    {#if officer.below_decks_ability}
+    {#if data.officer.below_decks_ability}
       <div class="flex mb-4 flex-wrap">
         <span class="text-base max-w-sm lg:max-w-xl">
           <span class="flex items-center mb-2">
             <img
-              src={officerAbilityThumb(officer.below_decks_ability.art_id)}
+              src={officerAbilityThumb(data.officer.below_decks_ability.art_id)}
               class="h-8 mr-2"
               alt=""
             />
             <h3 class="font-bold text-xl">
-              {$_(`officers_${officer.id}_below_decks_ability_name`)}
+              {$_(`officers_${data.officer.id}_below_decks_ability_name`)}
               <span class="text-sm font-normal">[{$_('officer.below-decks-ability')}]</span>
             </h3>
           </span>
-          {@html formatPrimeText($_(`officers_${officer.id}_below_decks_ability_description`), {
-            vars: [abilityValue(officer.below_decks_ability, 0)],
-            stripLines: 1
-          })}</span
+          {@html formatPrimeText(
+            $_(`officers_${data.officer.id}_below_decks_ability_description`),
+            {
+              vars: [abilityValue(data.officer.below_decks_ability, 0)],
+              stripLines: 1
+            }
+          )}</span
         >
         <div class="sm:ml-auto w-full sm:w-max">
           <div class="font-bold mb-2">{$_('officer.rank-bonus')}</div>
           <Table
             class="shadow"
             headers={officerRankHeaders}
-            items={officer.ranks.map((rank) => {
+            items={data.officer.ranks.map((rank) => {
               return {
                 id: rank.rank,
                 class: $_(`officers_-1_officer_rank_${rank.rank}`),
-                bonus: abilityValue(officer.ability, rank.rank - 1)
+                bonus: abilityValue(data.officer.ability, rank.rank - 1)
               };
             })}
           />
@@ -375,7 +352,7 @@
     <div class="flex flex-col mb-4">
       <h3 class="font-bold mb-2">{$_('officer.description')}</h3>
       <p class="text-justify">
-        {@html formatPrimeText($_(`officers_${officer.id}_narrative`), { stripLines: 3 })}
+        {@html formatPrimeText($_(`officers_${data.officer.id}_narrative`), { stripLines: 3 })}
       </p>
     </div>
   </div>

@@ -1,4 +1,4 @@
-import type { RequestHandler } from '@sveltejs/kit';
+import type { RequestHandler } from './$types';
 
 export const GET: RequestHandler = async (req) => {
   const headers = {
@@ -10,8 +10,5 @@ export const GET: RequestHandler = async (req) => {
     ]
   };
 
-  return {
-    status: 303,
-    headers: headers
-  };
+  return new Response(undefined, { status: 303, headers: headers });
 };

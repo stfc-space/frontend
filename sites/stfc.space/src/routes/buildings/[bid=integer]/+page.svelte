@@ -1,34 +1,3 @@
-<script context="module" lang="ts">
-  import { getStaticData, YukiApi } from '$lib/shared/api';
-
-  export const load: Load = async function ({ fetch, params, url }) {
-    const queryStore = new QueryStore<{
-      level: number;
-      rbs: string;
-    }>(`building`);
-    queryStore.addField('level', 1);
-    queryStore.addField('rbs', '');
-    queryStore.setQuery(url.searchParams, true);
-
-    const query = queryStore.toQuery();
-    if (url.searchParams.toString() != query.toString() && !queryStore.hasPendingSubmit()) {
-      return {
-        status: 302,
-        redirect: '?' + query.toString()
-      };
-    }
-
-    let building: BuildingDetail;
-    await Promise.all([
-      YukiApi.get('/building/' + params.bid, undefined, fetch).then(
-        (b: BuildingDetail) => (building = b)
-      )
-    ]);
-
-    return { props: { building, queryStore } };
-  };
-</script>
-
 <script lang="ts">
   import { page } from '$app/stores';
   import { browser } from '$app/env';
@@ -47,9 +16,8 @@
   import { _ } from 'svelte-i18n';
   import { onDestroy } from 'svelte';
 
-  import type { Load } from '@sveltejs/kit';
+  import type { PageData } from './$types';
 
-  import { QueryStore } from '$lib/shared/queryStore';
   import { buildingThumb, researchThumb } from '$lib/shared/yuki/thumbs';
   import { NumberInput, Slider } from '@radion/ui';
 
@@ -60,16 +28,16 @@
   import MetaHeader from '$lib/components/MetaHeader.svelte';
   import BuffValue from '$lib/components/prime/BuffValue.svelte';
   import ValueIncrease from '$lib/components/prime/ValueIncrease.svelte';
+  import { getStaticData } from '$lib/shared/api';
 
-  export let building: BuildingDetail;
-  export let queryStore: QueryStore<{ level: number; rbs: null | string }>;
+  export let data: PageData;
 
   const readFiltersFromQuery = () => {
     return Object.assign(
       {},
       {
-        selectedLevel: queryStore.readField('level'),
-        rbSort: queryStore.readField('rbs')
+        selectedLevel: data.queryStore.readField('level'),
+        rbSort: data.queryStore.readField('rbs')
       }
     );
   };
@@ -77,15 +45,15 @@
 
   onDestroy(
     page.subscribe((page) => {
-      queryStore.setQuery(page.url.searchParams, true);
+      data.queryStore.setQuery(page.url.searchParams, true);
       filters = readFiltersFromQuery();
     })
   );
 
   const updateQuery = debounce((_v) => {
-    queryStore.updateField('level', filters.selectedLevel);
-    queryStore.updateField('rbs', filters.rbSort);
-    queryStore.submitQuery();
+    data.queryStore.updateField('level', filters.selectedLevel);
+    data.queryStore.updateField('rbs', filters.rbSort);
+    data.queryStore.submitQuery();
   });
 
   $: {
@@ -125,7 +93,7 @@
     requiredByTableItems = buildingLevel.required_by?.map(mapRequirement);
   }, 100);
   $: {
-    buildingLevel = building.levels[filters.selectedLevel - 1];
+    buildingLevel = data.building.levels[filters.selectedLevel - 1];
     buildingLevelCosts = sortResourceList(buildingLevel.costs).map((e) => {
       return { rarity: $resources.get(e.resource_id).rarity, ...e };
     });
@@ -136,11 +104,11 @@
 </script>
 
 <MetaHeader
-  title={`${$_('project.name')} - ${$_(`buildings_${building.id}_name`)} (${
+  title={`${$_('project.name')} - ${$_(`buildings_${data.building.id}_name`)} (${
     filters.selectedLevel
   })`}
-  description={$_(`buildings_${building.id}_description`)}
-  image={buildingThumb(building.id)}
+  description={$_(`buildings_${data.building.id}_description`)}
+  image={buildingThumb(data.building.id)}
 />
 
 <DetailPageContainer>
@@ -148,15 +116,15 @@
     class="detail-page-header flex justify-between items-center relative gap-x-8 p-2 px-2 sm:px-4 flex-wrap"
   >
     <div class="flex sm:flex-shrink-0">
-      <img class="h-16 w-16 mr-2" src={buildingThumb(building.id)} alt="logo" />
+      <img class="h-16 w-16 mr-2" src={buildingThumb(data.building.id)} alt="logo" />
       <div class="flex flex-col">
         <span class="text-xl font-bold whitespace-normal sm:whitespace-nowrap"
-          >{$_(`buildings_${building.id}_name`)}
-          <span class="text-base whitespace-nowrap">(1 - {building.levels.length})</span></span
+          >{$_(`buildings_${data.building.id}_name`)}
+          <span class="text-base whitespace-nowrap">(1 - {data.building.levels.length})</span></span
         >
         <span class="text-sm">
           {$_('prime.unlock_level')}:
-          {building.unlock_level}
+          {data.building.unlock_level}
         </span>
       </div>
     </div>
@@ -164,10 +132,10 @@
       <Slider
         class="flex-grow flex-shrink"
         min={1}
-        max={building.levels.length}
+        max={data.building.levels.length}
         bind:value={filters.selectedLevel}
       />
-      <NumberInput min={1} max={building.levels.length} bind:value={filters.selectedLevel} />
+      <NumberInput min={1} max={data.building.levels.length} bind:value={filters.selectedLevel} />
     </div>
   </div>
   <div class="p-2 px-2 sm:px-4">
@@ -177,7 +145,7 @@
         target="_blank"
         rel="noopener noreferrer"
         class="text-blue-700"
-        href="/tools/upgrade_plan/new?i={building.id}&l={filters.selectedLevel}&t=building"
+        href="/tools/upgrade_plan/new?i={data.building.id}&l={filters.selectedLevel}&t=building"
         >{$_('tool.upgrade_planner')}</a
       >
     </div>
@@ -190,7 +158,7 @@
             increase={buildingLevel.strength_increase}
           />
         </span>
-        {#each building.buffs as buff (buff.id)}
+        {#each data.building.buffs as buff (buff.id)}
           <span
             >{$_(`building_buffs_${buff.id}_buff_name`)}: <BuffValue
               {buff}
@@ -214,7 +182,7 @@
     <div class="flex flex-col mb-4">
       <h3 class="font-bold mb-2">{$_('building.description')}</h3>
       <p class="text-justify">
-        {@html formatPrimeText($_(`buildings_${building.id}_description`), { stripLines: 3 })}
+        {@html formatPrimeText($_(`buildings_${data.building.id}_description`), { stripLines: 3 })}
       </p>
     </div>
   </div></DetailPageContainer

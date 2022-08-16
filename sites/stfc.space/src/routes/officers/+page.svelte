@@ -1,56 +1,3 @@
-<script lang="ts" context="module">
-  import { YukiApi } from '$lib/shared/api';
-  import { waitLocale } from 'svelte-i18n';
-
-  import type { LoadEvent } from '@sveltejs/kit/types';
-
-  interface QueryParams {
-    name: string;
-    r: number;
-    g: number;
-    f: number;
-  }
-
-  export async function load({ fetch, url }: LoadEvent) {
-    const queryStore = new QueryStore<QueryParams>('officers');
-    queryStore.addField('name', '');
-    queryStore.addField('r', -1);
-    queryStore.addField('g', -1);
-    queryStore.addField('f', -1);
-    queryStore.setQuery(url.searchParams, true);
-
-    const query = queryStore.toQuery();
-    if (url.searchParams.toString() != query.toString() && !queryStore.hasPendingSubmit()) {
-      return {
-        status: 302,
-        redirect: '?' + query.toString()
-      };
-    }
-
-    try {
-      let result: Officer[];
-      await Promise.all([
-        YukiApi.get('/officer', undefined, fetch).then((e: Officer[]) => {
-          result = e;
-        }),
-        waitLocale()
-      ]);
-
-      return {
-        props: {
-          officers: result,
-          queryStore
-        }
-      };
-    } catch (e) {
-      return {
-        status: e.status,
-        error: new Error(`Could not load ${e}`)
-      };
-    }
-  }
-</script>
-
 <script lang="ts">
   import { page } from '$app/stores';
   import { browser } from '$app/env';
@@ -58,7 +5,6 @@
   import { _ } from 'svelte-i18n';
 
   import { filterRarity, Officer } from '$lib/shared/yuki/models';
-  import { QueryStore } from '$lib/shared/queryStore';
 
   import { FilteredList, TextInput, Dropdown } from '@radion/ui';
 
@@ -74,41 +20,41 @@
   import { onDestroy } from 'svelte';
   import FactionDropdown from '$lib/components/prime/FactionDropdown.svelte';
 
-  export let officers: Officer[] = [];
-  export let queryStore: QueryStore<QueryParams>;
+  import type { PageData } from './$types';
+  export let data: PageData;
 
   const readFiltersFromQuery = () => {
     return Object.assign(
       {},
       {
-        name: queryStore.readField('name'),
-        rarity: queryStore.readField('r'),
-        group: queryStore.readField('g'),
-        faction: queryStore.readField('f')
+        name: data.queryStore.readField('name'),
+        rarity: data.queryStore.readField('r'),
+        group: data.queryStore.readField('g'),
+        faction: data.queryStore.readField('f')
       }
     );
   };
 
   let filters = readFiltersFromQuery();
   const resetFilters = () => {
-    queryStore.resetToDefault();
-    queryStore.submitQuery();
+    data.queryStore.resetToDefault();
+    data.queryStore.submitQuery();
     filters = readFiltersFromQuery();
   };
 
   onDestroy(
     page.subscribe((page) => {
-      queryStore.setQuery(page.url.searchParams, true);
+      data.queryStore.setQuery(page.url.searchParams, true);
       filters = readFiltersFromQuery();
     })
   );
 
   const updateQuery = debounce((..._args) => {
-    queryStore.updateField('name', filters.name);
-    queryStore.updateField('r', filters.rarity);
-    queryStore.updateField('g', filters.group);
-    queryStore.updateField('f', filters.faction);
-    queryStore.submitQuery();
+    data.queryStore.updateField('name', filters.name);
+    data.queryStore.updateField('r', filters.rarity);
+    data.queryStore.updateField('g', filters.group);
+    data.queryStore.updateField('f', filters.faction);
+    data.queryStore.submitQuery();
   });
 
   $: {
@@ -117,7 +63,7 @@
     }
   }
 
-  $: filteredOfficers = $search(filters.name, 'officers', officers);
+  $: filteredOfficers = $search(filters.name, 'officers', data.officers);
   $: {
     filteredOfficers = filteredOfficers.filter((officer) => {
       if (filters.group != -1 && filters.group != officer.synergy_id) {
@@ -143,7 +89,7 @@
       display: false
     },
     ...uniqBy(
-      officers.map((o) => {
+      data.officers.map((o) => {
         return {
           name: $_(`officers_synergy_${o.synergy_id}_name`),
           value: o.synergy_id

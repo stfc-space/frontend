@@ -1,15 +1,9 @@
-<script lang="ts" context="module">
-  import { createLoad } from '../auth/_load';
-  export const load = createLoad('settings');
-</script>
-
 <script lang="ts">
-  import type { UiContainer } from '@ory/client';
-
   import AuthForm from '$lib/components/AuthForm.svelte';
 
-  export let authUi: UiContainer;
+  import type { PageData } from './$types';
+  export let data: PageData;
 </script>
 
-<AuthForm type="settings" only="profile" {authUi} />
-<AuthForm type="settings" only="password" {authUi} />
+<AuthForm type="settings" only="profile" authUi={data.authUi} />
+<AuthForm type="settings" only="password" authUi={data.authUi} />

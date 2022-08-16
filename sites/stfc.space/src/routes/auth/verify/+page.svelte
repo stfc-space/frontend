@@ -1,14 +1,9 @@
-<script lang="ts" context="module">
-  import { createLoad } from './_load';
-  export const load = createLoad('verification');
-</script>
-
 <script lang="ts">
-  import type { UiContainer } from '@ory/client';
+  import type { PageData } from './$types';
 
   import AuthForm from '$lib/components/AuthForm.svelte';
 
-  export let authUi: UiContainer;
+  export let data: PageData;
 </script>
 
-<AuthForm type="verify" {authUi} />
+<AuthForm type="verify" authUi={data.authUi} />

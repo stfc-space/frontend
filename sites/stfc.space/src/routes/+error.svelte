@@ -1,37 +1,23 @@
-<script context="module">
-  export function load({ error, status }) {
-    console.log(error);
-    return {
-      props: {
-        status,
-        message: error.message
-      }
-    };
-  }
-</script>
-
 <script lang="ts">
   import MetaHeader from '$lib/components/MetaHeader.svelte';
   import { _ } from 'svelte-i18n';
-
-  export let status: number;
-  export let message: string;
+  import { page } from '$app/stores';
 </script>
 
 <svelte:head>
-  {#if status == 404}
+  {#if $page.status == 404}
     <MetaHeader title={`${$_('project.name')} - ${$_('not_found')}`} />
   {:else}
-    <title>Error: {status}</title>
+    <title>Error: {$page.error.message}</title>
   {/if}
 </svelte:head>
 
 <div class="min-h-full px-4 py-16 sm:px-6 sm:py-24 md:grid md:place-items-center lg:px-8">
   <div class="max-w-max mx-auto">
     <section class="sm:flex">
-      <p class="text-4xl font-extrabold text-indigo-600 sm:text-5xl">{status}</p>
+      <p class="text-4xl font-extrabold text-indigo-600 sm:text-5xl">{$page.status}</p>
       <div class="sm:ml-6">
-        {#if status == 404}
+        {#if $page.status == 404}
           <div class="sm:border-l sm:border-gray-200 sm:pl-6">
             <h1
               class="text-4xl font-extrabold text-gray-900 dark:text-light-500 tracking-tight sm:text-5xl"
@@ -42,7 +28,7 @@
               {$_('error.not-found.desc')}
             </p>
           </div>
-        {:else if status == 500}
+        {:else if $page.status == 500}
           <div class="sm:border-l sm:border-gray-200 sm:pl-6">
             <h1
               class="text-4xl font-extrabold text-gray-900 dark:text-light-500 tracking-tight sm:text-5xl"

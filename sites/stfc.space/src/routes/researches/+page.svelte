@@ -1,52 +1,3 @@
-<script lang="ts" context="module">
-  import { YukiApi } from '$lib/shared/api';
-  import { waitLocale } from 'svelte-i18n';
-
-  import type { LoadEvent } from '@sveltejs/kit/types';
-
-  interface QueryParams {
-    name: string;
-    t: number;
-  }
-
-  export async function load({ fetch, url }: LoadEvent) {
-    const queryStore = new QueryStore<QueryParams>('researches');
-    queryStore.addField('name', '');
-    queryStore.addField('t', -1);
-    queryStore.setQuery(url.searchParams, true);
-
-    const query = queryStore.toQuery();
-    if (url.searchParams.toString() != query.toString() && !queryStore.hasPendingSubmit()) {
-      return {
-        status: 302,
-        redirect: '?' + query.toString()
-      };
-    }
-
-    try {
-      let result: Research[];
-      await Promise.all([
-        YukiApi.get('/research', undefined, fetch).then((e: Research[]) => {
-          result = e;
-        }),
-        waitLocale()
-      ]);
-
-      return {
-        props: {
-          researches: result,
-          queryStore
-        }
-      };
-    } catch (e) {
-      return {
-        status: e.status,
-        error: new Error(`Could not load ${e}`)
-      };
-    }
-  }
-</script>
-
 <script lang="ts">
   import { page } from '$app/stores';
   import { browser } from '$app/env';
@@ -54,7 +5,6 @@
   import { _ } from 'svelte-i18n';
 
   import type { Research } from '$lib/shared/yuki/models';
-  import { QueryStore } from '$lib/shared/queryStore';
 
   import { FilteredList, TextInput } from '@radion/ui';
   import ResetFilterButton from '$lib/components/ResetFilterButton.svelte';
@@ -66,37 +16,37 @@
   import { debounce } from 'lodash-es';
   import { onDestroy } from 'svelte';
 
-  export let researches: Research[] = [];
-  export let queryStore: QueryStore<QueryParams>;
+  import type { PageData } from './$types';
+  export let data: PageData;
 
   const readFiltersFromQuery = () => {
     return Object.assign(
       {},
       {
-        name: queryStore.readField('name'),
-        tree: queryStore.readField('t')
+        name: data.queryStore.readField('name'),
+        tree: data.queryStore.readField('t')
       }
     );
   };
 
   let filters = readFiltersFromQuery();
   const resetFilters = () => {
-    queryStore.resetToDefault();
-    queryStore.submitQuery();
+    data.queryStore.resetToDefault();
+    data.queryStore.submitQuery();
     filters = readFiltersFromQuery();
   };
 
   onDestroy(
     page.subscribe((page) => {
-      queryStore.setQuery(page.url.searchParams, true);
+      data.queryStore.setQuery(page.url.searchParams, true);
       filters = readFiltersFromQuery();
     })
   );
 
   const updateQuery = debounce((..._args) => {
-    queryStore.updateField('name', filters.name);
-    queryStore.updateField('t', filters.tree);
-    queryStore.submitQuery();
+    data.queryStore.updateField('name', filters.name);
+    data.queryStore.updateField('t', filters.tree);
+    data.queryStore.submitQuery();
   });
 
   $: {
@@ -105,7 +55,7 @@
     }
   }
 
-  $: filteredResearches = $search(filters.name, 'research', researches);
+  $: filteredResearches = $search(filters.name, 'research', data.researches);
   $: {
     const filterResearches = (filter: { tree: number }, research: Research) => {
       if (filter.tree != -1 && research.research_tree != filter.tree) {

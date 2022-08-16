@@ -1,7 +1,3 @@
-<script context="module" lang="ts">
-  export const prerender = false;
-</script>
-
 <script lang="ts">
   import MetaHeader from '$lib/components/MetaHeader.svelte';
   import SectionLink from '$lib/components/SectionLink.svelte';

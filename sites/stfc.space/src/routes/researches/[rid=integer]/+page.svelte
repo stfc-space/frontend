@@ -1,33 +1,3 @@
-<script context="module" lang="ts">
-  import { getStaticData, YukiApi } from '$lib/shared/api';
-
-  export const load: Load = async function ({ session, fetch, params, url }) {
-    const queryStore = new QueryStore<{
-      level: number;
-    }>(`research`);
-    queryStore.addField('level', 1);
-    queryStore.setQuery(url.searchParams, true);
-
-    const query = queryStore.toQuery();
-    if (url.searchParams.toString() != query.toString() && !queryStore.hasPendingSubmit()) {
-      return {
-        status: 302,
-        redirect: '?' + query.toString()
-      };
-    }
-
-    let research: ResearchDetail;
-    await Promise.all([
-      YukiApi.get('/research/' + params.rid, undefined, fetch).then(
-        (r: ResearchDetail) => (research = r)
-      ),
-      extendTranslations(session.lang, [{ path: 'research', ids: [params.rid] }], fetch)
-    ]);
-
-    return { props: { research, queryStore } };
-  };
-</script>
-
 <script lang="ts">
   import { page } from '$app/stores';
   import { browser } from '$app/env';
@@ -45,12 +15,10 @@
   import { _ } from 'svelte-i18n';
   import { onDestroy } from 'svelte';
 
-  import { QueryStore } from '$lib/shared/queryStore';
   import { buildingThumb, researchThumb } from '$lib/shared/yuki/thumbs';
   import { NumberInput, Slider } from '@radion/ui';
 
   import { sortResourceList } from '$lib/shared/yuki/utils';
-  import type { Load } from '@sveltejs/kit';
   import { debounce } from 'lodash-es';
 
   import RequiredByTable, { RequirementUiItem } from '$lib/components/prime/RequiredByTable.svelte';
@@ -58,23 +26,23 @@
   import MetaHeader from '$lib/components/MetaHeader.svelte';
   import ValueIncrease from '$lib/components/prime/ValueIncrease.svelte';
   import BuffValue from '$lib/components/prime/BuffValue.svelte';
-  import { extendTranslations } from '$lib/i18n';
 
-  export let research: ResearchDetail;
-  export let queryStore: QueryStore<{ level: number }>;
+  import type { PageData } from './$types';
+  import { getStaticData } from '$lib/shared/api';
+  export let data: PageData;
 
-  let selectedLevel = queryStore.readField('level');
+  let selectedLevel = data.queryStore.readField('level');
 
   onDestroy(
     page.subscribe((page) => {
-      queryStore.setQuery(page.url.searchParams, true);
-      selectedLevel = queryStore.readField('level');
+      data.queryStore.setQuery(page.url.searchParams, true);
+      selectedLevel = data.queryStore.readField('level');
     })
   );
 
   const updateQuery = debounce((..._args) => {
-    queryStore.updateField('level', selectedLevel);
-    queryStore.submitQuery();
+    data.queryStore.updateField('level', selectedLevel);
+    data.queryStore.submitQuery();
   });
 
   $: {
@@ -114,7 +82,7 @@
     requiredByTableItems = researchLevel.required_by?.map(mapRequirement);
   }, 10);
   $: {
-    researchLevel = research.levels[selectedLevel - 1];
+    researchLevel = data.research.levels[selectedLevel - 1];
     costs = sortResourceList(researchLevel.costs).map((e) => {
       return { rarity: $resources.get(e.resource_id).rarity, ...e };
     });
@@ -125,7 +93,7 @@
 </script>
 
 <MetaHeader
-  title={`${$_('project.name')} - ${$_(`research_${research.id}_name`)} (${selectedLevel})`}
+  title={`${$_('project.name')} - ${$_(`research_${data.research.id}_name`)} (${selectedLevel})`}
 />
 
 <DetailPageContainer>
@@ -133,15 +101,15 @@
     class="detail-page-header flex justify-between items-center relative gap-x-8 p-2 px-2 sm:px-4 flex-wrap"
   >
     <div class="flex sm:flex-shrink-0">
-      <img class="h-16 mr-2" src={researchThumb(research.art_id)} alt="logo" />
+      <img class="h-16 mr-2" src={researchThumb(data.research.art_id)} alt="logo" />
       <div class="flex flex-col">
         <span class="text-xl font-bold whitespace-normal sm:whitespace-nowrap"
-          >{$_(`research_${research.id}_name`)}
-          <span class="text-base whitespace-nowrap">(1 - {research.levels.length})</span></span
+          >{$_(`research_${data.research.id}_name`)}
+          <span class="text-base whitespace-nowrap">(1 - {data.research.levels.length})</span></span
         >
         <span class="text-sm">
           {$_('prime.unlock_level')}:
-          {research.unlock_level}
+          {data.research.unlock_level}
         </span>
       </div>
     </div>
@@ -149,10 +117,10 @@
       <Slider
         class="flex-grow flex-shrink"
         min={1}
-        max={research.levels.length}
+        max={data.research.levels.length}
         bind:value={selectedLevel}
       />
-      <NumberInput min={1} max={research.levels.length} bind:value={selectedLevel} />
+      <NumberInput min={1} max={data.research.levels.length} bind:value={selectedLevel} />
     </div>
   </div>
   <div class="p-2 px-2 sm:px-4">
@@ -162,13 +130,13 @@
         target="_blank"
         rel="noopener noreferrer"
         class="text-blue-700"
-        href="/tools/upgrade_plan/new?i={research.id}&l={selectedLevel}&t=research"
+        href="/tools/upgrade_plan/new?i={data.research.id}&l={selectedLevel}&t=research"
         >{$_('tool.upgrade_planner')}</a
       >
     </div>
     <div class="flex flex-col mb-4">
       <h3 class="text-center font-bold text-xl mb-2">{$_('research.buffs')}</h3>
-      <h4 class="mx-auto">{$_(`research_${research.id}_description`)}</h4>
+      <h4 class="mx-auto">{$_(`research_${data.research.id}_description`)}</h4>
       <div class="grid grid-cols-1 md:grid-cols-2 mx-auto gap-2">
         <span
           >{$_('prime.power')}: <ValueIncrease
@@ -176,7 +144,7 @@
             increase={researchLevel.strength_increase}
           />
         </span>
-        {#each research.buffs as buff (buff.id)}
+        {#each data.research.buffs as buff (buff.id)}
           <span>{$_(`research.bonus`)}: <BuffValue {buff} level={selectedLevel} /></span>
         {/each}
       </div>

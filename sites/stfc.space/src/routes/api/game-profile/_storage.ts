@@ -1,4 +1,4 @@
-import type { RequestEvent } from '@sveltejs/kit';
+import { error, RequestEvent } from '@sveltejs/kit';
 
 export default {
   'YdXIWDmPsA3eDCib8a9zg': {
@@ -10,16 +10,16 @@ export default {
   }
 };
 
-export function forwardRequest(event: RequestEvent, id?: string) {
+export async function forwardRequest(event: RequestEvent, id?: string): Promise<Response> {
   if (event.platform && event.platform.env) {
     if (event.locals.user?.authenticated) {
       if (id) {
-        return event.platform.env.USER_STORAGE.fetch(
+        return await event.platform.env.USER_STORAGE.fetch(
           `https://user-storage/${event.locals.user.id}/game_profile/${id}`,
           { method: event.request.method, body: event.request.body }
         );
       } else {
-        return event.platform.env.USER_STORAGE.fetch(
+        return await event.platform.env.USER_STORAGE.fetch(
           `https://user-storage/${event.locals.user.id}/game_profile`,
           {
             method: event.request.method,
@@ -28,9 +28,9 @@ export function forwardRequest(event: RequestEvent, id?: string) {
         );
       }
     } else {
-      return { status: 403 };
+      throw error(403, 'forbidden');
     }
   } else {
-    return { status: 503 };
+    throw error(503, 'internal error');
   }
 }

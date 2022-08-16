@@ -1,52 +1,3 @@
-<script context="module" lang="ts">
-  import { extendTranslations } from '$lib/i18n';
-
-  import { getStaticData, YukiApi } from '$lib/shared/api';
-  import { QueryStore } from '$lib/shared/queryStore';
-  import {
-    abilityValue,
-    BuildCost,
-    Rarity,
-    Requirement,
-    RequirementType,
-    ShipDetail,
-    ShipDetailComponent
-  } from '$lib/shared/yuki/models';
-  import type { Load } from '@sveltejs/kit';
-
-  interface QueryParams {
-    level: number;
-    slevel: number;
-    tr: [number, number];
-  }
-
-  export const load: Load = async function ({ session, fetch, params, url }) {
-    let ship: ShipDetail;
-    await Promise.all([
-      await YukiApi.get('/ship/' + params.ship, undefined, fetch).then(
-        (s: ShipDetail) => (ship = s)
-      ),
-      extendTranslations(session.lang, [{ path: 'ships', ids: [params.ship] }], fetch)
-    ]);
-
-    const queryStore = new QueryStore<QueryParams>(`ship`);
-    queryStore.addField('level', 1);
-    queryStore.addField('slevel', ship.max_level);
-    queryStore.addField('tr', [1, 1]);
-    queryStore.setQuery(url.searchParams, true);
-
-    const query = queryStore.toQuery();
-    if (url.searchParams.toString() != query.toString() && !queryStore.hasPendingSubmit()) {
-      return {
-        status: 302,
-        redirect: '?' + query.toString()
-      };
-    }
-
-    return { props: { ship, queryStore } };
-  };
-</script>
-
 <script lang="ts">
   import MetaHeader from '$lib/components/MetaHeader.svelte';
   import DetailPageContainer from '$lib/components/DetailPageContainer.svelte';
@@ -70,9 +21,18 @@
   import { page } from '$app/stores';
   import ShipComponent from '$lib/components/prime/ShipComponent.svelte';
   import CostItems from '$lib/components/prime/CostItems.svelte';
+  import { getStaticData } from '$lib/shared/api';
 
-  export let ship: ShipDetail;
-  export let queryStore: QueryStore<QueryParams>;
+  import type { PageData } from './$types';
+  import {
+    abilityValue,
+    BuildCost,
+    Rarity,
+    Requirement,
+    RequirementType,
+    ShipDetailComponent
+  } from '$lib/shared/yuki/models';
+  export let data: PageData;
 
   const { resources, researches } = getStaticData();
 
@@ -80,10 +40,10 @@
     return Object.assign(
       {},
       {
-        level: queryStore.readField('level'),
-        scrapLevel: queryStore.readField('slevel'),
-        tierMin: queryStore.readField('tr')?.[0],
-        tierMax: queryStore.readField('tr')?.[1]
+        level: data.queryStore.readField('level'),
+        scrapLevel: data.queryStore.readField('slevel'),
+        tierMin: data.queryStore.readField('tr')?.[0],
+        tierMax: data.queryStore.readField('tr')?.[1]
       }
     );
   };
@@ -97,16 +57,16 @@
 
   onDestroy(
     page.subscribe((page) => {
-      queryStore.setQuery(page.url.searchParams, true);
+      data.queryStore.setQuery(page.url.searchParams, true);
       filters = readFiltersFromQuery();
     })
   );
 
   const updateQuery = debounce((..._args) => {
-    queryStore.updateField('level', filters.level);
-    queryStore.updateField('slevel', filters.scrapLevel);
-    queryStore.updateField('tr', [filters.tierMin, filters.tierMax]);
-    queryStore.submitQuery();
+    data.queryStore.updateField('level', filters.level);
+    data.queryStore.updateField('slevel', filters.scrapLevel);
+    data.queryStore.updateField('tr', [filters.tierMin, filters.tierMax]);
+    data.queryStore.submitQuery();
   });
 
   let tierRange = [filters.tierMin, filters.tierMax];
@@ -125,22 +85,22 @@
     {
       text: 'Bonus',
       value: 'value',
-      percentage: ship.ability.value_is_percentage || ship.ability.show_percentage
+      percentage: data.ship.ability.value_is_percentage || data.ship.ability.show_percentage
     }
   ];
-  $: abilityItems = ship.ability.values.slice(0, ship.max_level).map((_, index) => {
-    return { id: index, level: index + 1, value: abilityValue(ship.ability, index) };
+  $: abilityItems = data.ship.ability.values.slice(0, data.ship.max_level).map((_, index) => {
+    return { id: index, level: index + 1, value: abilityValue(data.ship.ability, index) };
   });
-  $: buildCost = sortResourceList(ship.build_cost).map((e) => {
+  $: buildCost = sortResourceList(data.ship.build_cost).map((e) => {
     return { rarity: $resources.get(e.resource_id).rarity, ...e };
   });
   $: componentsHigh = ((): ShipDetailComponent[] => {
-    const tier = clamp(filters.tierMax - 1, 0, ship.max_tier - 1);
+    const tier = clamp(filters.tierMax - 1, 0, data.ship.max_tier - 1);
 
     if (tier == 0) {
-      return ship.tiers[tier].components.sort((a, b) => a.order - b.order);
+      return data.ship.tiers[tier].components.sort((a, b) => a.order - b.order);
     }
-    return ship.tiers[tier].components
+    return data.ship.tiers[tier].components
       .filter((c) => c.build_cost.length > 0)
       .sort((a, b) => a.order - b.order);
   })();
@@ -165,7 +125,7 @@
     };
   };
 
-  $: buildRequirements = ship.build_requirements.map(mapRequirement);
+  $: buildRequirements = data.ship.build_requirements.map(mapRequirement);
 
   $: tierRangeMod = (() => {
     const rangeStart = filters.tierMin;
@@ -180,8 +140,8 @@
     const end = useTierRange ? rangeEnd : rangeStart;
 
     return {
-      start: clamp(start, 0, ship.tiers.length),
-      end: clamp(end, 0, ship.tiers.length)
+      start: clamp(start, 0, data.ship.tiers.length),
+      end: clamp(end, 0, data.ship.tiers.length)
     };
   })();
 
@@ -191,7 +151,7 @@
     const { start, end } = tierRangeMod;
 
     for (let i = start; i < end; ++i) {
-      for (const component of ship.tiers[i].components) {
+      for (const component of data.ship.tiers[i].components) {
         for (const cost of component.build_cost) {
           if (cost.resource_id in costs) {
             costs[cost.resource_id].amount += cost.amount;
@@ -205,22 +165,24 @@
   })();
 </script>
 
-<MetaHeader title={`${$_('project.name')} - ${$_(`ships_${ship.id}_name`)}`} />
+<MetaHeader title={`${$_('project.name')} - ${$_(`ships_${data.ship.id}_name`)}`} />
 
 <DetailPageContainer>
   <div
     class="detail-page-header flex justify-between items-center relative gap-x-8 p-2 px-2 sm:px-4 flex-wrap"
   >
     <div class="flex sm:flex-shrink-0">
-      <img class="h-16 mr-2" src={shipThumb(ship.art_id)} alt="logo" />
+      <img class="h-16 mr-2" src={shipThumb(data.ship.art_id)} alt="logo" />
       <div class="flex flex-col">
         <span class="text-sm"
-          ><RarityLabel rarity={ship.rarity} /> - {$_(`factions_${ship.faction}_name`)}</span
+          ><RarityLabel rarity={data.ship.rarity} /> - {$_(
+            `factions_${data.ship.faction}_name`
+          )}</span
         >
         <span class="text-xl font-bold whitespace-normal sm:whitespace-nowrap">
-          {$_(`ships_${ship.id}_name`)}
+          {$_(`ships_${data.ship.id}_name`)}
         </span>
-        <span class="text-sm">{$_(`ship_type_${ship.hull_type}_name`)}</span>
+        <span class="text-sm">{$_(`ship_type_${data.ship.hull_type}_name`)}</span>
       </div>
     </div>
   </div>
@@ -228,14 +190,14 @@
     <div class="flex mb-4 flex-col flex-wrap">
       <span class="text-base">
         <span class="flex items-center mb-2">
-          <img src={officerAbilityThumb(ship.ability.art_id)} class="h-8 mr-2" alt="" />
+          <img src={officerAbilityThumb(data.ship.ability.art_id)} class="h-8 mr-2" alt="" />
           <h3 class="font-bold text-xl">
-            {$_(`ships_${ship.id}_bonus_name`)}
+            {$_(`ships_${data.ship.id}_bonus_name`)}
             <span class="text-sm font-normal">[{$_('ship.ability')}]</span>
           </h3>
         </span>
-        {@html formatPrimeText($_(`ships_${ship.id}_bonus_description`), {
-          vars: [abilityValue(ship.ability, 0)],
+        {@html formatPrimeText($_(`ships_${data.ship.id}_bonus_description`), {
+          vars: [abilityValue(data.ship.ability, 0)],
           stripLines: 1
         })}</span
       >
@@ -251,12 +213,12 @@
           >{$_('ship.tier-range')} ({`${tierRangeMod.start} - ${tierRangeMod.end}`})</span
         >
         <span class="text-sm">{$_('ship.level')}</span>
-        <Slider min="1" max={ship.max_tier} bind:value={tierRange} />
+        <Slider min="1" max={data.ship.max_tier} bind:value={tierRange} />
         <NumberInput
           class="w-20 inline"
           noButtons
           min={1}
-          max={ship.max_level}
+          max={data.ship.max_level}
           bind:value={filters.level}
         />
       </div>
@@ -274,7 +236,7 @@
     <div class="flex flex-col mb-4">
       <h3 class="font-bold mb-2 section-divider text-lg">{$_('ship.build-cost')}</h3>
       <BuildCosts
-        time={ship.build_time_in_seconds}
+        time={data.ship.build_time_in_seconds}
         costs={buildCost}
         requirements={buildRequirements}
         multiRow={false}
@@ -300,7 +262,7 @@
     <div class="flex flex-col mb-4">
       <h3 class="font-bold mb-2 section-divider text-lg">{$_('ship.description')}</h3>
       <p class="text-justify">
-        {@html formatPrimeText($_(`ships_${ship.id}_description`), { stripLines: 3 })}
+        {@html formatPrimeText($_(`ships_${data.ship.id}_description`), { stripLines: 3 })}
       </p>
     </div>
   </div>
