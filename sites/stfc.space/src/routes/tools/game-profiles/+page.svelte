@@ -15,7 +15,7 @@
   };
 
   onMount(async () => {
-    const n = await (await fetch('/api/game-profile')).json();
+    const n: GameProfile[] = await (await fetch('/api/game-profile')).json();
     data.game_profiles = n;
   });
 
@@ -67,6 +67,7 @@
   };
 
   import { fly } from 'svelte/transition';
+  import type { GameProfile } from './+page';
 </script>
 
 {#if createProfileOpen}

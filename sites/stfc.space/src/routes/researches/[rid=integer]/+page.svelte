@@ -8,7 +8,6 @@
     Rarity,
     Requirement,
     RequirementType,
-    ResearchDetail,
     ResearchDetailLevel
   } from '$lib/shared/yuki/models';
 

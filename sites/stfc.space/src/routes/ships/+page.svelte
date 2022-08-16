@@ -4,7 +4,7 @@
 
   import { _ } from 'svelte-i18n';
 
-  import { filterRarity, Ship } from '$lib/shared/yuki/models';
+  import { filterRarity } from '$lib/shared/yuki/models';
 
   import ShipList from '$lib/components/prime/ShipList.svelte';
 

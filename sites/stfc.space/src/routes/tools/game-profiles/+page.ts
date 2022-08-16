@@ -1,4 +1,8 @@
-export interface GameProfileBuffConfig {
+export interface GameProfile {
+  id: string;
+  name: string;
+  description: string;
+  modified: number;
   level: number;
   research: { [key: string | number]: number };
   buildings: { [key: string | number]: number };
@@ -10,6 +14,6 @@ export interface GameProfileBuffConfig {
 import type { PageLoad } from './$types';
 
 export const load: PageLoad = async ({ fetch }) => {
-  const n = await (await fetch('/api/game-profile')).json();
+  const n: GameProfile[] = await (await fetch('/api/game-profile')).json();
   return { game_profiles: n };
 };

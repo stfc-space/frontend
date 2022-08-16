@@ -4,8 +4,6 @@
 
   import { _ } from 'svelte-i18n';
 
-  import type { System } from '$lib/shared/yuki/models';
-
   import { FilteredList, TextInput, Checkbox } from '@radion/ui';
 
   import FactionDropdown from '$lib/components/prime/FactionDropdown.svelte';

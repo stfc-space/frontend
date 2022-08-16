@@ -1,5 +1,4 @@
 import type { RequestHandler } from './$types';
-import { Buffer } from 'buffer';
 import setCookieParse, { splitCookiesString } from 'set-cookie-parser';
 import { serialize as serializeCookie } from 'cookie';
 

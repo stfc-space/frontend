@@ -3,7 +3,7 @@ import { extendTranslations } from '$lib/i18n';
 
 import { YukiApi } from '$lib/shared/api';
 import { QueryStore } from '$lib/shared/queryStore';
-import { ShipDetail } from '$lib/shared/yuki/models';
+import type { ShipDetail } from '$lib/shared/yuki/models';
 
 import type { PageLoad } from './$types';
 
