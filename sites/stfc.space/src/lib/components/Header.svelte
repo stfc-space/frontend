@@ -6,7 +6,8 @@
   import { MenuAlt1, Search, X } from '@steeze-ui/heroicons';
   import DarkModeToggle from './DarkModeToggle.svelte';
   import { page } from '$app/stores';
-  import { onMount } from 'svelte/types/runtime/internal/lifecycle';
+  import { browser } from '$app/env';
+  import { onMount } from 'svelte';
 
   let userMenuOpen = false;
   let mobileMenuOpen = false;
@@ -29,7 +30,7 @@
       updateLogoutUrl(userId);
     }
   });
-  $: updateLogoutUrl(userId);
+  $: if (browser) updateLogoutUrl(userId);
   $: isAuthenticated = !!$page.data.user;
 </script>
 
