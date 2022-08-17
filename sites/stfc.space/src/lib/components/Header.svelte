@@ -5,9 +5,7 @@
   import { User } from '@steeze-ui/heroicons';
   import { MenuAlt1, Search, X } from '@steeze-ui/heroicons';
   import DarkModeToggle from './DarkModeToggle.svelte';
-  import { page } from '$app/stores';
   import { browser } from '$app/env';
-  import { onMount } from 'svelte';
 
   let userMenuOpen = false;
   let mobileMenuOpen = false;
