@@ -112,37 +112,24 @@ async function forwardRequest(event: RequestEvent, method: string): Promise<Resp
     }
   }
 
-  const headers = {};
-  responseHeaders.forEach((value, key: string) => {
-    if (key == 'set-cookie') {
-      return;
-    }
-
+  responseHeaders.forEach((_value, key: string) => {
     for (const h of disallowedHeadersWild) {
       if (key.startsWith(h)) {
+        responseHeaders.delete(key);
         return;
       }
     }
-    if (key in headers) {
-      if (!Array.isArray(headers[key])) {
-        headers[key] = [headers[key], value];
-      } else {
-        headers[key].push(value);
-      }
-    } else {
-      headers[key] = value;
-    }
   });
 
-  if (cookies.length > 0) {
-    headers['set-cookie'] = cookies;
+  responseHeaders.delete('set-cookie');
+  for (const cookie of cookies) {
+    responseHeaders.append('set-cookie', cookie);
   }
-
-  headers['cache-control'] = 'no-cache, stale-if-error=0';
+  responseHeaders.set('cache-control', 'no-cache, stale-if-error=0');
 
   return new Response(response.body, {
     status: response.status,
     statusText: response.statusText,
-    headers
+    headers: responseHeaders
   });
 }
