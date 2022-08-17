@@ -4,7 +4,6 @@
   import { locale } from 'svelte-i18n';
   import { $locale as searchLocale } from '$lib/shared/search';
   import { browser } from '$app/env';
-  import { session } from '$app/stores';
   import { setCookie } from '$lib/shared/utils';
 
   let select: HTMLSelectElement;
@@ -15,7 +14,6 @@
     setCookie('lang', selected.dataset.content);
     locale.set(selected.dataset.content);
     searchLocale.set(selected.dataset.content);
-    $session.lang = selected.dataset.content;
     if (browser) {
       document.documentElement.setAttribute('lang', selected.dataset.content);
     }

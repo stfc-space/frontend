@@ -6,7 +6,8 @@ import { QueryStore } from '$lib/shared/queryStore';
 import type { ResearchDetail } from '$lib/shared/yuki/models';
 import { extendTranslations } from '$lib/i18n';
 
-export const load: PageLoad = async function ({ session, fetch, params, url }) {
+export const load: PageLoad = async function ({ parent, fetch, params, url }) {
+  const { lang } = await parent();
   const queryStore = new QueryStore<{
     level: number;
   }>(`research`);
@@ -23,7 +24,7 @@ export const load: PageLoad = async function ({ session, fetch, params, url }) {
     YukiApi.get('/research/' + params.rid, undefined, fetch).then(
       (r: ResearchDetail) => (research = r)
     ),
-    extendTranslations(session.lang, [{ path: 'research', ids: [params.rid] }], fetch)
+    extendTranslations(lang, [{ path: 'research', ids: [params.rid] }], fetch)
   ]);
 
   return { research, queryStore };

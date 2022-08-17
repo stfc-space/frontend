@@ -13,11 +13,12 @@ interface QueryParams {
   tr: [number, number];
 }
 
-export const load: PageLoad = async function ({ session, fetch, params, url }) {
+export const load: PageLoad = async function ({ parent, fetch, params, url }) {
+  const { lang } = await parent();
   let ship: ShipDetail;
   await Promise.all([
     await YukiApi.get('/ship/' + params.ship, undefined, fetch).then((s: ShipDetail) => (ship = s)),
-    extendTranslations(session.lang, [{ path: 'ships', ids: [params.ship] }], fetch)
+    extendTranslations(lang, [{ path: 'ships', ids: [params.ship] }], fetch)
   ]);
 
   const queryStore = new QueryStore<QueryParams>(`ship`);

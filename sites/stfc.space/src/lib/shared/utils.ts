@@ -13,10 +13,10 @@ export function setCookie(name: string, value: string) {
   document.cookie = `${name_}=${value_};Path=/`;
 }
 
-export function toggleTheme<T extends Writable<{ theme: string }>>(theme: T, themeV: string): void {
+export function toggleTheme<T extends Writable<string>>(theme: T, themeV: string): void {
   if (themeV === 'light') {
-    theme.update((state) => {
-      return { ...state, theme: 'dark' };
+    theme.update(() => {
+      return 'dark';
     });
     try {
       localStorage.setItem('theme', 'dark');
@@ -25,8 +25,8 @@ export function toggleTheme<T extends Writable<{ theme: string }>>(theme: T, the
     }
     updateDocument('theme', 'dark', 'light');
   } else {
-    theme.update((state) => {
-      return { ...state, theme: 'light' };
+    theme.update(() => {
+      return 'light';
     });
     try {
       localStorage.setItem('theme', 'light');

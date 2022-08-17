@@ -26,6 +26,8 @@
   import navState from '$lib/stores/navstate';
   import NavLoader from '$lib/components/NavLoader.svelte';
 
+  import { theme } from '$lib/shared/stores';
+
   // if we're navigating, set the store accordingly
   $: $navState =
     $navigating != null && $navigating.from?.pathname !== $navigating.to?.pathname
@@ -34,6 +36,10 @@
 
   import '../app.css';
 </script>
+
+<svelte:head>
+  <meta name="color-scheme" content={$theme == 'system' ? 'light dark' : $theme} />
+</svelte:head>
 
 <NavLoader />
 <Header logoutUrl={data.logoutUrl} />

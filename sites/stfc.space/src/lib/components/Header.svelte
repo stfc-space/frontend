@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { session } from '$app/stores';
   import { _ } from 'svelte-i18n';
   import { clickOutside } from '$lib/clickOutside';
   import { Icon } from '@steeze-ui/svelte-icon';
@@ -12,7 +11,7 @@
   let userMenuOpen = false;
   let mobileMenuOpen = false;
 
-  $: isAuthenticated = !!$session.user;
+  $: isAuthenticated = !!logoutUrl;
 </script>
 
 <header>

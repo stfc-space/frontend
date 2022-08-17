@@ -1,30 +1,10 @@
-import type { GetSession, Handle } from '@sveltejs/kit';
+import type { Handle } from '@sveltejs/kit';
 import * as libCookie from 'cookie';
-import { pick } from '$lib/shared/acceptLanguageParse';
 import { SignJWT, jwtVerify } from 'jose';
 import type { Session } from '@ory/client';
 import { Buffer } from 'buffer';
 
 const KRATOS_BACKEND_URL = import.meta.env.VITE_KRATOS_BACKEND_URL as string;
-
-export const getSession: GetSession = async (event) => {
-  const request = event.request;
-  const cookies = libCookie.parse(request.headers.get('cookie') || '');
-  const theme = cookies.theme || 'dark';
-  const lang =
-    cookies.lang || pick(['en', 'de'], request.headers['accept-language'], { loose: true }) || 'en';
-  const userId = event?.locals?.user?.id;
-  return {
-    theme,
-    lang,
-    user: userId
-      ? {
-          id: userId,
-          logoutUrl: null
-        }
-      : null
-  };
-};
 
 const jwtSecret = Uint8Array.from(Buffer.from(import.meta.env.JWT_SECRET as string, 'base64'));
 

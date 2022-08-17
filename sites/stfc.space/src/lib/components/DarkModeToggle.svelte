@@ -3,12 +3,12 @@
 </script>
 
 <script lang="ts">
-  import { session } from '$app/stores';
+  import { theme } from '$lib/shared/stores';
   import { toggleTheme } from '$lib/shared/utils';
 
   import { _ } from 'svelte-i18n';
 
-  $: darkTheme = $session.theme === 'dark';
+  $: darkTheme = $theme === 'dark';
 
   $: ariaLabel = darkTheme ? $_('theme.to_light') : $_('theme.to_dark');
 
@@ -24,7 +24,7 @@
   class="theme-toggle {clazz}"
   id={eltId}
   aria-label={ariaLabel}
-  on:click={() => toggleTheme(session, $session.theme)}
+  on:click={() => toggleTheme(theme, $theme)}
   {...$$restProps}
 >
   <svg

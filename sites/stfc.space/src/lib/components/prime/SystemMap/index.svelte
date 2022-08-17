@@ -12,9 +12,9 @@
   $: systemResources = uniqBy(system.mines, 'resource').map((x) => x.resource);
   $: spawnedHostileTypes = uniqBy(system.hostiles, 'hull_type');
 
-  import { session } from '$app/stores';
+  import { theme } from '$lib/shared/stores';
 
-  $: darkTheme = $session.theme === 'dark';
+  $: darkTheme = $theme === 'dark';
 
   import backdrop from '$lib/assets/sys_bg.png';
   import housing from '$lib/assets/icons/misc/housing.png';

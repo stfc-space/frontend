@@ -6,7 +6,8 @@ import type { PageLoad } from './$types';
 import type { Officer, OfficerDetail } from '$lib/shared/yuki/models';
 import { extendTranslations } from '$lib/i18n';
 
-export const load: PageLoad = async function ({ session, fetch, params, url }) {
+export const load: PageLoad = async function ({ parent, fetch, params, url }) {
+  const { lang } = await parent();
   const queryStore = new QueryStore<Record<string, never>>(`officer`);
   queryStore.setQuery(url.searchParams, true);
 
@@ -22,7 +23,7 @@ export const load: PageLoad = async function ({ session, fetch, params, url }) {
       (b: OfficerDetail) => (officer = b)
     ),
     YukiApi.get('/officer', undefined, fetch).then((b: Officer[]) => (officerList = b)),
-    extendTranslations(session.lang, [{ path: 'officers', ids: [params.oid] }], fetch)
+    extendTranslations(lang, [{ path: 'officers', ids: [params.oid] }], fetch)
   ]);
 
   return { officer, queryStore, officerList };

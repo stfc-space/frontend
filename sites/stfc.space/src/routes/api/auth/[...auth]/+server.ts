@@ -1,6 +1,4 @@
 import type { RequestHandler } from './$types';
-import setCookieParse, { splitCookiesString } from 'set-cookie-parser';
-import { serialize as serializeCookie } from 'cookie';
 
 const KRATOS_BACKEND_URL = import.meta.env.VITE_KRATOS_BACKEND_URL as string;
 

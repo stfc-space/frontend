@@ -2,7 +2,6 @@
   import MetaHeader from '$lib/components/MetaHeader.svelte';
   import { _ } from 'svelte-i18n';
   import { page } from '$app/stores';
-  import { error } from '@sveltejs/kit';
 </script>
 
 <svelte:head>

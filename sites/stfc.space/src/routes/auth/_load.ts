@@ -2,7 +2,6 @@ import { error, LoadEvent, redirect } from '@sveltejs/kit';
 import type { FlowTypeId } from '$lib/shared/auth';
 import type { UiContainer } from '@ory/client';
 import { browser } from '$app/env';
-import { goto } from '$app/navigation';
 
 export const runLoad = async (flowType: FlowTypeId, { url, fetch }: LoadEvent) => {
   const flowID = url.searchParams.get('flow');
