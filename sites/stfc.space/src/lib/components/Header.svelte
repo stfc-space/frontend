@@ -5,13 +5,32 @@
   import { User } from '@steeze-ui/heroicons';
   import { MenuAlt1, Search, X } from '@steeze-ui/heroicons';
   import DarkModeToggle from './DarkModeToggle.svelte';
-
-  export let logoutUrl: string | null;
+  import { page } from '$app/stores';
+  import { onMount } from 'svelte/types/runtime/internal/lifecycle';
 
   let userMenuOpen = false;
   let mobileMenuOpen = false;
 
-  $: isAuthenticated = !!logoutUrl;
+  export let userId: string | null;
+
+  let logoutUrl: string | null = null;
+
+  const updateLogoutUrl = async (_userId: string) => {
+    const r = await fetch(`/api/auth/self-service/logout/browser`, {
+      headers: {
+        'Accept': 'application/json'
+      }
+    });
+    logoutUrl = (await r.json<{ logout_url: string }>()).logout_url;
+  };
+
+  onMount(() => {
+    if (userId) {
+      updateLogoutUrl(userId);
+    }
+  });
+  $: updateLogoutUrl(userId);
+  $: isAuthenticated = !!$page.data.user;
 </script>
 
 <header>

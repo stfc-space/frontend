@@ -5,6 +5,4 @@ function defaultThemeValue() {
     ? 'dark'
     : 'light';
 }
-
-export const user = storage('user', {});
 export const theme = storage('theme', defaultThemeValue());

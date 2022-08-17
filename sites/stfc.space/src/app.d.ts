@@ -1,11 +1,6 @@
 declare namespace App {
   export interface Locals {
-    user?: { authenticated?: boolean; id: string; session_id: string; logoutUrl?: string | null };
-  }
-  export interface Session {
-    user: unknown;
-    theme: string;
-    lang: string;
+    user?: { authenticated?: boolean; id: string; session_id: string };
   }
 
   export interface Platform {

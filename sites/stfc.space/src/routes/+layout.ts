@@ -11,5 +11,5 @@ export const load: LayoutLoad = async ({ data, fetch }) => {
   setupI18n({ withLocale: lang }, fetch);
   setupSearch();
   await Promise.all([waitLocale(lang), waitSearchReady(lang, fetch), waitStaticData(fetch)]);
-  return { theme: theme, lang: lang, logoutUrl: user.logoutUrl };
+  return { theme: theme, lang: lang, userId: user };
 };
