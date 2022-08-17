@@ -31,7 +31,7 @@
     }
   });
   $: if (browser) updateLogoutUrl(userId);
-  $: isAuthenticated = !!$page.data.user;
+  $: isAuthenticated = !!userId;
 </script>
 
 <header>
