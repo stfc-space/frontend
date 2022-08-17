@@ -6,7 +6,6 @@
     "dev": "vite dev",
     "build": "rimraf .svelte-kit && node ./scripts/build.js",
     "build-kit": "vite build",
-    "package": "svelte-kit package",
     "preview": "vite preview",
     "postinstall": "svelte-kit sync",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
