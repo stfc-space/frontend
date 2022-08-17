@@ -84,34 +84,6 @@ async function forwardRequest(event: RequestEvent, method: string): Promise<Resp
   for (const header of disallowedHeaders) {
     responseHeaders.delete(header);
   }
-
-  // Get cookie header
-  let cookies = [];
-
-  const respHeaders = responseHeaders as {
-    getAll?: (n: string) => string[];
-    raw?: () => { [key: string]: string | string[] };
-  };
-
-  // This will work in Cloudflare Workers :)
-  if (respHeaders.getAll) {
-    cookies = respHeaders.getAll('set-cookie');
-  } else if (respHeaders.raw) {
-    const headers = respHeaders.raw();
-    if (headers['set-cookie'] !== undefined) {
-      cookies = headers['set-cookie'] as string[];
-    }
-  } else {
-    const headers = responseHeaders as Headers;
-    if (headers.get('set-cookie') !== undefined) {
-      cookies = setCookieParse(splitCookiesString(headers.get('set-cookie'))).map(function (
-        cookie
-      ) {
-        return serializeCookie(cookie.name, cookie.value, cookie as unknown);
-      });
-    }
-  }
-
   responseHeaders.forEach((_value, key: string) => {
     for (const h of disallowedHeadersWild) {
       if (key.startsWith(h)) {
@@ -121,10 +93,6 @@ async function forwardRequest(event: RequestEvent, method: string): Promise<Resp
     }
   });
 
-  responseHeaders.delete('set-cookie');
-  for (const cookie of cookies) {
-    responseHeaders.append('set-cookie', cookie);
-  }
   responseHeaders.set('cache-control', 'no-cache, stale-if-error=0');
 
   return new Response(response.body, {
