@@ -25,12 +25,7 @@
     logoutUrl = (await r.json<{ logout_url: string }>()).logout_url;
   };
 
-  onMount(() => {
-    if (userId) {
-      updateLogoutUrl(userId);
-    }
-  });
-  $: if (browser) updateLogoutUrl(userId);
+  $: if (browser && userId) updateLogoutUrl(userId);
   $: isAuthenticated = !!userId;
 </script>
 
