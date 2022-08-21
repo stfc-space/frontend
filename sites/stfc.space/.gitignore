@@ -4,3 +4,4 @@
 /build/
 /functions/
 .cloudflare/
+src/routes/playground
