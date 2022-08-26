@@ -24,14 +24,14 @@
     "aws"
   ],
   "devDependencies": {
-    "@sveltejs/kit": "1.0.0-next.418",
+    "@sveltejs/kit": "1.0.0-next.443",
     "@types/aws-lambda": "^8.10.102",
-    "@types/node": "18.7.6",
+    "@types/node": "18.7.13",
     "rimraf": "^3.0.2",
     "shx": "^0.3.4",
     "svelte": "^3.49.0",
-    "typescript": "^4.7.4",
-    "vite": "3.0.2"
+    "typescript": "^4.8.2",
+    "vite": "3.0.9"
   },
   "peerDependencies": {
     "@sveltejs/kit": "1.0.0-next.405"
