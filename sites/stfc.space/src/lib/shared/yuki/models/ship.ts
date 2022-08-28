@@ -1,4 +1,4 @@
-import type { BuildCost, Rarity, Requirement } from './shared';
+import type { AbilityFlag, BuildCost, Rarity, Requirement } from './shared';
 
 export interface Ship {
   id: number;
@@ -185,6 +185,7 @@ export interface ShipDetailAbility {
   art_id: number;
   show_percentage: boolean;
   value_type: number;
+  flag: AbilityFlag;
 }
 
 export interface Value {
