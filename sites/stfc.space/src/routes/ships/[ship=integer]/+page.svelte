@@ -16,7 +16,7 @@
   import BuildCosts, { BuffModifier } from '$lib/components/prime/BuildCost.svelte';
   import type { RequirementUiItem } from '$lib/components/prime/RequiredByTable.svelte';
   import { clamp, debounce } from 'lodash-es';
-  import { browser } from '$app/env';
+  import { browser } from '$app/environment';
   import { onDestroy } from 'svelte';
   import { page } from '$app/stores';
   import ShipComponent from '$lib/components/prime/ShipComponent.svelte';

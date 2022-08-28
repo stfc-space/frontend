@@ -1,4 +1,4 @@
-import { browser } from '$app/env';
+import { browser } from '$app/environment';
 import { mande } from './mande';
 import type { MandeInstance, Options } from './mande';
 import { get, writable } from 'svelte/store';

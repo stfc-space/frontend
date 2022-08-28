@@ -1,5 +1,5 @@
 import { json } from '@sveltejs/kit';
-import { dev } from '$app/env';
+import { dev } from '$app/environment';
 import type { RequestHandler } from '@sveltejs/kit';
 
 import { nanoid } from 'nanoid';

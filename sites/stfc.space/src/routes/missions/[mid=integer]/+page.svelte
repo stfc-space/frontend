@@ -7,7 +7,7 @@
   import { getStaticData, YukiApi } from '$lib/shared/api';
   import Flow from '$lib/components/graph/Flow.svelte';
   import type { ElkRoot } from '$lib/graph';
-  import { browser } from '$app/env';
+  import { browser } from '$app/environment';
 
   import type { PageData } from './$types';
   export let data: PageData;

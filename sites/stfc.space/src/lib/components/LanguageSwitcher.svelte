@@ -3,7 +3,7 @@
 
   import { locale } from 'svelte-i18n';
   import { $locale as searchLocale } from '$lib/shared/search';
-  import { browser } from '$app/env';
+  import { browser } from '$app/environment';
   import { setCookie } from '$lib/shared/utils';
 
   let select: HTMLSelectElement;

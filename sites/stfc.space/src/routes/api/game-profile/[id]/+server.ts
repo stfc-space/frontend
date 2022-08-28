@@ -1,4 +1,4 @@
-import { dev } from '$app/env';
+import { dev } from '$app/environment';
 import type { RequestHandler } from './$types';
 
 import game_profiles, { forwardRequest } from '../storage';

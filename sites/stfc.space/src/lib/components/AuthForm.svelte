@@ -6,7 +6,7 @@
   import { Button, PasswordInput, TextInput } from '@radion/ui';
   import { getMessage } from '$lib/shared/auth/message';
   import type { FlowTypeId } from '$lib/shared/auth';
-  import { browser } from '$app/env';
+  import { browser } from '$app/environment';
   import { page } from '$app/stores';
   import { goto } from '$app/navigation';
 

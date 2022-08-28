@@ -2,7 +2,7 @@
   import 'virtual:windi.css';
 
   import { onMount } from 'svelte';
-  import { browser, dev } from '$app/env';
+  import { browser, dev } from '$app/environment';
 
   import Header from '$lib/components/Header.svelte';
   import Footer from '$lib/components/Footer.svelte';

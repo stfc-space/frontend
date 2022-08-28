@@ -1,4 +1,4 @@
-import { browser } from '$app/env';
+import { browser } from '$app/environment';
 import type { Writable } from 'svelte/store';
 import { writable, get } from 'svelte/store';
 

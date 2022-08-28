@@ -53,7 +53,7 @@
   });
 
   import { createPopperActions } from 'svelte-popperjs';
-  import { browser } from '$app/env';
+  import { browser } from '$app/environment';
   import { onMount } from 'svelte';
   const [popperRef, popperContent] = createPopperActions({
     placement: 'auto',
