@@ -4,7 +4,7 @@ import type { RequestHandler } from '@sveltejs/kit';
 
 import { nanoid } from 'nanoid';
 
-import game_profiles, { forwardRequest } from './_storage';
+import game_profiles, { forwardRequest } from './storage';
 
 export const GET: RequestHandler = async (event) => {
   if (!dev) {

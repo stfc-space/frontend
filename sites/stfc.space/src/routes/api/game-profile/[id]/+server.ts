@@ -1,7 +1,7 @@
 import { dev } from '$app/env';
 import type { RequestHandler } from './$types';
 
-import game_profiles, { forwardRequest } from '../_storage';
+import game_profiles, { forwardRequest } from '../storage';
 
 export const GET: RequestHandler = async (event) => {
   const id = event.params.id;
