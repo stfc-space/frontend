@@ -74,6 +74,88 @@ export interface BuffValue {
   chance: number;
 }
 
+export enum AbilityFlag {
+  BuildingCost,
+  BuildingSpeed,
+  ResearchCost,
+  ResearchSpeed,
+  ComponentCost,
+  ShipBuildSpeed,
+  ShipBuildCost,
+  ShipTierUpSpeed,
+  // Ship related stuff
+  WeaponAllDamage,
+  WeaponShots,
+  WwaponWarmup,
+  WeaponCooldown,
+  Accuracy,
+  Peneration,
+  Modulation,
+  Dodge,
+  Armor,
+  Absorption,
+  CritChance,
+  CritDamage,
+  MiningRate,
+  ImpulseSpeed,
+  WarpSpeed,
+  WarpRange,
+  Defense,
+  Piercing,
+  RepairTime,
+  RepairCost,
+  CargoCapacity,
+  CargoProtection,
+  ShieldHp,
+  HullHp,
+  ShieldRegenTime,
+  ShieldMitigation,
+
+  // Other generic stuff
+  XpReward,
+  OfficerStats,
+  ResourceProduction,
+  ResourceProductionStorage,
+  WarehouseStorage,
+  VaulStorage,
+  ScrapSpeed,
+  FactionPointRewards,
+  FactionPointLossReductionFed,
+  FactionPointLossReductionKlg,
+  FactionPointLossReductionRom,
+
+  ArmadaSize,
+  DiscoEfficiency,
+
+  CloakCooldown,
+  CloakDuration,
+  CloakCost,
+  CloakHiddenChance,
+  CerritosCooldown,
+  CerritosDuration,
+  BelowDeckAbility,
+  AmalgamBonus,
+  RepairCostEfficiency,
+  FactionPointGainFed,
+  FactionPointGainKlg,
+  FactionPointGainRom,
+  HostileCargo,
+  StellaBonus,
+  NanoprobeLootBonus,
+  ArmadaCargo,
+  AmalgamHostileLoot,
+  SupportDuration,
+  HangarSize,
+  InternalUnused,
+
+  AddState,
+  RemoveState,
+  CaptainValue,
+  OfficerValue,
+
+  Invalid
+}
+
 export interface Buff {
   id: number;
   value_is_percentage: boolean;
@@ -81,6 +163,7 @@ export interface Buff {
   art_id: number;
   show_percentage: boolean;
   value_type: number;
+  flag: AbilityFlag;
 }
 
 export function abilityValue(ability: Buff, rank: number): number {

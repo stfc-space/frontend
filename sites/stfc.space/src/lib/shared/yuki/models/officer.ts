@@ -1,4 +1,4 @@
-import type { Buff, BuildCost, Rarity } from './shared';
+import type { AbilityFlag, Buff, BuildCost, Rarity } from './shared';
 
 export interface Officer {
   id: number;
@@ -10,6 +10,7 @@ export interface Officer {
   max_rank: number;
   ability: OfficerAbility;
   captain_ability: OfficerAbility;
+  below_decks_ability?: OfficerAbility;
 }
 
 export interface OfficerAbility {
@@ -17,6 +18,7 @@ export interface OfficerAbility {
   value_is_percentage: boolean;
   max_level: number;
   art_id: number;
+  flag: AbilityFlag;
 }
 
 export interface OfficerDetail {

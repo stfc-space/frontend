@@ -3,7 +3,7 @@ import { error, RequestEvent } from '@sveltejs/kit';
 export default {
   'YdXIWDmPsA3eDCib8a9zg': {
     name: 'Test Profile',
-    description: "This is just some weird description\nNothing to see here",
+    description: 'This is just some weird description\nNothing to see here',
     modified: 1659741681,
     buildings: {
       0: 42

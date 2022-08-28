@@ -12,6 +12,7 @@ interface QueryParams {
   r: number;
   g: number;
   f: number;
+  e: number;
 }
 
 export const load: PageLoad = async ({ fetch, url }) => {
@@ -20,6 +21,7 @@ export const load: PageLoad = async ({ fetch, url }) => {
   queryStore.addField('r', -1);
   queryStore.addField('g', -1);
   queryStore.addField('f', -1);
+  queryStore.addField('e', -1);
   queryStore.setQuery(url.searchParams, true);
 
   const query = queryStore.toQuery();

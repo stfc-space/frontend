@@ -4,7 +4,7 @@
 
   import { _ } from 'svelte-i18n';
 
-  import { filterRarity } from '$lib/shared/yuki/models';
+  import { AbilityFlag, filterRarity } from '$lib/shared/yuki/models';
 
   import { FilteredList, TextInput, Dropdown } from '@radion/ui';
 
@@ -30,7 +30,8 @@
         name: data.queryStore.readField('name'),
         rarity: data.queryStore.readField('r'),
         group: data.queryStore.readField('g'),
-        faction: data.queryStore.readField('f')
+        faction: data.queryStore.readField('f'),
+        effect: data.queryStore.readField('e')
       }
     );
   };
@@ -54,6 +55,7 @@
     data.queryStore.updateField('r', filters.rarity);
     data.queryStore.updateField('g', filters.group);
     data.queryStore.updateField('f', filters.faction);
+    data.queryStore.updateField('e', filters.effect);
     data.queryStore.submitQuery();
   });
 
@@ -78,6 +80,14 @@
       ) {
         return false;
       }
+
+      if (
+        filters.effect != -1 &&
+        officer.ability.flag != filters.effect &&
+        officer.captain_ability.flag != filters.effect
+      ) {
+        return false;
+      }
       return filterRarity(filters.rarity, officer.rarity);
     });
   }
@@ -97,6 +107,46 @@
       }),
       'value'
     )
+  ];
+
+  $: effectList = [
+    {
+      name: $_('officer.group-filter-all'),
+      value: -1,
+      display: false
+    },
+    {
+      name: 'Warp Range',
+      value: AbilityFlag.WarpRange
+    },
+    {
+      name: 'Warp Speed',
+      value: AbilityFlag.WarpSpeed
+    },
+    {
+      name: 'Impulse Speed',
+      value: AbilityFlag.ImpulseSpeed
+    },
+    {
+      name: 'Cargo',
+      value: AbilityFlag.CargoCapacity
+    },
+    {
+      name: 'Protected Cargo',
+      value: AbilityFlag.CargoProtection
+    },
+    {
+      name: 'Mining Speed',
+      value: AbilityFlag.MiningRate
+    },
+    {
+      name: 'GIVE STATE (SPLIT UP [MORALE, BURNING, HULL BREACH])',
+      value: AbilityFlag.AddState
+    },
+    {
+      name: 'TODO: USES STATE',
+      value: AbilityFlag.Invalid
+    }
   ];
 </script>
 
@@ -120,6 +170,13 @@
             key="value"
             options={synergyGroups}
             bind:value={filters.group}
+          />
+          <Dropdown
+            label={$_('officer.effect')}
+            filter
+            key="value"
+            options={effectList}
+            bind:value={filters.effect}
           />
         </div>
       </FilterContainer>
