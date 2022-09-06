@@ -84,7 +84,8 @@
       if (
         filters.effect != -1 &&
         officer.ability.flag != filters.effect &&
-        officer.captain_ability.flag != filters.effect
+        officer.captain_ability.flag != filters.effect &&
+        officer.below_decks_ability?.flag != filters.effect
       ) {
         return false;
       }
