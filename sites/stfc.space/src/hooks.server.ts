@@ -1,4 +1,4 @@
-import type { Handle } from '@sveltejs/kit';
+import type { Handle, HandleFetch } from '@sveltejs/kit';
 import * as libCookie from 'cookie';
 import { SignJWT, jwtVerify } from 'jose';
 import type { Session } from '@ory/client';
@@ -77,4 +77,12 @@ export const handle: Handle = async ({ event, resolve }) => {
   }
 
   return response;
+};
+
+// Workaround for https://github.com/sveltejs/kit/issues/6608
+export const handleFetch: HandleFetch = async ({ event, request, fetch }) => {
+  if (!request.headers.has('origin')) {
+    request.headers.set('origin', event.url.origin);
+  }
+  return fetch(request);
 };
