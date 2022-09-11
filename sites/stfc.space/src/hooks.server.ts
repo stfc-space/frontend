@@ -64,9 +64,7 @@ export const handle: Handle = async ({ event, resolve }) => {
     event.locals.user = null;
   }
 
-  const response = await resolve(event, {
-    ssr: !event.url.pathname.startsWith('/playground')
-  });
+  const response = await resolve(event);
   if (!response) {
     console.error('Failed to get response');
     return undefined;

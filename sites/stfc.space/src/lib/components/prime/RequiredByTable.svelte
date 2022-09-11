@@ -48,7 +48,7 @@
     let:f
     let:value
   >
-    <a sveltekit:prefetch href={String(item.link)} class="block class p-2">
+    <a href={String(item.link)} class="block class p-2">
       {#if header.icon}
         <img aria-hidden alt="" class="h-4 inline" src={String(item[header.icon])} />
       {/if}

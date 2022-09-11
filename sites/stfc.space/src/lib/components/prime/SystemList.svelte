@@ -20,7 +20,7 @@
   };
 </script>
 
-<a sveltekit:prefetch href="/systems/{system.id}">
+<a href="/systems/{system.id}">
   <ListItem>
     <div class="grid grid-rows-3 w-4 gap-1 col-start-1 sm:row-start-1 flex-shrink-0">
       <img

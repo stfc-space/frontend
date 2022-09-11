@@ -2,7 +2,7 @@
 	import { tick } from 'svelte';
 
 	import { Icon } from '@steeze-ui/svelte-icon';
-	import { Selector, Check } from '@steeze-ui/heroicons';
+	import { ChevronUpDown, Check } from '@steeze-ui/heroicons';
 
 	import ListboxItemList from './ListboxItemList.svelte';
 	import ListboxListItem from './ListboxListItem.svelte';
@@ -157,7 +157,7 @@
 			on:input={filterChanged}
 		/>
 		<span class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-			<Icon src={Selector} solid class="w-5 h-5 dark:text-light-400" aria-hidden />
+			<Icon src={ChevronUpDown} solid class="w-5 h-5 dark:text-light-400" aria-hidden />
 		</span>
 	</div>
 	{#if isOpen}

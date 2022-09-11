@@ -8,7 +8,7 @@
   export let mission: Mission;
 </script>
 
-<a sveltekit:prefetch href="/missions/{mission.id}">
+<a href="/missions/{mission.id}">
   <ListItem>
     <div
       class="gap-x-2 items-center grid grid-cols-[1.5rem,1fr] sm:grid-cols-[3.5rem,1fr,max-content] sm:grid-rows-2"

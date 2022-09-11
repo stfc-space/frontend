@@ -123,11 +123,7 @@
           : 'grid-rows-1'} md:grid-rows-1 grid-cols-2 md:grid grid-cols-2 lg:grid-cols-3 gap-2"
       >
         {#each requirements as item (item.id)}
-          <a
-            sveltekit:prefetch
-            href={item.link}
-            class="rounded shadow w-[8rem] p-1 bg-light-600 dark:bg-dark-500"
-          >
+          <a href={item.link} class="rounded shadow w-[8rem] p-1 bg-light-600 dark:bg-dark-500">
             <div class="text-center h-[3rem] break-words" style={'hyphens: auto'}>
               {item.name}
             </div>

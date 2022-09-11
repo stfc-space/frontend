@@ -181,7 +181,7 @@
       let:f
       let:value
     >
-      <a sveltekit:prefetch href="/hostiles/{item.id}" class="block class p-2">
+      <a href="/hostiles/{item.id}" class="block class p-2">
         {f(header, value)}
       </a>
     </Table>
@@ -218,7 +218,7 @@
       let:f
       let:value
     >
-      <a sveltekit:prefetch href="/missions/{item.id}" class="block p-2">
+      <a href="/missions/{item.id}" class="block p-2">
         {f(header, value)}
       </a>
     </Table>

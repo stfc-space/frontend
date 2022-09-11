@@ -12,7 +12,7 @@
   };
 </script>
 
-<a sveltekit:prefetch href="/hostiles/{hostile.id}">
+<a href="/hostiles/{hostile.id}">
   <ListItem>
     <div
       class="gap-x-2 items-center grid grid-cols-[1.5rem,1fr] sm:grid-cols-[3.5rem,1fr,max-content] sm:grid-rows-2"

@@ -196,7 +196,7 @@
   >
   <div class="w-full p-2 px-2 sm:px-4 flex flex-col gap-y-2">
     {#each data.game_profiles as profile}
-      <a sveltekit:prefetch href="/tools/game-profiles/{profile.id}" class="w-full">
+      <a href="/tools/game-profiles/{profile.id}" class="w-full">
         <div
           class="rounded-md shadow dark:bg-dark-300 bg-light-100 px-6 py-4 sm:flex sm:items-start sm:justify-between"
         >

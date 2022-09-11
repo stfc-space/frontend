@@ -8,7 +8,7 @@
   export let building: Building;
 </script>
 
-<a sveltekit:prefetch href="/buildings/{building.id}">
+<a href="/buildings/{building.id}">
   <ListItem>
     <div class="gap-x-2 items-center grid grid-cols-[3.5rem,1fr] grid-rows-2">
       <img

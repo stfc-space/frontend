@@ -326,7 +326,6 @@
         <div class="flex gap-2 flex-wrap">
           {#each synergyOfficers as synergyOfficer (synergyOfficer.id)}
             <a
-              sveltekit:prefetch
               href="/officers/{synergyOfficer.id}"
               class="rounded shadow w-[8rem] p-1 bg-light-600 dark:bg-dark-500 h-[fit-content]"
             >

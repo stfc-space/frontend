@@ -41,7 +41,6 @@
           <div />{/if}
         <div class="mt-10 flex space-x-3 sm:border-l sm:border-transparent sm:pl-6">
           <a
-            sveltekit:prefetch
             href="/"
             class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none"
           >

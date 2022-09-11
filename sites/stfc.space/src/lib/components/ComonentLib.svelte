@@ -12,7 +12,12 @@
 
   import { Icon } from '@steeze-ui/svelte-icon';
 
-  import { Adjustments, Beaker, AtSymbol, Chat } from '@steeze-ui/heroicons';
+  import {
+    AdjustmentsVertical,
+    Beaker,
+    AtSymbol,
+    ChatBubbleOvalLeftEllipsis
+  } from '@steeze-ui/heroicons';
 
   export let testText = '123';
   let sliderValue = 1;
@@ -31,10 +36,10 @@
   <div>
     <h3>Icons</h3>
     <div class="flex flex-wrap">
-      <Icon src={Adjustments} solid class="h-5 w-5" aria-hidden />
+      <Icon src={AdjustmentsVertical} solid class="h-5 w-5" aria-hidden />
       <Icon src={Beaker} solid class="h-5 w-5" aria-hidden />
       <Icon src={AtSymbol} solid class="h-5 w-5" aria-hidden />
-      <Icon src={Chat} solid class="h-5 w-5" aria-hidden />
+      <Icon src={ChatBubbleOvalLeftEllipsis} solid class="h-5 w-5" aria-hidden />
     </div>
   </div>
 
@@ -44,8 +49,8 @@
       <Pagination />
       <div class="flex gap-x-2">
         <Button class="h-8">Test</Button>
-        <Button class="h-8" iconLeft={Adjustments}>Test</Button>
-        <Button class="h-8" iconRight={Adjustments}>Test</Button>
+        <Button class="h-8" iconLeft={AdjustmentsVertical}>Test</Button>
+        <Button class="h-8" iconRight={AdjustmentsVertical}>Test</Button>
       </div>
       <TextInput />
       <TextInput placeholder="Search" />

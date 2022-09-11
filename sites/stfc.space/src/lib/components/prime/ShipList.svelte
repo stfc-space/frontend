@@ -9,7 +9,7 @@
   export let ship: Ship;
 </script>
 
-<a sveltekit:prefetch href="/ships/{ship.id}">
+<a href="/ships/{ship.id}">
   <ListItem>
     <div
       class="gap-x-2 items-center grid sm:grid-cols-[3.5rem,1fr,1fr] grid-cols-[2rem,1fr,1fr] grid-rows-2 sm:grid-rows-1"

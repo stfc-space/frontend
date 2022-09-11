@@ -1,7 +1,7 @@
 <script lang="ts">
   import { useRegisterSW } from 'virtual:pwa-register/svelte';
 
-  import { Speakerphone, X } from '@steeze-ui/heroicons';
+  import { Megaphone, XMark } from '@steeze-ui/heroicons';
   import { Icon } from '@steeze-ui/svelte-icon';
 
   const { offlineReady, needRefresh, updateServiceWorker } = useRegisterSW({
@@ -33,7 +33,7 @@
         <div class="flex items-center justify-between flex-wrap">
           <div class="w-0 flex-1 flex items-center">
             <span class="flex p-2 rounded-lg bg-indigo-800">
-              <Icon src={Speakerphone} class="h-6 w-6 text-white" aria-hidden />
+              <Icon src={Megaphone} class="h-6 w-6 text-white" aria-hidden />
             </span>
             <p class="ml-3 font-medium text-white truncate">
               <span class="md:hidden truncate">A new update is ready.</span>
@@ -97,7 +97,7 @@
                   "
             >
               <span class="sr-only">Dismiss</span>
-              <Icon src={X} class="h-6 w-6 text-white" aria-hidden />
+              <Icon src={XMark} class="h-6 w-6 text-white" aria-hidden />
             </button>
           </div>
         </div>

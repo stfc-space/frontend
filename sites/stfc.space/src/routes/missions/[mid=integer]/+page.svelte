@@ -60,7 +60,6 @@
     <div class="flex p-2 overflow-auto gap-2">
       {#each pickupSystems as system (system.id)}
         <a
-          sveltekit:prefetch
           href="/systems/{system.id}"
           class="rounded border dark:border-dark-300 p-2 dark:bg-dark-700 shadow"
         >

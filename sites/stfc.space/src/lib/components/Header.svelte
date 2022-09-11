@@ -3,7 +3,7 @@
   import { clickOutside } from '$lib/clickOutside';
   import { Icon } from '@steeze-ui/svelte-icon';
   import { User } from '@steeze-ui/heroicons';
-  import { MenuAlt1, Search, X } from '@steeze-ui/heroicons';
+  import { Bars3CenterLeft, MagnifyingGlass, XMark } from '@steeze-ui/heroicons';
   import DarkModeToggle from './DarkModeToggle.svelte';
   import { browser } from '$app/environment';
 
@@ -27,14 +27,14 @@
   $: isAuthenticated = !!userId;
 </script>
 
-<header>
+<header data-sveltekit-prefetch>
   <nav class="flex-shrink-0 bg-indigo-600">
     <div class="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
       <div class="relative flex items-center justify-between h-16">
         <!-- Logo section -->
         <div class="flex items-center px-2 lg:px-0 xl:w-64">
           <div class="flex-shrink-0">
-            <a sveltekit:prefetch href="/" aria-label="Home" class="font-bold flex-1 lg:flex-none">
+            <a href="/" aria-label="Home" class="font-bold flex-1 lg:flex-none">
               <img
                 class="w-8 h-full mr-2 inline-block "
                 width="32"
@@ -56,7 +56,7 @@
             <div class="relative text-light-200 focus-within:text-light-400">
               <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <!-- Heroicon name: solid/search -->
-                <Icon src={Search} class="h-5 w-5" aria-hidden />
+                <Icon src={MagnifyingGlass} class="h-5 w-5" aria-hidden />
               </div>
               <input
                 id="search"
@@ -80,9 +80,9 @@
           >
             <span class="sr-only">Open main menu</span>
             {#if !mobileMenuOpen}
-              <Icon src={MenuAlt1} outline class="block h-6 w-6" />
+              <Icon src={Bars3CenterLeft} outline class="block h-6 w-6" />
             {:else}
-              <Icon src={X} outline class="block h-6 w-6" />
+              <Icon src={XMark} outline class="block h-6 w-6" />
             {/if}
           </button>
         </div>

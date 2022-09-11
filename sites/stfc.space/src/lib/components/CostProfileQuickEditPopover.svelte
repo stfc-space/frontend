@@ -13,7 +13,7 @@
   import { getStaticData } from '$lib/shared/api';
   import { Checkbox, Slider, Button } from '@radion/ui';
 
-  import { LightningBolt } from '@steeze-ui/heroicons';
+  import { Bolt } from '@steeze-ui/heroicons';
   import { clickOutside } from '$lib/clickOutside';
   import { _ } from 'svelte-i18n';
 
@@ -91,7 +91,7 @@
 
 <div use:popperRef>
   <Button
-    iconRight={LightningBolt}
+    iconRight={Bolt}
     iconTheme="solid"
     iconClass="text-yellow-500"
     class="dark:bg-dark-200 dark:hover:bg-dark-300 dark:text-light-700 text-dark-700 bg-light-200 color-light-500 hover:bg-light-300 py-1.5"

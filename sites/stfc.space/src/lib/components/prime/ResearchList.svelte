@@ -9,7 +9,7 @@
   export let research: Research;
 </script>
 
-<a sveltekit:prefetch href="/researches/{research.id}">
+<a href="/researches/{research.id}">
   <ListItem>
     <div
       class="gap-x-2 items-center grid grid-cols-[max-content,1fr,max-content] grid-rows-2 lg:w-3/5 md:w-3/4 w-full text-ellipsis overflow-hidden"

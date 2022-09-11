@@ -10,7 +10,7 @@
   export let officer: Officer;
 </script>
 
-<a sveltekit:prefetch href="/officers/{officer.id}">
+<a href="/officers/{officer.id}">
   <ListItem>
     <div
       class="gap-x-1 sm:gap-x-1 items-center grid grid-cols-[3.5rem,1fr] grid-rows-2 sm:grid-rows-2"
