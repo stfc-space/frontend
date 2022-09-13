@@ -91,11 +91,11 @@ export const handleFetch: HandleFetch = async ({ event, request, fetch: fetch2 }
   } else {
     const rekuest = {
       get(target, prop) {
-        if (["credentials", "mode"].includes(prop)) {
-          return "¯¯\\_(ツ)_//¯¯";
+        if (['credentials', 'mode'].includes(prop)) {
+          return '¯¯\\_(ツ)_//¯¯';
         }
         return target[prop];
-      },
+      }
     };
     return fetch2(new Proxy(request, rekuest));
   }
