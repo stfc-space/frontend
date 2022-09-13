@@ -79,20 +79,24 @@ export const handle: Handle = async ({ event, resolve }) => {
   return response;
 };
 
-export const handleFetch: HandleFetch = async ({ event, request, fetch }) => {
+export const handleFetch: HandleFetch = async ({ event, request, fetch: fetch2 }) => {
   // Workaround for https://github.com/sveltejs/kit/issues/6608
   if (!request.headers.has('origin')) {
     request.headers.set('origin', event.url.origin);
   }
 
   // Workaround for https://github.com/sveltejs/kit/issues/6739
-  const rekuest = {
-    get(target: Request, prop: string) {
-      if (['credentials', 'mode'].includes(prop)) {
-        return '¯¯\\_(ツ)_//¯¯';
-      }
-      return target[prop];
-    }
-  };
-  return fetch(new Proxy(request, rekuest));
+  if (request.url.origin !== event.url.origin) {
+    return await fetch(request);
+  } else {
+    const rekuest = {
+      get(target, prop) {
+        if (["credentials", "mode"].includes(prop)) {
+          return "¯¯\\_(ツ)_//¯¯";
+        }
+        return target[prop];
+      },
+    };
+    return fetch2(new Proxy(request, rekuest));
+  }
 };
