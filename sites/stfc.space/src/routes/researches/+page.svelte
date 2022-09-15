@@ -4,9 +4,9 @@
 
   import { _ } from 'svelte-i18n';
 
-  import type { Research } from '$lib/shared/yuki/models';
+  import { AbilityFlag, Research } from '$lib/shared/yuki/models';
 
-  import { FilteredList, TextInput } from '@radion/ui';
+  import { Dropdown, FilteredList, TextInput } from '@radion/ui';
   import ResetFilterButton from '$lib/components/ResetFilterButton.svelte';
   import ResearchList from '$lib/components/prime/ResearchList.svelte';
   import ResearchTreeDropdown from '$lib/components/prime/ResearchTreeDropdown.svelte';
@@ -24,7 +24,8 @@
       {},
       {
         name: data.queryStore.readField('name'),
-        tree: data.queryStore.readField('t')
+        tree: data.queryStore.readField('t'),
+        effect: data.queryStore.readField('e')
       }
     );
   };
@@ -46,6 +47,7 @@
   const updateQuery = debounce((..._args) => {
     data.queryStore.updateField('name', filters.name);
     data.queryStore.updateField('t', filters.tree);
+    data.queryStore.updateField('e', filters.effect);
     data.queryStore.submitQuery();
   });
 
@@ -57,14 +59,30 @@
 
   $: filteredResearches = $search(filters.name, 'research', data.researches);
   $: {
-    const filterResearches = (filter: { tree: number }, research: Research) => {
+    const filterResearches = (filter: { tree: number; effect: number }, research: Research) => {
       if (filter.tree != -1 && research.research_tree != filter.tree) {
+        return false;
+      }
+
+      if (filter.effect != -1 && !research.buffs.some((x) => x.flag == filter.effect)) {
         return false;
       }
       return true;
     };
     filteredResearches = filteredResearches.filter((x) => filterResearches(filters, x));
   }
+
+  $: effectList = [
+    {
+      name: $_('officer.group-filter-all'),
+      value: -1,
+      display: false
+    },
+    {
+      name: 'Repair Cost',
+      value: AbilityFlag.RepairCost
+    }
+  ];
 </script>
 
 <MetaHeader title={`${$_('project.name')} - ${$_('title.researches')}`} />
@@ -79,6 +97,13 @@
           placeholder={$_('filter.text-filter')}
         />
         <ResearchTreeDropdown bind:value={filters.tree} />
+        <Dropdown
+          label={$_('officer.effect')}
+          filter
+          key="value"
+          options={effectList}
+          bind:value={filters.effect}
+        />
       </FilterContainer>
       <ResetFilterButton on:click={resetFilters} />
     </div>

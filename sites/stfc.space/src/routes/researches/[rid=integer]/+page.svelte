@@ -71,7 +71,7 @@
       icon:
         x.requirement_type == RequirementType.BuildingLevel
           ? buildingThumb(x.requirement_id)
-          : researchThumb($researches.get(x.requirement_id).art_id),
+          : researchThumb($researches.get(x.requirement_id)?.art_id),
       level: x.requirement_level,
       power: x.power_gain
     };
