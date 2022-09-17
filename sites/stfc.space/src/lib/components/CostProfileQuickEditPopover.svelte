@@ -129,7 +129,7 @@
               <Slider
                 min={0}
                 max={$buildings.get(buff.id)?.max_level ?? 0}
-                bind:value={buffConfig.research[buff.id]}
+                bind:value={buffConfig.buildings[buff.id]}
               />
             {:else if buff.source == 3}
               <span>{$_(`research_${buff.id}_name`)} ({buffConfig?.research?.[buff.id] ?? 0})</span>
