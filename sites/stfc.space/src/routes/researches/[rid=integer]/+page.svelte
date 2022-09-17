@@ -28,6 +28,7 @@
 
   import type { PageData } from './$types';
   import { getStaticData } from '$lib/shared/api';
+  import { capFirstChar } from '$lib/shared/utils';
   export let data: PageData;
 
   let selectedLevel = data.queryStore.readField('level');
@@ -109,6 +110,10 @@
         <span class="text-sm">
           {$_('prime.unlock_level')}:
           {data.research.unlock_level}
+        </span>
+        <span class="text-sm">
+          {$_('prime.research_tree_short')}:
+          {capFirstChar($_(`research_${data.research.research_tree}_tree_name`))}
         </span>
       </div>
     </div>
