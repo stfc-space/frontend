@@ -111,7 +111,7 @@
     use:clickOutside={() => (showTooltip = false)}
   >
     <div
-      class="rounded bg-light-500 dark:bg-dark-500 p-4 m-2 max-h-screen border border-purple-800 shadow"
+      class="rounded bg-light-500 dark:bg-dark-500 p-4 m-2 max-h-[calc(100vh-1rem)] border border-purple-800 shadow overflow-y-auto"
     >
       {#if initalLoaded}
         {#each buffs as buff}
