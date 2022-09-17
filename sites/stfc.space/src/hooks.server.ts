@@ -79,18 +79,21 @@ export const handle: Handle = async ({ event, resolve }) => {
   return response;
 };
 
+/** @type {import('@sveltejs/kit').HandleFetch} */
 export const handleFetch: HandleFetch = async ({ event, request, fetch: fetch2 }) => {
   // Workaround for https://github.com/sveltejs/kit/issues/6608
   if (!request.headers.has('origin')) {
     request.headers.set('origin', event.url.origin);
   }
 
+  const url = new URL(request.url);
+
   // Workaround for https://github.com/sveltejs/kit/issues/6739
-  if (request.url.origin !== event.url.origin) {
+  if (url.origin !== event.url.origin) {
     return await fetch(request);
   } else {
     const rekuest = {
-      get(target, prop) {
+      get(target: any, prop: any) {
         if (['credentials', 'mode'].includes(prop)) {
           return '¯¯\\_(ツ)_//¯¯';
         }
