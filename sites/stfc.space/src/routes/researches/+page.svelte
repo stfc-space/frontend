@@ -98,7 +98,7 @@
         />
         <ResearchTreeDropdown bind:value={filters.tree} />
         <Dropdown
-          label={$_('officer.effect')}
+          label={$_('research.effect')}
           filter
           key="value"
           options={effectList}
