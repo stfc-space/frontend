@@ -6,25 +6,21 @@ import { browser } from '$app/environment';
 export const runLoad = async (flowType: FlowTypeId, { url, fetch }: LoadEvent) => {
   const flowID = url.searchParams.get('flow');
 
-  console.log('Load');
   if (!flowID) {
     const r = await fetch(`/api/auth/self-service/${flowType}/browser`, {
       headers: {
         'Accept': 'application/json'
       }
     });
-    console.log(r);
     if (r.status != 200) {
       const t = await r.text();
       if (r.status == 303 || r.status == 302) {
         throw redirect(r.status, r.headers.get('location'));
       } else {
-        console.log('Magic');
         throw error(r.status, t);
       }
     } else {
       const v = (await r.json()) as { id: string };
-      console.log(v);
       if (!v || !v.id) {
         throw redirect(302, '/');
       } else {
