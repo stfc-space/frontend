@@ -18,8 +18,8 @@
   "devDependencies": {
     "@changesets/cli": "https://pkg.stfc.space/@changesets/cli",
     "@svitejs/changesets-changelog-github-compact": "^0.1.1",
-    "@typescript-eslint/eslint-plugin": "^5.37.0",
-    "@typescript-eslint/parser": "^5.37.0",
+    "@typescript-eslint/eslint-plugin": "^5.38.0",
+    "@typescript-eslint/parser": "^5.38.0",
     "dugite": "^2.0.0",
     "eslint": "^8.23.1",
     "eslint-plugin-import": "^2.26.0",
