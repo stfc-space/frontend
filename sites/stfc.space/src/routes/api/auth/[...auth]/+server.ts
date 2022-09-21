@@ -1,6 +1,6 @@
 import type { RequestHandler } from './$types';
 
-const KRATOS_BACKEND_URL = import.meta.env.VITE_KRATOS_BACKEND_URL as string;
+import { KRATOS_BACKEND_URL } from '$env/static/private';
 
 interface RequestEvent<Params = Record<string, string>> {
   request: Request;
