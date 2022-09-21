@@ -4,9 +4,9 @@ import { SignJWT, jwtVerify } from 'jose';
 import type { Session } from '@ory/client';
 import { Buffer } from 'buffer';
 
-const KRATOS_BACKEND_URL = import.meta.env.VITE_KRATOS_BACKEND_URL as string;
+import { JWT_SECRET, KRATOS_BACKEND_URL } from '$env/static/private';
 
-const jwtSecret = Uint8Array.from(Buffer.from(import.meta.env.JWT_SECRET as string, 'base64'));
+const jwtSecret = Uint8Array.from(Buffer.from(JWT_SECRET, 'base64'));
 
 export const handle: Handle = async ({ event, resolve }) => {
   const request = event.request;

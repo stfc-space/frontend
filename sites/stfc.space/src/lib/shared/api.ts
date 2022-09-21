@@ -4,8 +4,10 @@ import type { MandeInstance, Options } from './mande';
 import { get, writable } from 'svelte/store';
 import type { Building, Research, Resource, System } from './yuki/models';
 
+import { PUBLIC_API_URL } from '$env/static/public';
+
 function getAPIUrl() {
-  let api_url = import.meta.env.VITE_API_URL as string;
+  let api_url = PUBLIC_API_URL;
   if (!api_url.endsWith('/')) {
     api_url += '/';
   }

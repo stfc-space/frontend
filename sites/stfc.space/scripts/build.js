@@ -43,12 +43,6 @@ if (!mode) {
     case 'dev':
       mode = 'staging';
       break;
-    case 'staging':
-      mode = 'staging';
-      break;
-    case 'svelte':
-      mode = 'next';
-      break;
     case 'next':
       mode = 'next';
       break;

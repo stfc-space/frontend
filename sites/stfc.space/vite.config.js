@@ -6,10 +6,7 @@ import WindiCSS from 'vite-plugin-windicss';
 import { pwaConfiguration } from './pwa-configuration.js';
 import { VitePWA } from 'vite-plugin-pwa';
 
-import jscc from 'rollup-plugin-jscc';
-
 // Broken fucking shit
-import { default as loadVersion } from 'vite-plugin-package-version';
 import { default as EnvironmentPlugin } from 'vite-plugin-environment';
 
 import GlobPlugin from 'vite-plugin-glob';
@@ -40,8 +37,6 @@ export default {
     GlobPlugin({
       takeover: true
     }),
-    loadVersion.default(),
-    jscc({}),
     WindiCSS({
       attributify: true,
       scan: {
@@ -50,7 +45,11 @@ export default {
       }
     }),
     EnvironmentPlugin(
-      { 'GIT_BRANCH': 'local', 'JWT_SECRET': 'bG9jYWw=', 'GIT_REV_HASH': commitHash },
+      {
+        'GIT_BRANCH': 'local',
+        'GIT_REV_HASH': commitHash,
+        'PACKAGE_VERSION': process.env.npm_package_version
+      },
       { defineOn: 'import.meta.env' }
     )
   ]
