@@ -16,7 +16,7 @@
 
   import type { PageData } from './$types';
 
-  import { buildingThumb, researchThumb } from '$lib/shared/yuki/thumbs';
+  import { buildingThumb, researchThumb, resourceThumb } from '$lib/shared/yuki/thumbs';
   import { NumberInput, Slider } from '@radion/ui';
 
   import { formatPrimeText, sortResourceList } from '$lib/shared/yuki/utils';
@@ -67,24 +67,45 @@
   let requiredByTableItems: RequirementUiItem[];
   let buildingLevelCosts: (BuildCost & { resource_id: number; rarity: Rarity })[];
 
-  let mapRequirement = (x: Requirement): RequirementUiItem => {
-    return {
-      id: `${x.requirement_id}_${x.requirement_level}`,
-      link:
-        x.requirement_type == RequirementType.BuildingLevel
-          ? '/buildings/' + x.requirement_id + '?level=' + x.requirement_level
-          : '/researches/' + x.requirement_id + '?level=' + x.requirement_level,
-      name:
-        x.requirement_type == RequirementType.BuildingLevel
-          ? $_(`buildings_${x.requirement_id}_name`)
-          : $_(`research_${x.requirement_id}_name`),
-      icon:
-        x.requirement_type == RequirementType.BuildingLevel
-          ? buildingThumb(x.requirement_id)
-          : researchThumb($researches.get(x.requirement_id).art_id),
-      level: x.requirement_level,
-      power: x.power_gain
-    };
+  let mapRequirement = (x: Requirement) => {
+    switch (x.requirement_type) {
+      case RequirementType.BuildingLevel: {
+        return {
+          id: `${x.requirement_id}_${x.requirement_level}`,
+          link: '/buildings/' + x.requirement_id + '?level=' + x.requirement_level,
+          name: $_(`buildings_${x.requirement_id}_name`),
+          icon: buildingThumb(x.requirement_id),
+          level: x.requirement_level,
+          power: x.power_gain
+        };
+      }
+      case RequirementType.ResearchLevel: {
+        return {
+          id: `${x.requirement_id}_${x.requirement_level}`,
+          link: '/researches/' + x.requirement_id + '?level=' + x.requirement_level,
+          name: $_(`research_${x.requirement_id}_name`),
+          icon: researchThumb($researches.get(x.requirement_id)?.art_id),
+          level: x.requirement_level,
+          power: x.power_gain
+        };
+      }
+      case RequirementType.FactionRank: {
+        return {
+          id: `${x.requirement_id}_${x.requirement_level}`,
+          name: $_(`materials_${x.requirement_id}_name`),
+          icon: resourceThumb(x.requirement_id),
+          value: x.requirement_level
+        };
+      }
+      case RequirementType.AllianceLevel: {
+        return {
+          id: `${x.requirement_id}_${x.requirement_level}`,
+          name: $_(`alliance.level`),
+          icon: resourceThumb(x.requirement_id),
+          level: x.requirement_level
+        };
+      }
+    }
   };
 
   const updateRequiredByItems = debounce(() => {

@@ -1,11 +1,12 @@
 <script context="module" lang="ts">
   export interface RequirementUiItem {
     id: string;
-    link: string;
+    link?: string;
     name: string;
     icon: string;
-    level: number;
-    power: number;
+    level?: number;
+    value?: number;
+    power?: number;
   }
 </script>
 

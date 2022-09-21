@@ -128,7 +128,11 @@
               {item.name}
             </div>
             <img class="h-14 mx-auto" aria-hidden="true" src={item.icon} alt="_" />
-            <div class="text-center">{$_('prime.level')}: {item.level}</div>
+            {#if item.level}
+              <div class="text-center">{$_('prime.level')}: {item.level}</div>
+            {:else}
+              <div class="text-center">{item.value}</div>
+            {/if}
           </a>
         {/each}
       </div>

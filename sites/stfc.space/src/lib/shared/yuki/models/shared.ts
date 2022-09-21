@@ -13,7 +13,8 @@ export interface Requirement {
 export enum RequirementType {
   BuildingLevel = 'BuildingLevel',
   FactionRank = 'FactionRank',
-  ResearchLevel = 'ResearchLevel'
+  ResearchLevel = 'ResearchLevel',
+  AllianceLevel = 'AllianceLevel'
 }
 
 export enum Rarity {
