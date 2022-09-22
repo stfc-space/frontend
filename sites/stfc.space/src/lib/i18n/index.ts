@@ -129,7 +129,7 @@ export async function extendTranslations(
   fetchOverride?: Window['fetch']
 ) {
   translationExtensions.push(...o);
-  Promise.allSettled(
+  return Promise.allSettled(
     o.map((n) =>
       loadTranslationList(lang, n.path, n.ids, fetchOverride)
         .then((data) => {

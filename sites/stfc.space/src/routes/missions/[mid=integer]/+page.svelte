@@ -36,6 +36,23 @@
     });
   };
   $: fetchChainGraph($locale);
+
+  $: selected_steps = {};
+
+  $: task_list = (() => {
+    let root = data.mission.tasks[data.mission.first_task_id];
+    const tasks = [{ id: root.id, options: root.next_steps }];
+    let next_step = selected_steps[root.id] ?? root.next_steps[0];
+    while (next_step) {
+      const current_step = data.mission.tasks[next_step];
+      tasks.push({
+        id: current_step.id,
+        options: current_step.next_steps
+      });
+      next_step = selected_steps[next_step] ?? current_step.next_steps[0];
+    }
+    return tasks;
+  })();
 </script>
 
 <MetaHeader title={`${$_('project.name')} - ${$_(`missions_${data.mission.id}_title`)}`} />
@@ -74,6 +91,26 @@
           <span class="text-sm"> {$_('system.warp')} {system.est_warp}</span>
         </a>
       {/each}
+    </div>
+
+    <div class="flex flex-col mx-auto items-center">
+      Steps
+      <br />
+      <div class="flex flex-col">
+        {#each task_list as task}
+          <span>
+            {$_(`mission_tasks_${task.id}_title`)}
+          </span>
+          {#if task.options.length > 1}
+            CHOOSE
+            {#each task.options as option}
+              <button on:click={() => (selected_steps[task.id] = option)}
+                >{$_(`mission_tasks_${option}_dilemma_description`)}</button
+              >
+            {/each}
+          {/if}
+        {/each}
+      </div>
     </div>
 
     {#if chainGraphData}
