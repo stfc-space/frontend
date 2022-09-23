@@ -10,7 +10,7 @@ export const load: PageLoad = async function ({ parent, fetch, params }) {
   await YukiApi.get('/mission/' + params.mid, undefined, fetch).then(
     (s: MissionDetail) => (mission = s)
   );
-  let task_ids = Object.values(mission.tasks).map((x) => x.id);
+  const task_ids = Object.values(mission.tasks).map((x) => x.id);
   await Promise.all([
     extendTranslations(
       lang,
