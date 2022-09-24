@@ -167,6 +167,7 @@ importers:
       '@steeze-ui/iconic-free': ^1.1.0
       '@steeze-ui/icons': ^2.0.1
       '@steeze-ui/radix-icons': ^1.1.0
+      '@steeze-ui/remix-icons': ^1.0.0
       '@steeze-ui/svelte-icon': ^1.3.2
       '@sveltejs/adapter-cloudflare': ^1.0.0-next.35
       '@sveltejs/adapter-cloudflare-workers': ^1.0.0-next.56
@@ -254,6 +255,7 @@ importers:
       '@steeze-ui/iconic-free': 1.1.0
       '@steeze-ui/icons': 2.0.1
       '@steeze-ui/radix-icons': 1.1.0
+      '@steeze-ui/remix-icons': 1.0.0
       '@steeze-ui/svelte-icon': 1.3.2
       '@sveltejs/adapter-cloudflare': 1.0.0-next.35
       '@sveltejs/adapter-cloudflare-workers': 1.0.0-next.56
@@ -2732,6 +2734,10 @@ packages:
 
   /@steeze-ui/radix-icons/1.1.0:
     resolution: {integrity: sha512-p6cQIuREqJ7xy8gbQTE9uzW97I7dg3E4UlJsOBHaQNAg7vakqaqozIu5hP1Bp78tuvBvM7CH2+VT0xqpez1ajQ==}
+    dev: true
+
+  /@steeze-ui/remix-icons/1.0.0:
+    resolution: {integrity: sha512-uTFZn5UaSbLdPEBIvq0/lq7iH/vIF96FRkW1nl7WJAcUVUDewQX9q0BuP6glwYxEAJRCPBhTJjqg3ZhOQLJ5WA==}
     dev: true
 
   /@steeze-ui/svelte-icon/1.3.2:
