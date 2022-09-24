@@ -20,7 +20,8 @@ const staticTranslations = [
   { path: 'hostiles' },
   { path: 'missions', 'key': 'title' },
   { path: 'traits' },
-  { path: 'blueprints', 'key': 'blueprint_name' }
+  { path: 'blueprints', 'key': 'blueprint_name' },
+  { path: 'servers' }
 ];
 
 const staticTranslationList = [{ path: 'officers', ids: [-1] }];

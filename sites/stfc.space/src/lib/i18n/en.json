@@ -162,5 +162,16 @@
     "fatal": {
       "title": " We're sorry, but something went wrong."
     }
+  },
+  "region": {
+    "us": "US",
+    "eu": "EU",
+    "apac": "APAC"
+  },
+  "status": {
+    "online": "Online",
+    "offline": "Offline",
+    "maintenance": "Maintenance",
+    "incident": "Incident"
   }
 }

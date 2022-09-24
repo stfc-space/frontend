@@ -19,7 +19,7 @@
     .filter((system) => !!system);
 
   let chainGraphData: ElkRoot | null = null;
-  const fetchChainGraph = (state: string) => {
+  const fetchChainGraph = (lang: string) => {
     if (!browser) {
       return;
     }
@@ -28,7 +28,7 @@
     }
     YukiApi.get('/mission/chain/' + data.mission.chain, {
       query: {
-        lang: state,
+        lang: lang,
         format: 'elk'
       }
     }).then((e: any) => {
