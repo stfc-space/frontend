@@ -53,3 +53,16 @@ export function capFirstChar(text: string): string {
     .map((x) => capitalizeFirstLetter(x))
     .join(' ');
 }
+
+import { onDestroy } from 'svelte';
+
+export function onInterval<TArgs extends any[]>(
+  callback: (...args: TArgs) => void,
+  ms?: number,
+  ...args: TArgs
+) {
+  const interval = setInterval(callback, ms, ...args);
+  onDestroy(() => {
+    clearInterval(interval);
+  });
+}

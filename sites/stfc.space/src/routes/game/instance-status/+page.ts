@@ -29,7 +29,7 @@ interface GameStatus {
   }[];
 }
 
-export const load: PageLoad = async ({ fetch, url }) => {
+export const load: PageLoad = async ({ fetch }) => {
   try {
     let result: GameStatus;
     await Promise.all([

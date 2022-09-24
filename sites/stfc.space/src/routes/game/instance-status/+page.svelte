@@ -11,6 +11,8 @@
   import { browser } from '$app/environment';
   import { Region, Status } from './+page';
   import { Icon } from '@steeze-ui/svelte-icon';
+  import MetaHeader from '$lib/components/MetaHeader.svelte';
+  import { onInterval } from '$lib/shared/utils';
 
   export let data: PageData;
 
@@ -18,7 +20,7 @@
   let lastFetched = new Date();
 
   if (browser) {
-    setInterval(() => {
+    onInterval(() => {
       YukiApi.get('/game/status', undefined, fetch).then((e: any) => {
         data.status = e;
         lastFetched = new Date();
@@ -55,6 +57,10 @@
   let useTable = false;
 </script>
 
+<svelte:head>
+  <MetaHeader title={`${$_('project.name')} - ${$_('server.status')}`} />
+</svelte:head>
+
 <div bind:clientWidth={containerWidth}>
   <Checkbox bind:checked={useTable}>Use Table</Checkbox>
   <div class="p-1">Last Updated: {$time(lastFetched, { format: 'medium' })}</div>
@@ -79,7 +85,8 @@
   {#if !useTable}
     <div class="grid gap-3 grid-cols-3 mb-4 grid-flow-dense">
       {#each filteredInstances as instance (instance.id)}
-        <div
+        <a
+          href={`/game/instance-status/${instance.id}`}
           class="flex items-center p-2 rounded-lg shadow bg-dark-500 flex-wrap w-full"
           on:click={() => {
             if (selectedInstance == instance.id) {
@@ -89,7 +96,7 @@
             }
           }}
         >
-          <div class="flex items-center gap-0.5">
+          <div class="flex items-center gap-0.5 self-start">
             <span class="inline-block font-bold whitespace-nowrap">
               {#if instance.region == Region.UsEast1}
                 {$_('region.us')}
@@ -104,7 +111,7 @@
               ({$_(`servers_${instance.id}_name`, { default: '' })})</span
             >
           </div>
-          <div class="ml-auto p-2 flex lg:block flex-nowrap items-center">
+          <div class="ml-auto pt-1 pb-2 flex lg:block flex-nowrap items-center">
             {#if instance.status == Status.Online}
               <span
                 class="border border-green-500 text-green-500 px-1 py-0.5 rounded dark:bg-dark-900"
@@ -174,7 +181,7 @@
               {/if}
             </div>
           </div>
-        </div>
+        </a>
       {/each}
     </div>
   {:else}
@@ -184,11 +191,13 @@
       headers={[
         {
           text: 'Instance',
-          value: 'id'
+          value: 'id',
+          dense: true
         },
         {
           text: 'Status',
-          value: 'status'
+          value: 'status',
+          dense: true
         },
         {
           text: 'Transfer',

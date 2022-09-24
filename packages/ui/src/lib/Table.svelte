@@ -17,6 +17,7 @@
 		round?: boolean;
 		icon?: keyof ItemType | string;
 		class?: string;
+		dense?: boolean;
 	}
 
 	interface TableHeader2 {
@@ -26,6 +27,7 @@
 		round?: boolean;
 		icon?: keyof ItemType;
 		class?: string;
+		dense?: boolean;
 	}
 
 	export let fixed = false;
@@ -150,6 +152,7 @@
 									class:p-1={forcePadding}
 									class:text-right={!horizontal}
 									class:text-center={horizontal}
+									class:dense={header.dense}
 								>
 									<slot {header} value={item[header.value]} {item} {f}>
 										{#if header.icon}
@@ -166,3 +169,10 @@
 		</DivWrapper>
 	</table>
 </div>
+
+<style>
+	.dense {
+		width: 0.1%;
+		white-space: nowrap;
+	}
+</style>
