@@ -197,9 +197,3 @@
     {/if}
   </div>
 </DetailPageContainer>
-
-<style>
-  .option {
-    @apply;
-  }
-</style>
