@@ -39,15 +39,28 @@
 
   $: selected_steps = {};
 
+  const taskIcons = import.meta.importGlob<string>('$lib/assets/icons/tasks/missions_task_*.png', {
+    import: 'default',
+    eager: true
+  });
+
   $: task_list = (() => {
+    console.log(taskIcons);
     let root = data.mission.tasks[data.mission.first_task_id];
-    const tasks = [{ id: root.id, options: root.next_steps }];
+    const tasks = [
+      {
+        id: root.id,
+        options: root.next_steps,
+        icon: taskIcons[`/src/lib/assets/icons/tasks/missions_task_${root.type}.png`]
+      }
+    ];
     let next_step = selected_steps[root.id] ?? root.next_steps[0];
     while (next_step) {
       const current_step = data.mission.tasks[next_step];
       tasks.push({
         id: current_step.id,
-        options: current_step.next_steps
+        options: current_step.next_steps,
+        icon: taskIcons[`/src/lib/assets/icons/tasks/missions_task_${current_step.type}.png`]
       });
       next_step = selected_steps[next_step] ?? current_step.next_steps[0];
     }
@@ -96,21 +109,87 @@
     <div class="flex flex-col mx-auto items-center">
       Steps
       <br />
-      <div class="flex flex-col">
+      <ul>
         {#each task_list as task}
-          <span>
-            {$_(`mission_tasks_${task.id}_title`)}
-          </span>
-          {#if task.options.length > 1}
-            CHOOSE
-            {#each task.options as option}
-              <button on:click={() => (selected_steps[task.id] = option)}
-                >{$_(`mission_tasks_${option}_dilemma_description`)}</button
-              >
-            {/each}
-          {/if}
+          <li>
+            <div
+              class="relative pb-6"
+              class:pb-6={task.options.length == 1}
+              class:pb-1={task.options.length > 1}
+            >
+              {#if task.options.length == 1}
+                <span
+                  class="absolute top-6 left-5 -ml-px bottom-0 w-0.5 bg-gray-200 dark:bg-opacity-20"
+                  aria-hidden="true"
+                />
+                <div class="relative flex items-start space-x-3">
+                  <div class="relative w-12">
+                    <img
+                      class="ml-2 w-6 fix-light-image"
+                      src={task.icon}
+                      alt=""
+                      aria-hidden="true"
+                    />
+                  </div>
+                  <span>
+                    {$_(`mission_tasks_${task.id}_title`)}
+                  </span>
+                </div>
+              {:else if task.options.length > 1}
+                <div class="relative flex items-start flex-wrap space-x-3">
+                  <div class="relative w-12">
+                    <img class="ml-2 w-6 fix-light-image" src={task.icon} />
+                  </div>
+                  <div class="min-w-0 flex-1">
+                    <div class="text-md">
+                      {$_(`mission_tasks_${task.id}_title`)}
+                    </div>
+                  </div>
+                  <div class="w-full">
+                    <div>
+                      {#each task.options as option}
+                        {#if selected_steps[task.id] == option}
+                          <button
+                            class="flex-1 cursor-pointer select-none border-indigo-500 text-indigo-600 py-2 px-1 border-b-2 font-medium text-md"
+                            on:click={() => (selected_steps[task.id] = option)}
+                            >{$_(`mission_tasks_${option}_dilemma_description`)}</button
+                          >
+                        {:else}
+                          <button
+                            class="flex-1 cursor-pointer select-none border-transparent text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-gray-100 hover:border-gray-300 py-2 px-1 border-b-2 font-medium text-md"
+                            on:click={() => (selected_steps[task.id] = option)}
+                            >{$_(`mission_tasks_${option}_dilemma_description`)}</button
+                          >
+                        {/if}
+                      {/each}
+                    </div>
+                    <div class="relative h-8">
+                      <span
+                        class="absolute top-1 left-2 -ml-px bottom-0 w-0.5 bg-gray-200 dark:bg-opacity-20"
+                        aria-hidden="true"
+                      />
+                    </div>
+                  </div>
+                </div>
+              {:else}
+                <div class="relative flex items-start space-x-3">
+                  <div class="relative w-12">
+                    <img
+                      class="ml-2 w-6 fix-light-image"
+                      src={task.icon}
+                      alt=""
+                      aria-hidden="true"
+                    />
+                  </div>
+                  <span>
+                    {$_(`mission_tasks_${task.id}_title`)}
+                  </span>
+                </div>
+              {/if}
+            </div>
+          </li>
         {/each}
-      </div>
+      </ul>
     </div>
 
     {#if chainGraphData}
@@ -118,3 +197,9 @@
     {/if}
   </div>
 </DetailPageContainer>
+
+<style>
+  .option {
+    @apply;
+  }
+</style>
