@@ -2,7 +2,7 @@ import { browser } from '$app/environment';
 import { mande } from './mande';
 import type { MandeInstance, Options } from './mande';
 import { get, writable } from 'svelte/store';
-import type { Building, Research, Resource, System } from './yuki/models';
+import type { Building, Officer, Research, Resource, Ship, System } from './yuki/models';
 
 import { PUBLIC_API_URL } from '$env/static/public';
 
@@ -87,6 +87,8 @@ const api = new YukiApiImpl(
 export { api as YukiApi };
 
 const stores = {
+  ships: writable(new Map<number, Ship>()),
+  officers: writable(new Map<number, Officer>()),
   resources: writable(new Map<number, Resource>()),
   researches: writable(new Map<number, Research>()),
   buildings: writable(new Map<number, Building>()),
@@ -94,10 +96,10 @@ const stores = {
   buff_map: writable(new Map<number, { source: number; id: number }[]>())
 };
 
-let resourceFetch = undefined;
+let resourceFetchDone = false;
 export async function waitStaticData(fetchOverride?: Window['fetch']) {
-  if (!resourceFetch && get(stores.resources).size === 0) {
-    resourceFetch = Promise.all([
+  if (!resourceFetchDone) {
+    return Promise.all([
       api.get('/resource', undefined, fetchOverride).then((e: Resource[]) => {
         const m = new Map();
         for (const resource of e) {
@@ -126,6 +128,20 @@ export async function waitStaticData(fetchOverride?: Window['fetch']) {
         }
         stores.buildings.set(m);
       }),
+      api.get('/officer', undefined, fetchOverride).then((e: Officer[]) => {
+        const m = new Map();
+        for (const officer of e) {
+          m.set(officer.id, officer);
+        }
+        stores.officers.set(m);
+      }),
+      api.get('/ship', undefined, fetchOverride).then((e: Ship[]) => {
+        const m = new Map();
+        for (const officer of e) {
+          m.set(officer.id, officer);
+        }
+        stores.ships.set(m);
+      }),
       api.get('/config/buffs', undefined, fetchOverride).then((e: { [key: string]: number[] }) => {
         const m = new Map();
         for (const buffMod in e) {
@@ -143,12 +159,13 @@ export async function waitStaticData(fetchOverride?: Window['fetch']) {
         }
         stores.buff_map.set(m);
       })
-    ]);
-  }
-
-  if (resourceFetch) {
-    await resourceFetch;
-    resourceFetch = undefined;
+    ])
+      .then(() => {
+        resourceFetchDone = true;
+      })
+      .catch((e) => {
+        console.error('Failed to load static data:', e);
+      });
   }
 }
 
