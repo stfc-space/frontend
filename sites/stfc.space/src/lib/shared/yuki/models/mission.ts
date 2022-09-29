@@ -30,7 +30,7 @@ export enum MissionTaskType {
   DefeatNpcInstantiated, // DONE
   DefeatNpcGlobal, // DONE
   StartMining,
-  MineResources, // SORTA DONE
+  MineResources, // DONE
   ReturnFleetToStation, // DONE
   BuildFromBlueprint,
   DummyObjective,
@@ -41,11 +41,33 @@ export enum MissionTaskType {
   DonateResources, // DONE
   CompleteFactionMissions,
   UpgradeShip,
-  StockpileResources, // NEEDS SOME MORE WORK, RESEARCH REWARDS :)
+  StockpileResources, // DONE
   OfficerLevelAndRank,
   DefeatFactionShips,
   AssignOfficerToDrydock,
   MoveStarbase
+}
+
+export interface MissionTaskAttributesNpc {
+  id: number;
+  stats: {
+    health: number;
+    defense: number;
+    attack: number;
+    dpr: number;
+    strength: number;
+    hull_hp: number;
+    shield_hp: number;
+    armor: number;
+    absorption: number;
+    dodge: number;
+    accuracy: number;
+    armor_piercing: number;
+    shield_piercing: number;
+    critical_chance: number;
+    critical_damage: number;
+  };
+  hull_type: number;
 }
 
 export interface MissionTaskAttributes {
@@ -55,7 +77,7 @@ export interface MissionTaskAttributes {
   level?: number;
   module_id?: number;
   count?: number;
-  npc?: unknown;
+  npc?: MissionTaskAttributesNpc;
 }
 
 export interface MissionDialogue {
