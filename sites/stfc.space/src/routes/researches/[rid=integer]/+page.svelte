@@ -115,6 +115,8 @@
 
 <MetaHeader
   title={`${$_('project.name')} - ${$_(`research_${data.research.id}_name`)} (${selectedLevel})`}
+  description={$_(`research_${data.research.id}_description`)}
+  image={researchThumb(data.research.art_id)}
 />
 
 <DetailPageContainer>
