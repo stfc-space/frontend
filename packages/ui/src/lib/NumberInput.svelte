@@ -84,6 +84,10 @@
 </div>
 
 <style>
+	input {
+		max-width: 10ch;
+	}
+
 	input.controls::-webkit-inner-spin-button,
 	input.controls::-webkit-outer-spin-button {
 		-webkit-appearance: none;
