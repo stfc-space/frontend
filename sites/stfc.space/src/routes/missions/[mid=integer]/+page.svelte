@@ -148,7 +148,7 @@
                   <div class="w-full">
                     <div>
                       {#each task.options as option}
-                        {#if selected_steps[task.id] == option}
+                        {#if selected_steps[task.id] == option || (!selected_steps[task.id] && option == task.options[0])}
                           <button
                             class="flex-1 cursor-pointer select-none border-indigo-500 text-indigo-600 py-2 px-1 border-b-2 font-medium text-md"
                             on:click={() => (selected_steps[task.id] = option)}
