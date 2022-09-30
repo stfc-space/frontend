@@ -110,7 +110,8 @@
       "upgrade": "Upgrade",
       "upgrade_to_level": "to Level",
       "mine": "Mine",
-      "collect": "Collect"
+      "collect": "Collect",
+      "return_station": "Return to Station"
     }
   },
   "system": {
