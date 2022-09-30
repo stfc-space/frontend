@@ -183,7 +183,7 @@
                             {$_(`systems_${task.attributes.target_system}_name`)}
                           </a>
                         {:else}
-                          <span class="underline">Nearby</span>
+                          <span class="underline">{$_('mission.task.location_nearby')}</span>
                         {/if}
                       {:else if task.type == MissionTaskType.DonateResources}
                         {$_(`mission.task.donate`)}
@@ -191,7 +191,7 @@
                         {$_(`materials_${task.attributes.resource_id}_name`)}
                       {:else if task.type == MissionTaskType.DefeatNpcInstantiated}
                         <div class="flex gap-x-1">
-                          <span>Kill</span>
+                          <span>{$_('mission.task.kill')}</span>
                           <a
                             class="text-indigo-700 dark:text-indigo-400"
                             href={'/missions/' +
@@ -201,9 +201,11 @@
                           >
                             {$_(`mission_tasks_${task.attributes.npc.id}_title`)}
                           </a>
-                          <span>in</span>
+                          <span>{$_('mission.task.combinator_in')}</span>
                           {#if task.attributes.target_system == -1}
-                            <span class="text-indigo-700 dark:text-indigo-400">Nearby</span>
+                            <span class="text-indigo-700 dark:text-indigo-400"
+                              >{$_('mission.task.location_nearby')}</span
+                            >
                           {:else}
                             <a
                               class="text-indigo-700 dark:text-indigo-400"
@@ -226,14 +228,22 @@
                         </div>
                       {:else if task.type == MissionTaskType.DefeatNpcGlobal}
                         <div class="flex gap-x-1">
-                          Kill {task.attributes.count}
+                          {$_('mission.task.kill_count', {
+                            values: {
+                              count: task.attributes.count
+                            }
+                          })}
                           <a class="text-indigo-700 dark:text-indigo-400" href="/hostiles">
-                            Level {task.attributes.level}+ Hostiles</a
+                            {$_('mission.task.hostiles_level', {
+                              values: {
+                                level: task.attributes.level
+                              }
+                            })}</a
                           >
                           {#if task.attributes.target_system == 0}
-                            <span>anywhere</span>
+                            <span>{$_('mission.task.location_anywhere')}</span>
                           {:else}
-                            <span>in</span>
+                            <span>{$_('mission.task.combinator_in')}</span>
                             <a
                               class="text-indigo-700 dark:text-indigo-400"
                               href={'/systems/' + task.attributes.target_system}
@@ -267,7 +277,7 @@
                         {$number(task.attributes.resource_amount)}
                         {$_(`materials_${task.attributes.resource_id}_name`)}
                       {:else if task.type == MissionTaskType.StartMining || task.type == MissionTaskType.BuildFromBlueprint || task.type == MissionTaskType.RecruitNewOfficer || task.type == MissionTaskType.JoinAlliance || task.type == MissionTaskType.AttackStarbase || task.type == MissionTaskType.CompleteFactionMissions || task.type == MissionTaskType.UpgradeShip || task.type == MissionTaskType.OfficerLevelAndRank || task.type == MissionTaskType.DefeatFactionShips || task.type == MissionTaskType.AssignOfficerToDrydock || task.type == MissionTaskType.MoveStarbase}
-                        <!-- These are not _really_ that importan to have data driven text, at least not yetzs-->
+                        <!-- These are not _really_ that importan to have data driven text, at least not yet -->
                       {:else}
                         Task Details go here {MissionTaskType[task.type]}
                       {/if}

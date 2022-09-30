@@ -105,13 +105,19 @@
     "warp": "Start Warp",
     "warp_completion": "Completion Warp",
     "task": {
+      "kill": "Kill",
+      "kill_count": "Kill {count}",
+      "location_nearby": "Nearby",
+      "location_anywhere": "Anywhere",
+      "combinator_in": "in",
       "donate": "Dontate",
       "go_to": "Go To",
       "upgrade": "Upgrade",
       "upgrade_to_level": "to Level",
       "mine": "Mine",
       "collect": "Collect",
-      "return_station": "Return to Station"
+      "return_station": "Return to Station",
+      "hostiles_level": "Level {level}+ Hostiles"
     }
   },
   "system": {
