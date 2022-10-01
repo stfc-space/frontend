@@ -23,7 +23,7 @@ export async function dataLoadHelper<U, T extends Iterable<U | PromiseLike<U>>>(
         if (isPromiseSettledResult(result)) {
           return result.status == 'fulfilled' ? result.value : {};
         } else {
-          result;
+          return result;
         }
       })
     );
