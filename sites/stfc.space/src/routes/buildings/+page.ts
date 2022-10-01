@@ -6,6 +6,7 @@ import { QueryStore } from '$lib/shared/queryStore';
 
 import type { LoadEvent } from '@sveltejs/kit/types';
 import type { Building } from '$lib/shared/yuki/models';
+import { dataLoadHelper } from '$lib/loadHelper';
 
 interface QueryParams {
   name: string;
@@ -21,20 +22,13 @@ export async function load({ url, fetch }: LoadEvent) {
     throw redirect(302, '?' + query.toString());
   }
 
-  try {
-    let result: Building[];
-    await Promise.all([
+  return {
+    ...(await dataLoadHelper([
       YukiApi.get('/building', undefined, fetch).then((e: Building[]) => {
-        result = e;
+        return { buildings: e };
       }),
       waitLocale()
-    ]);
-
-    return {
-      buildings: result,
-      queryStore
-    };
-  } catch (e) {
-    throw error(500, `Could not load ${e}`);
-  }
+    ])),
+    queryStore
+  };
 }

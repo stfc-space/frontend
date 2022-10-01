@@ -1,9 +1,10 @@
-import { redirect, error } from '@sveltejs/kit';
+import { redirect } from '@sveltejs/kit';
 import { YukiApi } from '$lib/shared/api';
 import { QueryStore } from '$lib/shared/queryStore';
 
 import type { PageLoad } from './$types';
 import type { InventoryReward, Mission } from '$lib/shared/yuki/models';
+import { dataLoadHelper } from '$lib/loadHelper';
 
 interface QueryParams {
   name: string;
@@ -27,18 +28,17 @@ export const load: PageLoad = async ({ url, fetch }) => {
     throw redirect(302, '?' + query.toString());
   }
 
-  try {
-    const result = await YukiApi.get<{ missions: Mission[]; all_rewards: InventoryReward[] }>(
+  return await dataLoadHelper([
+    YukiApi.get<{ missions: Mission[]; all_rewards: InventoryReward[] }>(
       '/mission/rewards',
       undefined,
       fetch
-    );
-    return {
-      missions: result.missions,
-      allRewards: result.all_rewards,
-      queryStore
-    };
-  } catch (e) {
-    throw error(500, `Could not load ${e}`);
-  }
+    ).then((result) => {
+      return {
+        missions: result.missions,
+        allRewards: result.all_rewards,
+        queryStore
+      };
+    })
+  ]);
 };

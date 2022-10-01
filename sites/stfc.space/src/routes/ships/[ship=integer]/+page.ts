@@ -6,6 +6,7 @@ import { QueryStore } from '$lib/shared/queryStore';
 import type { ShipDetail } from '$lib/shared/yuki/models';
 
 import type { PageLoad } from './$types';
+import { dataLoadHelper } from '$lib/loadHelper';
 
 interface QueryParams {
   level: number;
@@ -15,9 +16,10 @@ interface QueryParams {
 
 export const load: PageLoad = async function ({ parent, fetch, params, url }) {
   const { lang } = await parent();
-  let ship: ShipDetail;
-  await Promise.all([
-    await YukiApi.get('/ship/' + params.ship, undefined, fetch).then((s: ShipDetail) => (ship = s)),
+  const { ship } = await dataLoadHelper([
+    await YukiApi.get('/ship/' + params.ship, undefined, fetch).then((s: ShipDetail) => {
+      return { ship: s };
+    }),
     extendTranslations(lang, [{ path: 'ships', ids: [params.ship] }], fetch)
   ]);
 

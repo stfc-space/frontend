@@ -1,10 +1,11 @@
-import { redirect, error } from '@sveltejs/kit';
+import { redirect } from '@sveltejs/kit';
 import { YukiApi } from '$lib/shared/api';
 import { waitLocale } from 'svelte-i18n';
 import { QueryStore } from '$lib/shared/queryStore';
 
 import type { LoadEvent } from '@sveltejs/kit/types';
 import type { Ship } from '$lib/shared/yuki/models';
+import { dataLoadHelper } from '$lib/loadHelper';
 
 interface QueryParams {
   name: string;
@@ -26,20 +27,13 @@ export async function load({ fetch, url }: LoadEvent) {
     throw redirect(302, '?' + query.toString());
   }
 
-  try {
-    let result: Ship[];
-    await Promise.all([
+  return {
+    ...(await dataLoadHelper([
       YukiApi.get('/ship', undefined, fetch).then((e: Ship[]) => {
-        result = e;
+        return { ships: e };
       }),
       waitLocale()
-    ]);
-
-    return {
-      ships: result,
-      queryStore
-    };
-  } catch (e) {
-    throw error(500, `Could not load ${e}`);
-  }
+    ])),
+    queryStore
+  };
 }

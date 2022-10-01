@@ -1,5 +1,5 @@
+import { dataLoadHelper } from '$lib/loadHelper';
 import { YukiApi } from '$lib/shared/api';
-import { error } from '@sveltejs/kit';
 import { waitLocale } from 'svelte-i18n';
 import type { PageLoad } from './$types';
 
@@ -30,19 +30,10 @@ interface GameStatus {
 }
 
 export const load: PageLoad = async ({ fetch }) => {
-  try {
-    let result: GameStatus;
-    await Promise.all([
-      YukiApi.get('/game/status', undefined, fetch).then((e: GameStatus) => {
-        result = e;
-      }),
-      waitLocale()
-    ]);
-
-    return {
-      status: result
-    };
-  } catch (e) {
-    throw error(500, `Could not load ${e}`);
-  }
+  return await dataLoadHelper([
+    YukiApi.get('/game/status', undefined, fetch).then((e: GameStatus) => {
+      return { status: e };
+    }),
+    waitLocale()
+  ]);
 };
