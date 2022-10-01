@@ -178,7 +178,7 @@
                         {#if task.attributes.target_system != -1}
                           <a
                             class="dark:text-indigo-400 text-indigo-600"
-                            href={'/systems' + task.attributes.target_system}
+                            href={'/systems/' + task.attributes.target_system}
                           >
                             {$_(`systems_${task.attributes.target_system}_name`)}
                           </a>
