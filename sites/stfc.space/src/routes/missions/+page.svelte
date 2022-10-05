@@ -100,7 +100,7 @@
       let name = res.type.toString();
       switch (res.type) {
         case ItemType.Blueprint: {
-          name = $_(`blueprints_${res.id}_blueprint_name`);
+          name = $_(`ships_${res.id}_blueprint_name`);
           break;
         }
         case ItemType.Consumable: {

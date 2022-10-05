@@ -81,6 +81,10 @@
     {
       name: 'Repair Cost',
       value: AbilityFlag.RepairCost
+    },
+    {
+      name: 'Warp Speed',
+      value: AbilityFlag.WarpSpeed
     }
   ];
 </script>

@@ -37,6 +37,6 @@
     "@sveltejs/kit": "1.0.0-next.405"
   },
   "dependencies": {
-    "esbuild": "^0.15.9"
+    "esbuild": "^0.15.10"
   }
 }
