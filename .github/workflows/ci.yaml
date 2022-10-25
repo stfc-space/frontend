@@ -20,6 +20,7 @@ jobs:
           node-version: 18.x
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      - run: pnpm prepare
       - run: pnpm lint
       - run: pnpm check
 
