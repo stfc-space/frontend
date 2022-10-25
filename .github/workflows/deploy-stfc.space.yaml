@@ -51,7 +51,7 @@ jobs:
         run: pnpm install
 
       - name: Build
-        run: pnpm --filter "stfc.space" build -- ${{ env.TARGET_ENV }}
+        run: pnpm turbo run --filter "stfc.space" build -- ${{ env.TARGET_ENV }}
 
       - name: Deploy
         uses: cloudflare/wrangler-action@2.0.0

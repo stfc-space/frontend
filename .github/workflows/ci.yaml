@@ -21,6 +21,7 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm prepare
+      - run: pnpm turbo run build --filter="./packages/**" build
       - run: pnpm lint
       - run: pnpm check
 

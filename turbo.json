@@ -39,7 +39,8 @@
     },
     "stfc.space#build": {
       "dependsOn": [
-        "^build"
+        "^build",
+        "@radion/ui#build"
       ],
       "inputs": [
         "svelte.config.js",
