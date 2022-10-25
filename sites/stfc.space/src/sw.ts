@@ -27,13 +27,6 @@ precacheAndRoute(
 
 cleanupOutdatedCaches();
 
-// for (const r of manifest.filter((e: any) => !e.url.endsWith('html'))) {
-//     registerRoute((r as any).url, new NetworkFirst({ cacheName: 'navigation' }));
-// }
-// registerRoute(new NavigationRoute(new NetworkFirst({ cacheName: 'navigation' }), {
-//     denylist: [/\.(?:png|jpg|jpeg|svg|webp|js|js.map|ico)$/, /^((?!assets\/).*)$/]
-// }));
-
 function navigationRoute() {
   const networkFirst = new NetworkFirst({
     cacheName: 'navigation',

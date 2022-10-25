@@ -34,14 +34,14 @@
     "url": "https://github.com/kwhitley/itty-durable/issues"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^3.16.0",
-    "@rollup/plugin-typescript": "^8.5.0",
+    "@cloudflare/workers-types": "^3.18.0",
+    "@rollup/plugin-typescript": "^9.0.2",
     "@types/itty-router-extras": "^0.4.0",
-    "eslint": "^8.24.0",
-    "eslint-plugin-jest": "^27.1.1",
+    "eslint": "^8.26.0",
+    "eslint-plugin-jest": "^27.1.3",
     "itty-router": "^2.6.6",
     "rimraf": "^3.0.2",
-    "rollup": "^2.79.1",
+    "rollup": "^3.2.3",
     "rollup-plugin-typescript2": "^0.34.1",
     "tslib": "^2.4.0",
     "typescript": "^4.8.4"
