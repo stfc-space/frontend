@@ -37,10 +37,15 @@
       ],
       "outputMode": "new-only"
     },
+    "stfc.space#dev": {
+      "dependsOn": [
+        "^@radion/ui#build"
+      ]
+    },
     "stfc.space#build": {
       "dependsOn": [
         "^build",
-        "@radion/ui#build"
+        "^@radion/ui#build"
       ],
       "inputs": [
         "svelte.config.js",
