@@ -3,10 +3,7 @@
     "preserveValueImports": false,
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "lib": [
-      "es2020",
-      "DOM"
-    ],
+    "lib": ["es2020", "DOM"],
     "types": [
       "vite-plugin-glob/client",
       // with takeover enabled
