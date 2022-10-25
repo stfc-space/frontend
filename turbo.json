@@ -28,18 +28,6 @@
       ],
       "outputMode": "new-only"
     },
-    "adapter-cloudfront#build": {
-      "dependsOn": [
-        "^build"
-      ],
-      "inputs": [
-        "src/**"
-      ],
-      "outputs": [
-        "dist/**"
-      ],
-      "outputMode": "new-only"
-    },
     "stfc-space-user-storage#build": {
       "dependsOn": [
         "^build"

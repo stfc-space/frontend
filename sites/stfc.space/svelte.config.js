@@ -9,19 +9,15 @@ import importAssets from 'svelte-preprocess-import-assets';
 // Adapters
 import cloudflare from '@sveltejs/adapter-cloudflare';
 import cloudflareWorkers from '@sveltejs/adapter-cloudflare-workers';
-import { AwsServerlessAdapter } from 'adapter-cloudfront';
 import vercel from '@sveltejs/adapter-vercel';
 
 const isVercel = !!process.env.VERCEL;
-const isAWS = process.env.TARGET_ENVIRONMET === 'aws';
 const isCloudflare = process.env.CF_PAGES === '1';
 const isCloudflareWorkers = process.env.CF_WORKERS === '1';
 
 function getAdapter() {
   if (isVercel) {
     return vercel();
-  } else if (isAWS) {
-    return AwsServerlessAdapter({ artifactPath: '.svelte-kit/cloudfront' });
   } else if (isCloudflare) {
     return cloudflare();
   } else if (isCloudflareWorkers) {
