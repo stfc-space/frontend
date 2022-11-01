@@ -20,7 +20,7 @@ pnpm build
 Generally you want to run the website. The easiest way is with:
 
 ```
-pnpm --filter="stfc.space" dev
+pnpm turbo --filter="stfc.space" dev
 ```
 
 ## Code structure
