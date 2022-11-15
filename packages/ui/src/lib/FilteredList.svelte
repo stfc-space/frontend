@@ -3,9 +3,6 @@
 
 	type X = $$Generic; // any
 
-	interface $$Slots {
-		item: { item: X & { id: unknown; link?: string } };
-	}
 	export let items: (X & { id: unknown; link?: string })[];
 	export let pageIndex = 0;
 </script>

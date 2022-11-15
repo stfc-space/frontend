@@ -22,7 +22,7 @@
     if ($page.url.searchParams.get('flow') != flowId) {
       const newUrl = new URL($page.url);
       newUrl.searchParams.set('flow', flowId);
-      goto(newUrl, { replaceState: true, noscroll: true });
+      goto(newUrl, { replaceState: true, noScroll: true });
     }
   }
 

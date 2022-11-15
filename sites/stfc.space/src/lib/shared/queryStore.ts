@@ -56,7 +56,7 @@ export class QueryStore<Shape> {
         obj[key] = value;
       });
       this.lastSubmitted = newQuery.toString();
-      goto(`?${stringifyQuery(obj)}`, { replaceState: true, keepfocus: true, noscroll: true });
+      goto(`?${stringifyQuery(obj)}`, { replaceState: true, keepFocus: true, noScroll: true });
     }
   }
 
