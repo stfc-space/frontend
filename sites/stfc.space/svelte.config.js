@@ -39,8 +39,8 @@ const config = {
       register: false
     },
     prerender: {
-      enabled: false,
-      onError: 'continue'
+      enabled: true,
+      handleHttpError: 'warn'
     }
   }
 };
