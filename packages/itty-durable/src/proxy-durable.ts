@@ -56,7 +56,7 @@ export function proxyDurable<TDurable>(durable: TDurable & DurableObjectNamespac
                     const theFetch = obj.fetch(buildRequest(type, prop, content))
 
                     return options.parse
-                        ? theFetch.then(transformResponse)
+                        ? Promise.resolve(theFetch).then(transformResponse)
                         : theFetch
                 }
 
