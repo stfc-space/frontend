@@ -39,7 +39,6 @@ const config = {
       register: false
     },
     prerender: {
-      enabled: true,
       handleHttpError: 'warn'
     }
   }
